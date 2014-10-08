@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<sprites>
+	<chars>
+		<char>
+			<name>a_tank1</name>
+			<type>pacer</type>
+			<file>sprites/a_tank1.png</file>
+		</char>
+		<char>
+			<name>e_tank2</name>
+			<type>chaser</type>
+			<file>sprites/e_tank1.png</file>
+		</char>
+	</chars>
+</sprites>
