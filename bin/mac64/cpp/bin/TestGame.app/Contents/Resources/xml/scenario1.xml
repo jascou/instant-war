@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<scenario>
+	<name>Dawn of War</name>
+	<counters>
+		<counter>
+			<name>a_inf1</name>
+			<side>a</side>
+			<startx>4</startx>
+			<starty>8</starty>
+		</counter>
+		<counter>
+			<name>a_inf1</name>
+			<side>a</side>
+			<startx>4</startx>
+			<starty>9</starty>
+		</counter>
+		<counter>
+			<name>a_inf1</name>
+			<side>a</side>
+			<startx>5</startx>
+			<starty>9</starty>
+		</counter>
+		<counter>
+			<name>a_inf1</name>
+			<side>a</side>
+			<startx>4</startx>
+			<starty>10</starty>
+		</counter>
+		<counter>
+			<name>a_tank1</name>
+			<side>a</side>
+			<startx>4</startx>
+			<starty>5</starty>
+		</counter>
+		<counter>
+			<name>a_tank1</name>
+			<side>a</side>
+			<startx>4</startx>
+			<starty>3</starty>
+		</counter>
+		<counter>
+			<name>a_tank1</name>
+			<side>a</side>
+			<startx>3</startx>
+			<starty>4</starty>
+		</counter>
+		<counter>
+			<name>a_tank1</name>
+			<side>a</side>
+			<startx>3</startx>
+			<starty>6</starty>
+		</counter>
+	</counters>
+</scenario>
