@@ -23,6 +23,7 @@ class Scenario
 	private var csrY:Array<Int>;
 	private var csrFlag:Array<Int>;
 	private var csrWeight:Array<Int>;
+	private var csrDepth:Array<Int>;
 	private var csrAnc:Array<Int>;	
 	
 	private var scX:Array<Int>;
@@ -120,6 +121,32 @@ class Scenario
 		
 		return ccount;
 	}
+
+	public function getCounter(cx: Int, cy: Int, cnum: Int):Int
+	{
+		var i:Int;
+		var ccount:Int;
+		
+		i = 0;
+		ccount = 0;
+		
+		while (i < scCount)
+		{
+			if (scX[i] == cx && scY[i] == cy)
+				ccount++;
+			
+			if (ccount == cnum) return i;
+				
+			i++;
+		}
+		
+		return -1;
+	}
+	
+	public function getMovement(ccounter:Int):Int
+	{
+		return(scPack.getMovement(scNames[ccounter]));
+	}
 	
 	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cinit: Int, cresults:Array<Int>)
 	{
@@ -140,12 +167,14 @@ class Scenario
 		csrY = new Array();
 		csrFlag = new Array();
 		csrWeight = new Array();
+		csrDepth = new Array();
 		csrAnc = new Array();
 		
 		csrX[0] = cfromx;
 		csrY[0] = cfromy;
 		csrFlag[0] = 1;
 		csrWeight[0] = cinit;
+		csrDepth[0] = 0;
 		csrAnc[0] = -1;
 	
 		cresults[0] = -1;
@@ -182,6 +211,7 @@ class Scenario
 					cresults[0] = csrX[csrAnc[i]];
 					cresults[1] = csrY[csrAnc[i]];
 					cresults[2] = csrWeight[i];
+					cresults[3] = csrDepth[i];
 				}
 				else if (csrFlag[i] == 1)
 				{
@@ -216,7 +246,7 @@ class Scenario
 						else
 							y1 = csrY[i] + 1;
 
-						if (scMap.isValid(x1, y1, "test") && csrWeight[i] < 4)
+						if (scMap.isValid(x1, y1, "test") && csrWeight[i] < 5)
 						{
 							//trace("check " + x1 + " " + y1);
 							l = this.getNode(x1, y1, csrWeight[i] + 1);
@@ -225,7 +255,8 @@ class Scenario
 								csrX[l] = x1;
 								csrY[l] = y1;
 								csrFlag[l] = 0;
-								csrWeight[l] = csrWeight[i] + 1;
+								csrWeight[l] = csrWeight[i] + scMap.getWeightXY(x1, y1);
+								csrDepth[l] = csrDepth[i] + 1;
 								csrAnc[l] = i;
 								ccount = 1;
 							}

@@ -7,7 +7,7 @@
 			<file>sprites/a_tank1.png</file>
 			<attack>12</attack>
 			<defence>8</defence>
-			<movement>4</movement>
+			<movement>3</movement>
 		</char>
 		<char>
 			<name>a_inf1</name>
@@ -15,7 +15,7 @@
 			<file>sprites/a_inf1.png</file>
 			<attack>4</attack>
 			<defence>2</defence>
-			<movement>2</movement>
+			<movement>1</movement>
 		</char>
 		<char>
 			<name>e_tank1</name>
@@ -23,7 +23,7 @@
 			<file>sprites/e_tank1.png</file>
 			<attack>11</attack>
 			<defence>9</defence>
-			<movement>4</movement>
+			<movement>3</movement>
 		</char>
 		<char>
 			<name>e_inf1</name>
@@ -31,7 +31,7 @@
 			<file>sprites/e_inf1.png</file>
 			<attack>4</attack>
 			<defence>2</defence>
-			<movement>2</movement>
+			<movement>1</movement>
 		</char>
 	</chars>
 </sprites>

@@ -22,7 +22,8 @@
 			<code>=</code>
 			<name>edges</name>
 			<type>edge</type>
-			<block>none</block>
+			<block>all</block>
+			<weight>100</weight>
 			<file>tiles/hex_blank.png</file>
 		</tile>
 		<tile>
@@ -30,6 +31,7 @@
 			<name>floor1</name>
 			<type>floor</type>
 			<block>none</block>
+			<weight>1</weight>
 			<file>tiles/hex_grass1.png</file>
 		</tile>
 		<tile>
@@ -37,6 +39,7 @@
 			<name>river1</name>
 			<type>water</type>
 			<block>none</block>
+			<weight>3</weight>
 			<file>tiles/hex_riverse.png</file>
 		</tile>
 	</tiles>

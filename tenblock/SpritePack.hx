@@ -73,7 +73,7 @@ class SpritePack
 			i++;
 		}
 	}
-	
+
 	public function getTotal()
 	{
 		return gspTotal;
@@ -87,7 +87,7 @@ class SpritePack
 		return c_sprite;
 	}
 	
-	public function getNum(cname: String)
+	public function getNum(cname:String):Int
 	{
 		var i:Int;
 		
@@ -102,5 +102,22 @@ class SpritePack
 		}
 		
 		return -1;
+	}
+	
+	public function getMovement(cname:String):Int
+	{
+		var i:Int;
+		
+		i = 0;
+		
+		while (i < gspTotal)
+		{
+			if (gspNames[i] == cname)
+				return gspMovement[i];
+				
+			i++;
+		}
+		
+		return -1;		
 	}
 }

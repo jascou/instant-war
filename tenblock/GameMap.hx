@@ -18,6 +18,7 @@ class GameMap
 	private var gmNames:Array<String>;
 	private var gmTypes:Array<String>;
 	private var gmBlocks:Array<String>;
+	private var gmWeights:Array<Int>;
 	private var gmFiles:Array<String>;
 	private var gmWidths:Array<Int>;
 	private var gmHeights:Array<Int>;
@@ -48,6 +49,7 @@ class GameMap
 		gmNames = new Array();
 		gmTypes = new Array();
 		gmBlocks = new Array();
+		gmWeights = new Array();
 		gmFiles = new Array();
 		gmWidths = new Array();
 		gmHeights = new Array();
@@ -77,6 +79,7 @@ class GameMap
 			gmNames[i] = q.node.name.innerData;
 			gmTypes[i] = q.node.type.innerData;
 			gmBlocks[i] = q.node.block.innerData;
+			gmWeights[i] = Std.parseInt(q.node.weight.innerData);
 			gmFiles[i] = q.node.file.innerData;
 			
 			i++;
@@ -171,6 +174,20 @@ class GameMap
 		return "";
 	}
 	
+	public function getWeight(ccode:String):Int
+	{
+		var i:Int;
+		
+		i = 0;
+		while (i < gmCodes.length) 
+		{
+			if (ccode == gmCodes[i]) return gmWeights[i];
+			i++;
+		}
+		
+		return -1;
+	}
+	
 	public function isValid(cx:Int, cy:Int, ctype:String):Bool
 	{
 		if (cx < 0 || cy < 0)
@@ -181,6 +198,11 @@ class GameMap
 			return false;
 		else
 			return true;
+	}
+	
+	public function getWeightXY(cx:Int, cy:Int):Int
+	{
+		return this.getWeight(this.getCode(cx, cy));
 	}
 	
 	public function getCoord(ccoord:String, cx:Int, cy:Int):Int
