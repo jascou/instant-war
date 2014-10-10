@@ -45,6 +45,7 @@ class Main extends Sprite
 
 	private var selectX:Int;
 	private var selectY:Int;
+	private var selectNum:Int;
 	private var movesX:Array<Int>;
 	private var movesY:Array<Int>;
 	
@@ -95,6 +96,7 @@ class Main extends Sprite
 		
 		selectX = -1;
 		selectY = -1;
+		selectNum = -1;
 		
 		i = 0;
 		
@@ -108,27 +110,17 @@ class Main extends Sprite
 			i++;
 		}
 		
-		gameEgo = new GameEgo(new Bitmap (Assets.getBitmapData ("img/highlight.png")), "ego1", "ego", 3, 4, 65, 75);
 		gameEgoStrike = new GameSprite(new Bitmap (Assets.getBitmapData ("img/select.png")), "estrike1", "estrike", 3, 4, 65, 75);
-		
-		//gameImages[0].drawAt(3 * gameMap.getTileWidth(), 3 * gameMap.getTileWidth());
-		//gameImages[1].drawAt(10 * gameMap.getTileWidth(), 10 * gameMap.getTileWidth());
-
-		gameEgo.setMap(gameMap);
-		
-		gameEgo.setCanvas(this);
-		gameEgo.drawAt(350, 250);
-			
-		//gameEgo.dropOnSq(3, 4);
-		//gameEgo.setInterval(0.25);
-		//gameEgo.setGoodCodes("floor");
-
-		//gameEgo.setStrike(gameEgoStrike);
+		gameEgo = new GameEgo(new Bitmap (Assets.getBitmapData ("img/highlight.png")), "ego1", "ego", 3, 4, 65, 75);
 		
 		gameEgoStrike.setCanvas(this);
 		gameEgoStrike.setMap(gameMap);
 		gameEgoStrike.drawAt(-100, -100);
 		
+		gameEgo.setMap(gameMap);
+		gameEgo.setCanvas(this);
+		gameEgo.drawAt(350, 250);
+			
 		MainFr = 0;
 		
 		gameTime = 0;
@@ -308,6 +300,7 @@ class Main extends Sprite
 			gameEgoStrike.dropOnSq( -5, -5);
 			selectX = -1;
 			selectY = -1;
+			selectNum = -1;
 		}
 		else
 		{	
@@ -317,14 +310,15 @@ class Main extends Sprite
 			{
 				crange = gameSc.getMovement(gameSc.getCounter(cx, cy, 1));
 				
-				i = cy - 5;
+				i = cy - (crange + 2);
 				selectX = cx;
 				selectY = cy;
+				selectNum = gameSc.getCounter(cx, cy, 1);
 				
-				while (i < cy + 5) 
+				while (i < cy + (crange + 2)) 
 				{
-					j = cx - 5;
-					while (j < cx + 5)
+					j = cx - (crange + 2);
+					while (j < cx + (crange + 2))
 					{
 						if (i == cy && j == cx)
 						{
@@ -343,8 +337,8 @@ class Main extends Sprite
 							if (cresults[2] < (crange + 1) || cresults[3] == 1)
 							{
 								gameMoves[k].dropOnSq(j, i);
-								movesX[k] = cx;
-								movesY[k] = cy;
+								movesX[k] = j;
+								movesY[k] = i;
 								movesX[k + 1] = -1;
 								k++;
 							}
@@ -355,11 +349,35 @@ class Main extends Sprite
 					i++;
 				}
 			}
+			else if (selectNum != -1)
+			{
+				j = 0;
+				k = 0;
+				
+				while (movesX[k] != -1)
+				{
+					if (movesX[k] == cx && movesY[k] == cy)
+						j = 1;
+					
+					k++;
+				}
+				
+				if (j == 1)
+				{
+					gameSc.dropCounter(selectNum, cx, cy);
+				}
+				
+				gameEgoStrike.dropOnSq( -5, -5);
+				selectX = -1;
+				selectY = -1;
+				selectNum = -1;
+			}
 			else
 			{
 				gameEgoStrike.dropOnSq( -5, -5);
 				selectX = -1;
-				selectY = -1;	
+				selectY = -1;
+				selectNum = -1;
 			}
 		}
 	}
