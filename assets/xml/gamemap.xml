@@ -4,18 +4,18 @@
 	<tilewidth>64</tilewidth>
 	<tileheight>75</tileheight>
 	<rows>
-		<row id="1" >...................=</row>
-		<row id="2" >...................=</row>
-		<row id="3" >...................=</row>
-		<row id="4" >...................=</row>
-		<row id="5" >........x..........=</row>
-		<row id="6" >.........x.........=</row>
-		<row id="7" >...................=</row>
-		<row id="8" >...................=</row>
-		<row id="9" >...................=</row>
-		<row id="10">...................=</row>
-		<row id="11">...................=</row>
-		<row id="12">...................=</row>
+		<row id="1" >...x...............=</row>
+		<row id="2" >....x..............=</row>
+		<row id="3" >....x..............=</row>
+		<row id="4" >.....[++}..........=</row>
+		<row id="5" >....----_--........=</row>
+		<row id="6" >...X.....x.........=</row>
+		<row id="7" >..X......x.........=</row>
+		<row id="8" >..X.......x........=</row>
+		<row id="9" >..........[+++}....=</row>
+		<row id="10">...............x...=</row>
+		<row id="11">...............x...=</row>
+		<row id="12">................x..=</row>
 	</rows>
 	<tiles>
 		<tile>
@@ -31,16 +31,64 @@
 			<name>floor1</name>
 			<type>floor</type>
 			<block>none</block>
-			<weight>1</weight>
+			<weight>10</weight>
 			<file>tiles/hex_grass1.png</file>
 		</tile>
 		<tile>
 			<code>x</code>
+			<name>river3</name>
+			<type>water</type>
+			<block>none</block>
+			<weight>30</weight>
+			<file>tiles/hex_riverse.png</file>
+		</tile>
+		<tile>
+			<code>+</code>
 			<name>river1</name>
 			<type>water</type>
 			<block>none</block>
-			<weight>3</weight>
-			<file>tiles/hex_riverse.png</file>
+			<weight>30</weight>
+			<file>tiles/hex_riverew.png</file>
+		</tile>
+		<tile>
+			<code>}</code>
+			<name>riverne</name>
+			<type>water</type>
+			<block>none</block>
+			<weight>30</weight>
+			<file>tiles/hex_rivernec.png</file>
+		</tile>
+		<tile>
+			<code>[</code>
+			<name>riversw</name>
+			<type>water</type>
+			<block>none</block>
+			<weight>30</weight>
+			<file>tiles/hex_riverswc.png</file>
+		</tile>
+		<tile>
+			<code>-</code>
+			<name>roadew</name>
+			<type>road</type>
+			<block>none</block>
+			<weight>5</weight>
+			<file>tiles/hex_roadew.png</file>
+		</tile>
+		<tile>
+			<code>_</code>
+			<name>bridgeew</name>
+			<type>road</type>
+			<block>none</block>
+			<weight>5</weight>
+			<file>tiles/hex_bridgeew.png</file>
+		</tile>
+		<tile>
+			<code>X</code>
+			<name>roadne</name>
+			<type>road</type>
+			<block>none</block>
+			<weight>5</weight>
+			<file>tiles/hex_roadne.png</file>
 		</tile>
 	</tiles>
 </map>

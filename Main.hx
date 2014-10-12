@@ -41,6 +41,8 @@ class Main extends Sprite
 	private var egoWidth:Int;
 	private var egoHeight:Int;
 	
+	private var gameSide:Int;
+	
 	private var _xmlLoader:URLLoader;
 
 	private var selectX:Int;
@@ -48,6 +50,8 @@ class Main extends Sprite
 	private var selectNum:Int;
 	private var movesX:Array<Int>;
 	private var movesY:Array<Int>;
+	
+	private var moveFlag:Array<Int>;
 	
 	/* ENTRY POINT */
 	
@@ -92,6 +96,7 @@ class Main extends Sprite
 	
 		movesX = new Array();
 		movesY = new Array();
+		moveFlag = new Array();
 		movesX[0] = -1;
 		
 		selectX = -1;
@@ -125,6 +130,15 @@ class Main extends Sprite
 		
 		gameTime = 0;
 		animTime = 1;
+		gameSide = 1;
+		
+		i = 0;
+		
+		while (i < 100)
+		{
+			moveFlag[i] = 1;
+			i++;
+		}
 		
 		//stage.addEventListener (KeyboardEvent.KEY_DOWN, stage_onKeyDown);
 		//stage.addEventListener (KeyboardEvent.KEY_UP, stage_onKeyUp);
@@ -279,105 +293,112 @@ class Main extends Sprite
 		var cy:Int;
 		var mPoint:Int;
 		
-		cresults = new Array();
-		cresults[0] = -1;
-		cresults[1] = -1;
-		cresults[2] = 9999;
-		
-		cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX), Std.int(e.stageY));
-		cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX), Std.int(e.stageY));
-		
-		i = 0;
-		
-		while (i < 100)
-		{
-			gameMoves[i].dropOnSq( -5, -5);
-			i++;
-		}
-		
-		if (cx == selectX && cy == selectY)
-		{
-			gameEgoStrike.dropOnSq( -5, -5);
-			selectX = -1;
-			selectY = -1;
-			selectNum = -1;
-		}
-		else
-		{	
-			k = 0;
+		if (gameSide == 1)
+		{			
+			cresults = new Array();
+			cresults[0] = -1;
+			cresults[1] = -1;
+			cresults[2] = 9999;
 			
-			if (gameSc.getCount(cx, cy, "a") > 0)
+			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX), Std.int(e.stageY));
+			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX), Std.int(e.stageY));
+			
+			i = 0;
+			
+			while (i < 100)
 			{
-				crange = gameSc.getMovement(gameSc.getCounter(cx, cy, 1));
-				
-				i = cy - (crange + 2);
-				selectX = cx;
-				selectY = cy;
-				selectNum = gameSc.getCounter(cx, cy, 1);
-				
-				while (i < cy + (crange + 2)) 
-				{
-					j = cx - (crange + 2);
-					while (j < cx + (crange + 2))
-					{
-						if (i == cy && j == cx)
-						{
-							gameEgoStrike.dropOnSq(j, i);
-							j++;
-						}
-						else
-						{
-							cresults[0] = -1;
-							cresults[1] = -1;
-							cresults[2] = 9999;
-							cresults[3] = 9999;
-						
-							gameSc.findPath(cx, cy, j, i, 0, cresults);
-							
-							if (cresults[2] < (crange + 1) || cresults[3] == 1)
-							{
-								gameMoves[k].dropOnSq(j, i);
-								movesX[k] = j;
-								movesY[k] = i;
-								movesX[k + 1] = -1;
-								k++;
-							}
-						
-							j++;
-						}
-					}
-					i++;
-				}
+				gameMoves[i].dropOnSq( -5, -5);
+				i++;
 			}
-			else if (selectNum != -1)
+			
+			if (cx == selectX && cy == selectY)
 			{
-				j = 0;
-				k = 0;
-				
-				while (movesX[k] != -1)
-				{
-					if (movesX[k] == cx && movesY[k] == cy)
-						j = 1;
-					
-					k++;
-				}
-				
-				if (j == 1)
-				{
-					gameSc.dropCounter(selectNum, cx, cy);
-				}
-				
 				gameEgoStrike.dropOnSq( -5, -5);
 				selectX = -1;
 				selectY = -1;
 				selectNum = -1;
 			}
 			else
-			{
-				gameEgoStrike.dropOnSq( -5, -5);
-				selectX = -1;
-				selectY = -1;
-				selectNum = -1;
+			{	
+				k = 0;
+				
+				if (gameSc.getCount(cx, cy, "a") > 0)
+				{
+					crange = gameSc.getMovement(gameSc.getCounter(cx, cy, 1));	
+					i = cy - (crange * 2 + 1);
+					
+					selectX = cx;
+					selectY = cy;
+					selectNum = gameSc.getCounter(cx, cy, 1);
+					
+					if (moveFlag[selectNum] == 1)
+					{
+						moveFlag[selectNum] = 1;
+						
+						while (i < cy + (crange * 2 + 1)) 
+						{
+							j = cx - (crange * 2 + 1);
+							while (j < cx + (crange * 2 + 1))
+							{
+								if (i == cy && j == cx)
+								{
+									gameEgoStrike.dropOnSq(j, i);
+								}
+								else
+								{
+									cresults[0] = -1;
+									cresults[1] = -1;
+									cresults[2] = 9999;
+									cresults[3] = 9999;
+								
+									gameSc.findPath(cx, cy, j, i, 0, cresults);
+									
+									if (cresults[2] <= crange * 10 || cresults[3] == 1)
+									{
+										gameMoves[k].dropOnSq(j, i);
+										movesX[k] = j;
+										movesY[k] = i;
+										movesX[k + 1] = -1;
+										k++;
+									}
+								}
+								
+								j++;
+							}
+							i++;
+						}
+					}
+				}
+				else if (selectNum != -1)
+				{
+					j = 0;
+					k = 0;
+					
+					while (movesX[k] != -1)
+					{
+						if (movesX[k] == cx && movesY[k] == cy)
+							j = 1;
+						
+						k++;
+					}
+					
+					if (j == 1)
+					{
+						gameSc.dropCounter(selectNum, cx, cy);
+					}
+					
+					gameEgoStrike.dropOnSq( -5, -5);
+					selectX = -1;
+					selectY = -1;
+					selectNum = -1;
+				}
+				else
+				{
+					gameEgoStrike.dropOnSq( -5, -5);
+					selectX = -1;
+					selectY = -1;
+					selectNum = -1;
+				}
 			}
 		}
 	}
