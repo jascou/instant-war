@@ -9,7 +9,7 @@
 	<app main="Main" file="TestGame" path="bin" />
 	
 	<window background="#d27c01" fps="60" />
-	<window width="1205" height="673" unless="mobile" fullscreen="false" />
+	<window width="1275" height="673" unless="mobile" fullscreen="false" />
 	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->

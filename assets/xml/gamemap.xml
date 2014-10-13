@@ -7,8 +7,8 @@
 		<row id="1" >...x...............=</row>
 		<row id="2" >....x..............=</row>
 		<row id="3" >....x..............=</row>
-		<row id="4" >.....[++}..........=</row>
-		<row id="5" >....----_--........=</row>
+		<row id="4" >.....[++}...X......=</row>
+		<row id="5" >...C----_--D.......=</row>
 		<row id="6" >...X.....x.........=</row>
 		<row id="7" >..X......x.........=</row>
 		<row id="8" >..X.......x........=</row>
@@ -89,6 +89,22 @@
 			<block>none</block>
 			<weight>5</weight>
 			<file>tiles/hex_roadne.png</file>
+		</tile>
+		<tile>
+			<code>C</code>
+			<name>roadnwc</name>
+			<type>road</type>
+			<block>none</block>
+			<weight>5</weight>
+			<file>tiles/hex_roadnwc.png</file>
+		</tile>
+		<tile>
+			<code>D</code>
+			<name>roadsec</name>
+			<type>road</type>
+			<block>none</block>
+			<weight>5</weight>
+			<file>tiles/hex_roadsec.png</file>
 		</tile>
 	</tiles>
 </map>

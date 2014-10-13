@@ -42,6 +42,7 @@ class Main extends Sprite
 	private var egoHeight:Int;
 	
 	private var gameSide:Int;
+	private var toolbar:Bitmap;
 	
 	private var _xmlLoader:URLLoader;
 
@@ -52,6 +53,11 @@ class Main extends Sprite
 	private var movesY:Array<Int>;
 	
 	private var moveFlag:Array<Int>;
+	
+	private var toolUp:Array<Bitmap>;
+	private var toolDown:Array<Bitmap>;
+	private var toolX:Array<Int>;
+	private var toolY:Array<Int>;
 	
 	/* ENTRY POINT */
 	
@@ -99,6 +105,11 @@ class Main extends Sprite
 		moveFlag = new Array();
 		movesX[0] = -1;
 		
+		toolUp = new Array();
+		toolDown = new Array();
+		toolX = new Array();
+		toolY = new Array();
+		
 		selectX = -1;
 		selectY = -1;
 		selectNum = -1;
@@ -140,6 +151,13 @@ class Main extends Sprite
 			i++;
 		}
 		
+		toolbar = new Bitmap (Assets.getBitmapData ("img/toolbar.png"));
+		this.addChild(toolbar);
+		toolbar.x = 1200;
+		toolbar.y = 0;
+		
+		addTool(0, "img/next_up.png", "img/next_down.png", 1213, 10);
+				
 		//stage.addEventListener (KeyboardEvent.KEY_DOWN, stage_onKeyDown);
 		//stage.addEventListener (KeyboardEvent.KEY_UP, stage_onKeyUp);
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
@@ -147,8 +165,20 @@ class Main extends Sprite
 			
 	}
 
-	/* SETUP */
-
+	public function addTool(cnum:Int, cup:String, cdown:String, cx:Int, cy:Int)
+	{
+		toolUp[cnum] = new Bitmap (Assets.getBitmapData (cup));
+		toolDown[cnum] = new Bitmap (Assets.getBitmapData (cdown));
+		toolX[cnum] = cx;
+		toolY[cnum] = cy;
+		this.addChild(toolUp[cnum]);
+		this.addChild(toolDown[cnum]);
+		toolUp[cnum].x = toolX[cnum];
+		toolUp[cnum].y = toolY[cnum];
+		toolDown[cnum].x = -500;
+		toolDown[cnum].y = -500;
+	}
+	
 	public function new() 
 	{
 		super();	
@@ -269,16 +299,43 @@ class Main extends Sprite
 	
 	private function onMouseMove(e:MouseEvent) 
 	{
+		var i:Int;
+		
 		var cx:Int;
 		var cy:Int;
 		
-		cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX), Std.int(e.stageY));
-		cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX), Std.int(e.stageY));
-		
-		if (cy % 2 == 0)
-			gameEgo.moveTo(cx * 64 + 10, Std.int(cy * 54.5) - 0);
+		if (e.stageX < 1200)
+		{
+			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX), Std.int(e.stageY));
+			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX), Std.int(e.stageY));
+			
+			if (cy % 2 == 0)
+				gameEgo.moveTo(cx * 64 + 10, Std.int(cy * 54.5) - 0);
+			else
+				gameEgo.moveTo(cx * 64 + 10 - 32, Std.int(cy * 54.5) - 0);
+		}
 		else
-			gameEgo.moveTo(cx * 64 + 10 - 32, Std.int(cy * 54.5) - 0);
+		{
+			cx = Std.int(e.stageX);
+			cy = Std.int(e.stageY);
+			i = 0;
+			
+			while (i < toolUp.length)
+			{
+				if (cx >= toolX[i] && cx <= toolX[i] + 50 && cy >= toolY[i] && cy <= toolY[i] + 50)
+				{
+					toolDown[i].x = toolX[i];
+					toolDown[i].y = toolY[i];
+				}
+				else
+				{
+					toolDown[i].x = -1000;
+					toolDown[i].y = -1000;
+				}
+				
+				i++;
+			}
+		}
 	}
 	
 	private function onMouseDown(e:MouseEvent)
@@ -333,7 +390,7 @@ class Main extends Sprite
 					
 					if (moveFlag[selectNum] == 1)
 					{
-						moveFlag[selectNum] = 1;
+						moveFlag[selectNum] = -1;
 						
 						while (i < cy + (crange * 2 + 1)) 
 						{

@@ -50,5 +50,17 @@
 			<startx>3</startx>
 			<starty>6</starty>
 		</counter>
+		<counter>
+			<name>e_tank1</name>
+			<side>e</side>
+			<startx>5</startx>
+			<starty>3</starty>
+		</counter>
+		<counter>
+			<name>e_tank1</name>
+			<side>e</side>
+			<startx>12</startx>
+			<starty>4</starty>
+		</counter>
 	</counters>
 </scenario>
