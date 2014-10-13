@@ -95,6 +95,13 @@ class Scenario
 			i++;
 		}
 	}
+
+	public function dropCounter(cnum:Int, cx:Int, cy:Int)
+	{
+		scCounters[cnum].dropOnSq(cx, cy);
+		scX[cnum] = cx;
+		scY[cnum] = cy;
+	}
 	
 	public function setCMP(ccanvas: Sprite, cmap: GameMap, cpack:SpritePack)
 	{
@@ -150,15 +157,17 @@ class Scenario
 	
 	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cinit: Int, cresults:Array<Int>)
 	{
-		
 		var i:Int;
 		var j:Int;
 		var k:Int;
 		var l:Int;
+		var m:Int;
 		var cweight: Int;
 		
 		var x1:Int;
 		var y1:Int;
+		var depth:Int;
+		var zeroflag:Int;
 		
 		var ccount:Int;
 		var cmax:Int;
@@ -180,16 +189,20 @@ class Scenario
 		cresults[0] = -1;
 		cresults[1] = -1;
 		cresults[2] = 9999;
+		cresults[3] = 0;
 		
 		x1 = 0;
 		y1 = 0;
 		l = 0;
+		m = 0;
+		depth = 0;
+		zeroflag = 0;
 		
 		do
 		{
 			ccount = 0;
 			cmax = csrX.length;
-			
+
 			k = 0;
 			while (k < cmax)
 			{
@@ -198,6 +211,7 @@ class Scenario
 			}
 			
 			k = 0;
+			depth++;
 			
 			while (k < cmax)
 			{
@@ -218,8 +232,8 @@ class Scenario
 					csrFlag[i] = -1;
 					j = 0;
 				
-					while (j < 6)
-					{	
+					for(j in 0...6)
+					{
 						if (j == 0 || j == 4)
 						{
 							if (csrY[i] % 2 == 0)
@@ -245,24 +259,24 @@ class Scenario
 							y1 = csrY[i];
 						else
 							y1 = csrY[i] + 1;
-
-						if (scMap.isValid(x1, y1, "test") && csrWeight[i] < 5)
+							
+						if (scMap.isValid(x1, y1, "test") && csrWeight[i] < 50)
 						{
-							//trace("check " + x1 + " " + y1);
-							l = this.getNode(x1, y1, csrWeight[i] + 1);
+							l = this.getNode(x1, y1, csrWeight[i] + scMap.getWeightXY(x1, y1));
+
 							if (l != -1)
 							{	
 								csrX[l] = x1;
 								csrY[l] = y1;
-								csrFlag[l] = 0;
+								csrFlag[l] = 1;
 								csrWeight[l] = csrWeight[i] + scMap.getWeightXY(x1, y1);
-								csrDepth[l] = csrDepth[i] + 1;
+								csrDepth[l] = depth;
 								csrAnc[l] = i;
 								ccount = 1;
 							}
 						}
 							
-						j++;
+						//j++;
 					}
 				}	
 			}
@@ -280,7 +294,7 @@ class Scenario
 		{
 			if (csrX[i] == cx && csrY[i] == cy && csrWeight[i] > cweight)
 				return i;
-			if (csrX[i] == cx && csrY[i] == cy && csrWeight[i] < cweight)
+			if (csrX[i] == cx && csrY[i] == cy && csrWeight[i] <= cweight)
 				return -1;
 				
 			i++;
