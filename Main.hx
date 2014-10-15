@@ -59,6 +59,9 @@ class Main extends Sprite
 	private var toolX:Array<Int>;
 	private var toolY:Array<Int>;
 	
+	private var lastX:Int;
+	private var lastY:Int;
+	
 	/* ENTRY POINT */
 	
 	function resize(e) 
@@ -158,10 +161,13 @@ class Main extends Sprite
 		
 		addTool(0, "img/next_up.png", "img/next_down.png", 1213, 10);
 				
+		lastX = -1;
+		lastY = -1;
+		
 		stage.addEventListener (KeyboardEvent.KEY_DOWN, onKeyDown);
-		//stage.addEventListener (KeyboardEvent.KEY_UP, stage_onKeyUp);
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 		stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+		stage.addEventListener (MouseEvent.MOUSE_UP, onMouseUp);
 			
 	}
 
@@ -354,13 +360,64 @@ class Main extends Sprite
 			}
 		}
 	}
-	
+
+	private function onMouseUp (e:MouseEvent)
+	{
+		lastX = -1;
+		lastY = -1;
+	}
+		
 	private function onMouseMove(e:MouseEvent) 
 	{
 		var i:Int;
 		
 		var cx:Int;
 		var cy:Int;
+		
+		var chgX:Int;
+		var chgY:Int;
+		
+		if (lastX >= 0)
+		{
+			chgX = Std.int((Std.int(e.stageX) - lastX) / 1);
+			chgY = Std.int((Std.int(e.stageY) - lastY) / 1);
+			
+			if (chgX > 50) chgX = 0;
+			if (chgY > 50) chgY = 0;
+			
+			this.x += chgX;
+			this.y += chgY;
+			
+			if (this.x > 0) this.x = 0;
+			else if (this.x < 1275 - (gameEgo.getMap().getWidth() + 1) * gameEgo.getMap().getTileWidth())
+				this.x = 1275 - (gameEgo.getMap().getWidth() + 1) * gameEgo.getMap().getTileWidth();
+			
+			if (this.y > 0) this.y = 0;
+			else if (this.y < 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth()))
+				this.y = 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth());
+			
+			toolbar.x = 1200 - this.x;
+			toolbar.y = -this.y;
+			
+			i = 0;
+			
+			while (i < toolUp.length)
+			{
+				toolUp[i].x = toolX[i] - this.x;
+				toolUp[i].y = toolY[i] - this.y;
+				
+				if (toolDown[i].x > 0) 
+				{
+					toolDown[i].x = toolX[i] - this.x;
+					toolDown[i].y = toolY[i] - this.y;
+				}
+				
+				i++;
+			}
+			
+			lastX = Std.int(e.stageX);
+			lastY = Std.int(e.stageY);
+		}
 		
 		if (e.stageX < 1200)
 		{
@@ -408,6 +465,9 @@ class Main extends Sprite
 		var cy:Int;
 		var mPoint:Int;
 		
+		lastX = Std.int(e.stageX);
+		lastY = Std.int(e.stageY);
+		
 		if (gameSide == 1)
 		{			
 			cresults = new Array();
@@ -415,8 +475,8 @@ class Main extends Sprite
 			cresults[1] = -1;
 			cresults[2] = 9999;
 			
-			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX), Std.int(e.stageY));
-			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX), Std.int(e.stageY));
+			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
+			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
 			
 			i = 0;
 			
