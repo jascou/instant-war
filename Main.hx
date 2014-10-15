@@ -393,8 +393,8 @@ class Main extends Sprite
 				this.x = 1275 - (gameEgo.getMap().getWidth() + 1) * gameEgo.getMap().getTileWidth();
 			
 			if (this.y > 0) this.y = 0;
-			else if (this.y < 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth()))
-				this.y = 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth());
+			else if (this.y < 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86))
+				this.y = 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86);
 			
 			toolbar.x = 1200 - this.x;
 			toolbar.y = -this.y;
