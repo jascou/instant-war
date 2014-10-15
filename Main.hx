@@ -158,7 +158,7 @@ class Main extends Sprite
 		
 		addTool(0, "img/next_up.png", "img/next_down.png", 1213, 10);
 				
-		//stage.addEventListener (KeyboardEvent.KEY_DOWN, stage_onKeyDown);
+		stage.addEventListener (KeyboardEvent.KEY_DOWN, onKeyDown);
 		//stage.addEventListener (KeyboardEvent.KEY_UP, stage_onKeyUp);
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 		stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
@@ -274,16 +274,6 @@ class Main extends Sprite
 		
 	}
 	
-	private function stage_onKeyDown (event:KeyboardEvent):Void 
-	{
-		gameEgo.sendCode(event.keyCode);
-	}
-
-	
-	private function stage_onKeyUp (event:KeyboardEvent):Void {
-		gameEgo.stopCode();
-	}
-	
 	private function _loadXML():Void
 	{
 		trace( "Main._loadXML" );
@@ -297,6 +287,74 @@ class Main extends Sprite
 		trace( e.target.data );
 	}
 	
+	private function onKeyDown (e:KeyboardEvent):Void 
+	{
+		var i:Int;
+		var xs:Int;
+		var ys:Int;
+		var cmult:Int;
+		
+		i = 0;
+		xs = 0;
+		ys = 0;
+		cmult = 10;
+		
+		if (e.keyCode >= 37 && e.keyCode <= 40)
+		{
+			if (e.keyCode == 39)
+			{
+				xs = -cmult;
+				ys = 0;
+				
+				if (1275 - this.x > (gameEgo.getMap().getWidth() + 1) * gameEgo.getMap().getTileWidth())
+					xs = 0;
+			}
+			else if (e.keyCode == 40)
+			{
+				xs = 0;
+				ys = -cmult;
+				
+				if (673 - this.y > gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86)
+					ys = 0;
+			}
+			else if (e.keyCode == 37)
+			{
+				xs = cmult;
+				ys = 0;
+				
+				if (this.x == 0) xs = 0;
+			}
+			else if (e.keyCode == 38)
+			{
+				xs = 0;
+				ys = cmult;
+				
+				if (this.y == 0) ys = 0;
+			}
+			
+			
+			this.x += xs;
+			this.y += ys;
+			
+			toolbar.x = 1200 - this.x;
+			toolbar.y = -this.y;
+			
+			while (i < toolUp.length)
+			{
+				toolUp[i].x = toolX[i] - this.x;
+				toolUp[i].y = toolY[i] - this.y;
+				
+				if (toolDown[i].x > 0) 
+				{
+					toolDown[i].x = toolX[i] - this.x;
+					toolDown[i].y = toolY[i] - this.y;
+				}
+				
+				i++;
+			}
+		}
+	}
+	
 	private function onMouseMove(e:MouseEvent) 
 	{
 		var i:Int;
@@ -306,8 +364,8 @@ class Main extends Sprite
 		
 		if (e.stageX < 1200)
 		{
-			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX), Std.int(e.stageY));
-			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX), Std.int(e.stageY));
+			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
+			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
 			
 			if (cy % 2 == 0)
 				gameEgo.moveTo(cx * 64 + 10, Std.int(cy * 54.5) - 0);
@@ -316,16 +374,16 @@ class Main extends Sprite
 		}
 		else
 		{
-			cx = Std.int(e.stageX);
-			cy = Std.int(e.stageY);
+			cx = Std.int(e.stageX) - Std.int(this.x);
+			cy = Std.int(e.stageY) - Std.int(this.y);
 			i = 0;
 			
 			while (i < toolUp.length)
 			{
-				if (cx >= toolX[i] && cx <= toolX[i] + 50 && cy >= toolY[i] && cy <= toolY[i] + 50)
+				if (cx >= toolX[i] - this.x && cx <= toolX[i] - this.x + 50 && cy >= toolY[i] - this.y && cy <= toolY[i] - this.y + 50)
 				{
-					toolDown[i].x = toolX[i];
-					toolDown[i].y = toolY[i];
+					toolDown[i].x = toolX[i] - this.x;
+					toolDown[i].y = toolY[i] - this.y;
 				}
 				else
 				{
@@ -389,9 +447,7 @@ class Main extends Sprite
 					selectNum = gameSc.getCounter(cx, cy, 1);
 					
 					if (moveFlag[selectNum] == 1)
-					{
-						moveFlag[selectNum] = -1;
-						
+					{						
 						while (i < cy + (crange * 2 + 1)) 
 						{
 							j = cx - (crange * 2 + 1);
@@ -442,6 +498,7 @@ class Main extends Sprite
 					if (j == 1)
 					{
 						gameSc.dropCounter(selectNum, cx, cy);
+						moveFlag[selectNum] = -1;
 					}
 					
 					gameEgoStrike.dropOnSq( -5, -5);

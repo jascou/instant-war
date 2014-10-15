@@ -53,14 +53,18 @@
 		<counter>
 			<name>e_tank1</name>
 			<side>e</side>
-			<startx>5</startx>
-			<starty>3</starty>
+			<startx>9</startx>
+			<starty>4</starty>
+			<ai>patrol</ai>
+			<range>2</range>
 		</counter>
 		<counter>
 			<name>e_tank1</name>
 			<side>e</side>
 			<startx>12</startx>
 			<starty>4</starty>
+			<ai>patrol</ai>
+			<range>2</range>
 		</counter>
 	</counters>
 </scenario>
