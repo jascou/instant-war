@@ -19,6 +19,9 @@ class Scenario
 	private var scStartY:Array<Int>;
 	private var scCounters:Array<GameSprite>;
 	
+	private var scAI:Array<String>;
+	private var scAIp1:Array<Int>;
+	
 	private var csrX:Array<Int>;
 	private var csrY:Array<Int>;
 	private var csrFlag:Array<Int>;
@@ -34,6 +37,11 @@ class Scenario
 	private var scCanvas:Sprite;
 	private var scCount:Int;
 	
+	private var movesX:Array<Int>;
+	private var movesY:Array<Int>;
+	private var movesDp:Array<Int>;
+	private var movesWt:Array<Int>;
+	
 	public function new(cfile:String) 
 	{
 		scNames = new Array();
@@ -44,8 +52,14 @@ class Scenario
 		scY = new Array();
 		scCounters = new Array();
 		
-		scX = new Array();
-		scY = new Array();
+		scAI = new Array();
+		scAIp1 = new Array();
+		
+		movesX = new Array();
+		movesY = new Array();
+		movesDp = new Array();
+		movesWt = new Array();
+		movesX[0] = -1;
 		
 		var i:Int;
 		var cxml = Assets.getText(cfile);
@@ -66,7 +80,19 @@ class Scenario
 			
 			scX[i] = scStartX[i];
 			scY[i] = scStartY[i];
-			
+		
+			if (scSides[i] == "e")
+			{
+				scAI[i] = q.node.ai.innerData;
+				
+				if (scAI[i] == "patrol")
+					scAIp1[i] = Std.parseInt(q.node.range.innerData);
+			}
+			else
+			{
+				scAI[i] = "na";
+			}
+
 			i++;
 		}
 		
@@ -311,5 +337,120 @@ class Scenario
 		}
 		
 		return csrX.length;
+	}
+	
+	public function runAI():Void
+	{
+		var cresults:Array<Int>;
+		var i:Int;
+		var j:Int;
+		var k:Int;
+		var l:Int;
+		
+		var cx:Int;
+		var cy:Int;
+		var crange:Int;
+		
+		var selectX:Int;
+		var selectY:Int;
+		var selectNum:Int;
+		
+		i = 0;
+		j = 0;
+		k = 0;
+		l = 0;
+		
+		cresults = new Array();
+		cresults[0] = -1;
+		cresults[1] = -1;
+		cresults[2] = 9999;
+		
+		while (l < scX.length)
+		{
+			if (scSides[l] == "e")
+			{
+				cx = scX[l];
+				cy = scY[l];
+				k = 0;
+				movesX[k] = -1;
+				
+				crange = this.getMovement(this.getCounter(cx, cy, 1));	
+				i = cy - (crange * 2 + 1);
+					
+				selectX = cx;
+				selectY = cy;
+				selectNum = i;
+										
+				while (i < cy + (crange * 2 + 1)) 
+				{
+					j = cx - (crange * 2 + 1);
+					
+					while (j < cx + (crange * 2 + 1))
+					{
+						if (i == cy && j == cx)
+						{
+							// do nothing
+						}
+						else
+						{
+							cresults[0] = -1;
+							cresults[1] = -1;
+							cresults[2] = 9999;
+							cresults[3] = 9999;
+								
+							this.findPath(cx, cy, j, i, 0, cresults);
+								
+							if (cresults[2] <= crange * 10 || cresults[3] == 1)
+							{
+								movesX[k] = j;
+								movesY[k] = i;
+								movesDp[k] = cresults[3];
+								movesWt[k] = cresults[2];
+								
+								movesX[k + 1] = -1;
+								k++;
+							}
+						}
+						
+						j++;
+					}
+					
+					i++;
+				}
+				
+				if (scAI[l] == "patrol")
+				{
+					this.doPatrol(l);
+				}
+			}
+			
+			l++;
+		}
+	}
+	
+	private function doPatrol(cnum:Int)
+	{
+		this.dropCounter(cnum, movesX[3], movesY[3]);
+	}
+	
+	private function doDistance(startx:Int, starty:Int, destx:Int, desty: Int):Int
+	{
+		var dx:Float;
+		var dy:Float;
+		
+		if (startx == destx)
+			return Std.int(Math.abs(desty - starty));
+		else if (starty == desty)
+			return Std.int(Math.abs(destx - startx));
+		else
+		{
+			dx = Math.abs(destx - startx);
+			dy = Math.abs(desty - starty);
+			
+			if (starty < desty)
+				return Std.int(dx + dy - Std.int(Math.ceil(dx / 2.0)));
+			else
+				return Std.int(dx + dy - Std.int(Math.floor(dx / 2.0)));
+		}
 	}
 }

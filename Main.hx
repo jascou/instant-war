@@ -429,27 +429,25 @@ class Main extends Sprite
 			else
 				gameEgo.moveTo(cx * 64 + 10 - 32, Std.int(cy * 54.5) - 0);
 		}
-		else
-		{
-			cx = Std.int(e.stageX) - Std.int(this.x);
-			cy = Std.int(e.stageY) - Std.int(this.y);
-			i = 0;
+		
+		cx = Std.int(e.stageX) - Std.int(this.x);
+		cy = Std.int(e.stageY) - Std.int(this.y);
+		i = 0;
 			
-			while (i < toolUp.length)
+		while (i < toolUp.length)
+		{
+			if (cx >= toolX[i] - this.x && cx <= toolX[i] - this.x + 50 && cy >= toolY[i] - this.y && cy <= toolY[i] - this.y + 50)
 			{
-				if (cx >= toolX[i] - this.x && cx <= toolX[i] - this.x + 50 && cy >= toolY[i] - this.y && cy <= toolY[i] - this.y + 50)
-				{
-					toolDown[i].x = toolX[i] - this.x;
-					toolDown[i].y = toolY[i] - this.y;
-				}
-				else
-				{
-					toolDown[i].x = -1000;
-					toolDown[i].y = -1000;
-				}
-				
-				i++;
+				toolDown[i].x = toolX[i] - this.x;
+				toolDown[i].y = toolY[i] - this.y;
 			}
+			else
+			{
+				toolDown[i].x = -1000;
+				toolDown[i].y = -1000;
+			}
+				
+			i++;
 		}
 	}
 	
@@ -468,15 +466,33 @@ class Main extends Sprite
 		lastX = Std.int(e.stageX);
 		lastY = Std.int(e.stageY);
 		
+		cx = Std.int(e.stageX) - Std.int(this.x);
+		cy = Std.int(e.stageY) - Std.int(this.y);
+		i = 0;
+			
+		while (i < toolUp.length)
+		{
+			if (cx >= toolX[i] - this.x && cx <= toolX[i] - this.x + 50 && cy >= toolY[i] - this.y && cy <= toolY[i] - this.y + 50)
+			{
+				if (i == 0) 
+				{
+					gameSide = 2;
+					gameSc.runAI();
+				}
+			}
+				
+			i++;
+		}
+
+		cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
+		cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
+		
 		if (gameSide == 1)
 		{			
 			cresults = new Array();
 			cresults[0] = -1;
 			cresults[1] = -1;
 			cresults[2] = 9999;
-			
-			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
-			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
 			
 			i = 0;
 			
