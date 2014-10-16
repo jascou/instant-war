@@ -181,7 +181,7 @@ class Scenario
 		return(scPack.getMovement(scNames[ccounter]));
 	}
 	
-	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cinit: Int, cresults:Array<Int>)
+	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cflag: Int, cresults:Array<Int>)
 	{
 		var i:Int;
 		var j:Int;
@@ -208,7 +208,7 @@ class Scenario
 		csrX[0] = cfromx;
 		csrY[0] = cfromy;
 		csrFlag[0] = 1;
-		csrWeight[0] = cinit;
+		csrWeight[0] = 0;
 		csrDepth[0] = 0;
 		csrAnc[0] = -1;
 	
@@ -286,7 +286,7 @@ class Scenario
 						else
 							y1 = csrY[i] + 1;
 							
-						if (scMap.isValid(x1, y1, "test") && csrWeight[i] < 50)
+						if ((scMap.isValid(x1, y1, "test") || cflag == 1) && csrWeight[i] < 50)
 						{
 							l = this.getNode(x1, y1, csrWeight[i] + scMap.getWeightXY(x1, y1));
 
@@ -430,6 +430,7 @@ class Scenario
 	
 	private function doPatrol(cnum:Int)
 	{
+		var cresults:Array<Int>;
 		var i:Int;
 		
 		var goX:Array<Int>;
@@ -438,14 +439,24 @@ class Scenario
 		goX = new Array();
 		goY = new Array();
 		
+		cresults = new Array();
+		cresults[0] = -1;
+		cresults[1] = -1;
+		cresults[2] = 9999;
+		
 		i = 0;
 		
 		while (i < movesX.length)
 		{
 			if (doDistance(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i]) <= scAIp1[cnum])
 			{
-				goX[goX.length] = movesX[i];
-				goY[goY.length] = movesY[i];
+				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], 0, cresults);
+				
+				if (cresults[3] <= scAIp1[cnum])
+				{
+					goX[goX.length] = movesX[i];
+					goY[goY.length] = movesY[i];
+				}
 			}
 			
 			i++;
