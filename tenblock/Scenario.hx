@@ -430,7 +430,29 @@ class Scenario
 	
 	private function doPatrol(cnum:Int)
 	{
-		this.dropCounter(cnum, movesX[3], movesY[3]);
+		var i:Int;
+		
+		var goX:Array<Int>;
+		var goY:Array<Int>;
+		
+		goX = new Array();
+		goY = new Array();
+		
+		i = 0;
+		
+		while (i < movesX.length)
+		{
+			if (doDistance(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i]) <= scAIp1[cnum])
+			{
+				goX[goX.length] = movesX[i];
+				goY[goY.length] = movesY[i];
+			}
+			
+			i++;
+		}
+		
+		i = Std.int(Math.random() * goX.length);
+		this.dropCounter(cnum, goX[i], goY[i]);
 	}
 	
 	private function doDistance(startx:Int, starty:Int, destx:Int, desty: Int):Int

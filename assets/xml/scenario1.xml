@@ -56,15 +56,16 @@
 			<startx>9</startx>
 			<starty>4</starty>
 			<ai>patrol</ai>
-			<range>2</range>
+			<range>1</range>
 		</counter>
 		<counter>
 			<name>e_tank1</name>
 			<side>e</side>
 			<startx>12</startx>
 			<starty>4</starty>
-			<ai>patrol</ai>
-			<range>2</range>
+			<ai>chase</ai>
+			<horizon>1</horizon>
+			<maxattack>15</maxattack>
 		</counter>
 	</counters>
 </scenario>

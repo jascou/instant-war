@@ -478,6 +478,7 @@ class Main extends Sprite
 				{
 					gameSide = 2;
 					gameSc.runAI();
+					gameSide = 1;
 				}
 			}
 				
