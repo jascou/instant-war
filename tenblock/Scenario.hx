@@ -21,6 +21,7 @@ class Scenario
 	
 	private var scAI:Array<String>;
 	private var scAIp1:Array<Int>;
+	private var scAIp2:Array<Int>;
 	
 	private var csrX:Array<Int>;
 	private var csrY:Array<Int>;
@@ -54,6 +55,7 @@ class Scenario
 		
 		scAI = new Array();
 		scAIp1 = new Array();
+		scAIp2 = new Array();
 		
 		movesX = new Array();
 		movesY = new Array();
@@ -86,7 +88,14 @@ class Scenario
 				scAI[i] = q.node.ai.innerData;
 				
 				if (scAI[i] == "patrol")
+				{
 					scAIp1[i] = Std.parseInt(q.node.range.innerData);
+				}
+				else if (scAI[i] == "chase")
+				{
+					scAIp1[i] = Std.parseInt(q.node.horizon.innerData);
+					scAIp2[i] = Std.parseInt(q.node.maxattack.innerData);
+				}
 			}
 			else
 			{
@@ -155,6 +164,11 @@ class Scenario
 		return ccount;
 	}
 
+	public function getName(cnum:Int):String
+	{
+		return scNames[cnum];
+	}
+	
 	public function getCounter(cx: Int, cy: Int, cnum: Int):Int
 	{
 		var i:Int;
@@ -181,7 +195,7 @@ class Scenario
 		return(scPack.getMovement(scNames[ccounter]));
 	}
 	
-	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cflag: Int, cresults:Array<Int>)
+	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, ctype:String, cflag: Int, cresults:Array<Int>)
 	{
 		var i:Int;
 		var j:Int;
@@ -248,8 +262,15 @@ class Scenario
 				
 				if (csrX[i] == ctox && csrY[i] == ctoy && csrWeight[i] <= cresults[2])
 				{
-					cresults[0] = csrX[csrAnc[i]];
-					cresults[1] = csrY[csrAnc[i]];
+					l = i;
+
+					while (csrAnc[l] != 0)
+					{
+						l = csrAnc[l];
+					}
+
+					cresults[0] = csrX[l];
+					cresults[1] = csrY[l];
 					cresults[2] = csrWeight[i];
 					cresults[3] = csrDepth[i];
 				}
@@ -286,7 +307,7 @@ class Scenario
 						else
 							y1 = csrY[i] + 1;
 							
-						if ((scMap.isValid(x1, y1, "test") || cflag == 1) && csrWeight[i] < 50)
+						if ((scMap.isValid(x1, y1, ctype) || cflag == 1) && csrWeight[i] < 50)
 						{
 							l = this.getNode(x1, y1, csrWeight[i] + scMap.getWeightXY(x1, y1));
 
@@ -398,7 +419,7 @@ class Scenario
 							cresults[2] = 9999;
 							cresults[3] = 9999;
 								
-							this.findPath(cx, cy, j, i, 0, cresults);
+							this.findPath(cx, cy, j, i, scPack.getType(scNames[l]), 0, cresults);
 								
 							if (cresults[2] <= crange * 10 || cresults[3] == 1)
 							{
@@ -421,6 +442,10 @@ class Scenario
 				if (scAI[l] == "patrol")
 				{
 					this.doPatrol(l);
+				}
+				else if (scAI[l] == "chase")
+				{
+					this.doChase(l);
 				}
 			}
 			
@@ -450,7 +475,7 @@ class Scenario
 		{
 			if (doDistance(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i]) <= scAIp1[cnum])
 			{
-				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], 0, cresults);
+				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], scPack.getType(scNames[cnum]), 0, cresults);
 				
 				if (cresults[3] <= scAIp1[cnum])
 				{
@@ -464,6 +489,59 @@ class Scenario
 		
 		i = Std.int(Math.random() * goX.length);
 		this.dropCounter(cnum, goX[i], goY[i]);
+	}
+	
+	private function doChase(cnum:Int)
+	{
+		var chaseX:Int;
+		var chaseY:Int;
+		var chaseDist:Int;
+		var goX:Int;
+		var goY:Int;
+		var goDist:Int;
+		
+		var i:Int;
+		
+		chaseX = -1;
+		chaseY = -1;
+		chaseDist = 9999;
+		
+		i = 0;
+		
+		while (i < scX.length)
+		{
+			if (scSides[i] == "a")
+			{
+				if (doDistance(scX[cnum], scY[cnum], scX[i], scY[i]) < chaseDist)
+				{
+					chaseX = scX[i];
+					chaseY = scY[i];
+					chaseDist = doDistance(scX[cnum], scY[cnum], scX[i], scY[i]);
+				}
+			}
+			
+			i++;
+		}
+		
+		goX = -1;
+		goY = -1;
+		goDist = 9999;
+		
+		i = 0;
+		
+		while (movesX[i] != -1)
+		{
+			if (doDistance(movesX[i], movesY[i], chaseX, chaseY) < goDist)
+			{
+				goX = movesX[i];
+				goY = movesY[i];
+				goDist = doDistance(movesX[i], movesY[i], chaseX, chaseY);
+			}
+					
+			i++;
+		}
+		
+		this.dropCounter(cnum, goX, goY);
 	}
 	
 	private function doDistance(startx:Int, starty:Int, destx:Int, desty: Int):Int

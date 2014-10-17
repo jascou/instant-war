@@ -78,6 +78,22 @@ class SpritePack
 	{
 		return gspTotal;
 	}
+
+	public function getType(cname:String):String
+	{
+		var i:Int;
+		
+		i = 0;
+		
+		while (i < gspTotal)
+		{
+			if (gspNames[i] == cname)
+				return gspTypes[i];
+			i++;
+		}
+		
+		return "none";
+	}
 	
 	public function makeSprite(cInd:Int)
 	{

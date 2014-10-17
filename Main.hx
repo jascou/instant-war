@@ -540,8 +540,8 @@ class Main extends Sprite
 									cresults[1] = -1;
 									cresults[2] = 9999;
 									cresults[3] = 9999;
-								
-									gameSc.findPath(cx, cy, j, i, 0, cresults);
+									
+									gameSc.findPath(cx, cy, j, i, sprPack.getType(gameSc.getName(selectNum)), 0, cresults);
 									
 									if (cresults[2] <= crange * 10 || cresults[3] == 1)
 									{
