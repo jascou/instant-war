@@ -317,9 +317,9 @@ class Scenario
 						else
 							y1 = csrY[i] + 1;
 							
-						if ((scMap.isValid(x1, y1, ctype) || cflag == 1) && csrWeight[i] < 50)
+						if (scMap.isValid(x1, y1, ctype, cflag) && csrWeight[i] < 50)
 						{
-							l = this.getNode(x1, y1, csrWeight[i] + scMap.getWeightXY(x1, y1));
+							l = this.getNode(x1, y1, csrWeight[i] + scMap.getWeightXY(x1, y1), cflag);
 
 							if (l != -1)
 							{	
@@ -341,7 +341,7 @@ class Scenario
 		while (ccount > 0);
 	}
 	
-	function getNode(cx:Int, cy:Int, cweight: Int):Int
+	function getNode(cx:Int, cy:Int, cweight: Int, cflag:Int):Int
 	{
 		var i:Int;
 		
@@ -356,6 +356,8 @@ class Scenario
 				
 			i++;
 		}
+		
+		if (cflag == 1) return csrX.length;
 		
 		i = 0;
 		
@@ -385,8 +387,8 @@ class Scenario
 		{
 			if (doDistance(cx, cy, scX[cnum], scY[cnum]) <= cmax + 4)
 			{
-				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 0, cresults2);
-				
+				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 1, cresults2);
+	
 				if (cresults2[3] <= cmax)
 				{
 					cresults[0] = scX[cnum];

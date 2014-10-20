@@ -188,12 +188,14 @@ class GameMap
 		return -1;
 	}
 	
-	public function isValid(cx:Int, cy:Int, ctype:String):Bool
+	public function isValid(cx:Int, cy:Int, ctype:String, cflag:Int):Bool
 	{
 		if (cx < 0 || cy < 0)
 			return false;
 		else if (cx >= gmWidth || cy >= gmHeight)
 			return false;
+		else if (cflag == 1)
+			return true;
 		else if (this.getBlock(this.getCode(cx, cy)) == ctype || this.getBlock(this.getCode(cx, cy)) == "all")
 			return false;
 		else
