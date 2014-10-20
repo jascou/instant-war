@@ -24,6 +24,7 @@ class Main extends Sprite
 	var inited:Bool;
 	private var gameImages:Array<GameSprite>;
 	private var gameMoves:Array<GameSprite>;
+	private var gameAttacks:Array<GameSprite>;
 	
 	private var MainPl:Sprite;
 	private var MainFr:Int;
@@ -51,6 +52,8 @@ class Main extends Sprite
 	private var selectNum:Int;
 	private var movesX:Array<Int>;
 	private var movesY:Array<Int>;
+	private var attacksX:Array<Int>;
+	private var attacksY:Array<Int>;
 	
 	private var moveFlag:Array<Int>;
 	
@@ -102,11 +105,16 @@ class Main extends Sprite
 		MainPl = new Sprite();
 		gameImages = new Array();
 		gameMoves = new Array();
+		gameAttacks = new Array();
 	
 		movesX = new Array();
 		movesY = new Array();
 		moveFlag = new Array();
 		movesX[0] = -1;
+		
+		attacksX = new Array();
+		attacksY = new Array();
+		attacksX[0] = -1;
 		
 		toolUp = new Array();
 		toolDown = new Array();
@@ -125,6 +133,18 @@ class Main extends Sprite
 			gameMoves[i].setCanvas(this);
 			gameMoves[i].setMap(gameMap);
 			gameMoves[i].drawAt( -150, -150);
+
+			i++;
+		}
+
+		i = 0;
+		
+		while (i < 50)
+		{
+			gameAttacks[i] = new GameSprite(new Bitmap (Assets.getBitmapData ("img/attack.png")), "attack1", "attack", 3, 4, 65, 75);
+			gameAttacks[i].setCanvas(this);
+			gameAttacks[i].setMap(gameMap);
+			gameAttacks[i].drawAt( -150, -150);
 
 			i++;
 		}
@@ -469,6 +489,7 @@ class Main extends Sprite
 		cx = Std.int(e.stageX) - Std.int(this.x);
 		cy = Std.int(e.stageY) - Std.int(this.y);
 		i = 0;
+		j = 0;
 			
 		while (i < toolUp.length)
 		{
@@ -478,6 +499,14 @@ class Main extends Sprite
 				{
 					gameSide = 2;
 					gameSc.runAI();
+				
+					j = 0;
+					while (j < moveFlag.length)
+					{
+						moveFlag[j] = 1;
+						j++;
+					}
+					
 					gameSide = 1;
 				}
 			}
@@ -500,6 +529,7 @@ class Main extends Sprite
 			while (i < 100)
 			{
 				gameMoves[i].dropOnSq( -5, -5);
+				if (i < 50) gameAttacks[i].dropOnSq( -5, -5);  
 				i++;
 			}
 			
@@ -555,6 +585,26 @@ class Main extends Sprite
 								
 								j++;
 							}
+							i++;
+						}
+						
+						i = 0;
+						k = 0;
+						
+						while (i < gameSc.counterCount())
+						{
+							cresults[0] = -1;
+							cresults[1] = -1;
+							cresults[2] = 9999;
+							cresults[3] = 9999;
+							
+							gameSc.findAttack(i, cx, cy, 1, cresults);
+							
+							if (cresults[0] != -1)
+							{
+								gameAttacks[k].dropOnSq(cresults[0], cresults[1]);
+							}
+							
 							i++;
 						}
 					}

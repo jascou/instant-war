@@ -93,7 +93,12 @@ class Scenario
 				}
 				else if (scAI[i] == "chase")
 				{
-					scAIp1[i] = Std.parseInt(q.node.horizon.innerData);
+					scAIp1[i] = Std.parseInt(q.node.range.innerData);
+					scAIp2[i] = Std.parseInt(q.node.maxattack.innerData);
+				}
+				else if (scAI[i] == "march")
+				{
+					scAIp1[i] = Std.parseInt(q.node.speed.innerData);
 					scAIp2[i] = Std.parseInt(q.node.maxattack.innerData);
 				}
 			}
@@ -143,6 +148,11 @@ class Scenario
 		scCanvas = ccanvas;
 		scMap = cmap;
 		scPack = cpack;
+	}
+	
+	public function counterCount()
+	{
+		return scX.length;
 	}
 	
 	public function getCount(cx: Int, cy: Int, cside: String):Int
@@ -360,6 +370,32 @@ class Scenario
 		return csrX.length;
 	}
 	
+	public function findAttack(cnum:Int, cx:Int, cy:Int, cmax:Int, cresults:Array<Int>)
+	{
+		var cresults2:Array<Int>;	
+		
+		cresults2 = new Array();
+		
+		cresults2[0] = -1;
+		cresults2[1] = -1;
+		cresults2[2] = 9999;
+		cresults2[3] = 9999;
+		
+		if (scSides[cnum] == "e")
+		{
+			if (doDistance(cx, cy, scX[cnum], scY[cnum]) <= cmax + 4)
+			{
+				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 0, cresults2);
+				
+				if (cresults2[3] <= cmax)
+				{
+					cresults[0] = scX[cnum];
+					cresults[1] = scY[cnum];
+				}
+			}
+		}
+	}
+	
 	public function runAI():Void
 	{
 		var cresults:Array<Int>;
@@ -447,6 +483,10 @@ class Scenario
 				{
 					this.doChase(l);
 				}
+				else if (scAI[l] == "march")
+				{
+					this.doMarch(l);
+				}
 			}
 			
 			l++;
@@ -512,7 +552,7 @@ class Scenario
 		{
 			if (scSides[i] == "a")
 			{
-				if (doDistance(scX[cnum], scY[cnum], scX[i], scY[i]) < chaseDist)
+				if (doDistance(scX[cnum], scY[cnum], scX[i], scY[i]) < chaseDist && doDistance(scStartX[cnum], scStartY[cnum], scX[i], scY[i]) < scAIp1[cnum])
 				{
 					chaseX = scX[i];
 					chaseY = scY[i];
@@ -532,6 +572,59 @@ class Scenario
 		while (movesX[i] != -1)
 		{
 			if (doDistance(movesX[i], movesY[i], chaseX, chaseY) < goDist)
+			{
+				goX = movesX[i];
+				goY = movesY[i];
+				goDist = doDistance(movesX[i], movesY[i], chaseX, chaseY);
+			}
+					
+			i++;
+		}
+		
+		this.dropCounter(cnum, goX, goY);
+	}
+	
+	private function doMarch(cnum:Int)
+	{
+		var chaseX:Int;
+		var chaseY:Int;
+		var chaseDist:Int;
+		var goX:Int;
+		var goY:Int;
+		var goDist:Int;
+		
+		var i:Int;
+		
+		chaseX = -1;
+		chaseY = -1;
+		chaseDist = 9999;
+		
+		i = 0;
+		
+		while (i < scX.length)
+		{
+			if (scSides[i] == "a")
+			{
+				if (doDistance(scX[cnum], scY[cnum], scX[i], scY[i]) < chaseDist)
+				{
+					chaseX = scX[i];
+					chaseY = scY[i];
+					chaseDist = doDistance(scX[cnum], scY[cnum], scX[i], scY[i]);
+				}
+			}
+			
+			i++;
+		}
+		
+		goX = -1;
+		goY = -1;
+		goDist = 9999;
+		
+		i = 0;
+		
+		while (movesX[i] != -1)
+		{
+			if (doDistance(movesX[i], movesY[i], chaseX, chaseY) < goDist && doDistance(movesX[i], movesY[i], scX[cnum], scY[cnum]) <= scAIp1[cnum])
 			{
 				goX = movesX[i];
 				goY = movesY[i];

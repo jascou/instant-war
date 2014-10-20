@@ -61,10 +61,19 @@
 		<counter>
 			<name>e_tank1</name>
 			<side>e</side>
-			<startx>12</startx>
+			<startx>4</startx>
 			<starty>4</starty>
 			<ai>chase</ai>
-			<horizon>1</horizon>
+			<range>20</range>
+			<maxattack>15</maxattack>
+		</counter>
+		<counter>
+			<name>e_tank1</name>
+			<side>e</side>
+			<startx>15</startx>
+			<starty>4</starty>
+			<ai>march</ai>
+			<speed>1</speed>
 			<maxattack>15</maxattack>
 		</counter>
 	</counters>
