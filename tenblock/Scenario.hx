@@ -17,6 +17,7 @@ class Scenario
 	private var scSides:Array<String>;
 	private var scStartX:Array<Int>;
 	private var scStartY:Array<Int>;
+	private var scDisperse:Array<Int>;
 	private var scCounters:Array<GameSprite>;
 	
 	private var scAI:Array<String>;
@@ -51,6 +52,7 @@ class Scenario
 		scStartY = new Array();
 		scX = new Array();
 		scY = new Array();
+		scDisperse = new Array();
 		scCounters = new Array();
 		
 		scAI = new Array();
@@ -79,6 +81,7 @@ class Scenario
 			scSides[i] = q.node.side.innerData;
 			scStartX[i] = Std.parseInt(q.node.startx.innerData);
 			scStartY[i] = Std.parseInt(q.node.starty.innerData);
+			scDisperse[i] = 0;
 			
 			scX[i] = scStartX[i];
 			scY[i] = scStartY[i];
@@ -155,6 +158,11 @@ class Scenario
 		return scX.length;
 	}
 	
+	public function getDisperse(cnum:Int):Int
+	{
+		return scDisperse[cnum];
+	}
+	
 	public function getCount(cx: Int, cy: Int, cside: String):Int
 	{
 		var i:Int;
@@ -205,7 +213,19 @@ class Scenario
 		return(scPack.getMovement(scNames[ccounter]));
 	}
 	
-	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, ctype:String, cflag: Int, cresults:Array<Int>)
+	public function doDisperse(cnum:Int)
+	{
+		scDisperse[cnum] = 1;
+		scCounters[cnum].alpha = 0.5;
+	}
+	
+	public function doUndisperse(cnum:Int)
+	{
+		scDisperse[cnum] = 0;
+		scCounters[cnum].alpha = 1;
+	}
+	
+	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cname:String, cflag: Int, cresults:Array<Int>)
 	{
 		var i:Int;
 		var j:Int;
@@ -317,16 +337,16 @@ class Scenario
 						else
 							y1 = csrY[i] + 1;
 							
-						if (scMap.isValid(x1, y1, ctype, cflag) && csrWeight[i] < 50)
+						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1) != -1 && csrWeight[i] < 50)
 						{
-							l = this.getNode(x1, y1, csrWeight[i] + scMap.getWeightXY(x1, y1), cflag);
+							l = this.getNode(x1, y1, csrWeight[i] + this.getWeightXY(cname, x1, y1), cflag);
 
 							if (l != -1)
 							{	
 								csrX[l] = x1;
 								csrY[l] = y1;
 								csrFlag[l] = 1;
-								csrWeight[l] = csrWeight[i] + scMap.getWeightXY(x1, y1);
+								csrWeight[l] = csrWeight[i] + this.getWeightXY(cname, x1, y1);
 								csrDepth[l] = depth;
 								csrAnc[l] = i;
 								ccount = 1;
@@ -339,6 +359,11 @@ class Scenario
 			}
 		} 
 		while (ccount > 0);
+	}
+	
+	function getWeightXY(cname:String, cx:Int, cy:Int):Int
+	{
+		return scPack.getWeight(cname, scMap.getTypeXY(cx, cy));
 	}
 	
 	function getNode(cx:Int, cy:Int, cweight: Int, cflag:Int):Int
@@ -409,6 +434,7 @@ class Scenario
 		var cx:Int;
 		var cy:Int;
 		var crange:Int;
+		var crange2:Int;
 		
 		var selectX:Int;
 		var selectY:Int;
@@ -433,7 +459,9 @@ class Scenario
 				k = 0;
 				movesX[k] = -1;
 				
-				crange = this.getMovement(this.getCounter(cx, cy, 1));	
+				crange2 = this.getMovement(this.getCounter(cx, cy, 1));	
+				crange = Std.int(crange2 / 10) + 1;
+				
 				i = cy - (crange * 2 + 1);
 					
 				selectX = cx;
@@ -457,9 +485,9 @@ class Scenario
 							cresults[2] = 9999;
 							cresults[3] = 9999;
 								
-							this.findPath(cx, cy, j, i, scPack.getType(scNames[l]), 0, cresults);
+							this.findPath(cx, cy, j, i, scNames[l], 0, cresults);
 								
-							if (cresults[2] <= crange * 10 || cresults[3] == 1)
+							if (cresults[2] <= crange2 || cresults[3] == 1)
 							{
 								movesX[k] = j;
 								movesY[k] = i;

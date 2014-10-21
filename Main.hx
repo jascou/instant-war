@@ -54,8 +54,10 @@ class Main extends Sprite
 	private var movesY:Array<Int>;
 	private var attacksX:Array<Int>;
 	private var attacksY:Array<Int>;
+	private var attacksNum:Array<Int>;
 	
 	private var moveFlag:Array<Int>;
+	private var attackFlag:Array<Int>;
 	
 	private var toolUp:Array<Bitmap>;
 	private var toolDown:Array<Bitmap>;
@@ -110,10 +112,12 @@ class Main extends Sprite
 		movesX = new Array();
 		movesY = new Array();
 		moveFlag = new Array();
+		attackFlag = new Array();
 		movesX[0] = -1;
 		
 		attacksX = new Array();
 		attacksY = new Array();
+		attacksNum = new Array();
 		attacksX[0] = -1;
 		
 		toolUp = new Array();
@@ -171,6 +175,7 @@ class Main extends Sprite
 		while (i < 100)
 		{
 			moveFlag[i] = 1;
+			attackFlag[i] = 1;
 			i++;
 		}
 		
@@ -475,6 +480,7 @@ class Main extends Sprite
 	{
 		var cresults:Array<Int>;
 		var crange:Int;
+		var crange2:Int;
 		var i:Int;
 		var j:Int;
 		var k:Int;
@@ -546,14 +552,16 @@ class Main extends Sprite
 				
 				if (gameSc.getCount(cx, cy, "a") > 0)
 				{
-					crange = gameSc.getMovement(gameSc.getCounter(cx, cy, 1));	
+					crange2 = gameSc.getMovement(gameSc.getCounter(cx, cy, 1));	
+					crange = Std.int(crange2 / 10) + 1;	
+					
 					i = cy - (crange * 2 + 1);
 					
 					selectX = cx;
 					selectY = cy;
 					selectNum = gameSc.getCounter(cx, cy, 1);
 					
-					if (moveFlag[selectNum] == 1)
+					if (moveFlag[selectNum] == 1 && gameSc.getDisperse(selectNum) == 0)
 					{						
 						while (i < cy + (crange * 2 + 1)) 
 						{
@@ -571,9 +579,9 @@ class Main extends Sprite
 									cresults[2] = 9999;
 									cresults[3] = 9999;
 									
-									gameSc.findPath(cx, cy, j, i, sprPack.getType(gameSc.getName(selectNum)), 0, cresults);
+									gameSc.findPath(cx, cy, j, i, gameSc.getName(selectNum), 0, cresults);
 									
-									if (cresults[2] <= crange * 10 || cresults[3] == 1)
+									if (cresults[2] <= crange2 || cresults[3] == 1)
 									{
 										gameMoves[k].dropOnSq(j, i);
 										movesX[k] = j;
@@ -587,7 +595,10 @@ class Main extends Sprite
 							}
 							i++;
 						}
-						
+					}
+					
+					if (attackFlag[selectNum] == 1)
+					{
 						i = 0;
 						k = 0;
 						
@@ -603,6 +614,12 @@ class Main extends Sprite
 							if (cresults[0] != -1)
 							{
 								gameAttacks[k].dropOnSq(cresults[0], cresults[1]);
+								attacksX[k] = cresults[0];
+								attacksY[k] = cresults[1];
+								attacksNum[k] = i;
+								attacksX[k + 1] = -1;
+								
+								k++;
 							}
 							
 							i++;
@@ -626,6 +643,23 @@ class Main extends Sprite
 					{
 						gameSc.dropCounter(selectNum, cx, cy);
 						moveFlag[selectNum] = -1;
+					}
+					
+					j = -1;
+					k = 0;
+
+					while (attacksX[k] != -1)
+					{
+						if (attacksX[k] == cx && attacksY[k] == cy)
+							j = k;
+						
+						k++;
+					}
+					
+					if (j != -1)
+					{
+						gameSc.doDisperse(attacksNum[j]);
+						attackFlag[selectNum] = -1;
 					}
 					
 					gameEgoStrike.dropOnSq( -5, -5);

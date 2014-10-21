@@ -20,6 +20,8 @@ class SpritePack
 	private var gspAttack:Array<Int>;
 	private var gspDefence:Array<Int>;
 	private var gspMovement:Array<Int>;
+	private var gspTType:Array<String>;
+	private var gspTCost:Array<Int>;
 	
 	private var anchorX:Int;
 	private var anchorY:Int;
@@ -30,6 +32,7 @@ class SpritePack
 	public function new(cfile:String) 
 	{	
 		var i:Int;
+		var j:Int;
 		var cxml = Assets.getText(cfile);
 		var xml = Xml.parse(cxml);
 		var fast = new haxe.xml.Fast(xml.firstElement());
@@ -43,6 +46,8 @@ class SpritePack
 		gspAttack = new Array();
 		gspDefence = new Array();
 		gspMovement = new Array();
+		gspTType = new Array();
+		gspTCost = new Array();
 		
 		anchorX = 0;
 		anchorY = 0;
@@ -64,9 +69,13 @@ class SpritePack
 			gspDefence[i] = Std.parseInt(q.node.defence.innerData);
 			gspMovement[i] = Std.parseInt(q.node.movement.innerData);
 			
-			for (r in q.nodes.safe)
+			j = 0;
+			
+			for (r in q.nodes.terrain)
 			{
-				gspCodes[i] = gspCodes[i] + r.innerData;
+				gspTType[(i * 100) + j] = r.node.type.innerData;
+				gspTCost[(i * 100) + j] = Std.parseInt(r.node.cost.innerData);
+				j++;
 			}
 			
 			gspTotal++;
@@ -79,6 +88,31 @@ class SpritePack
 		return gspTotal;
 	}
 
+	public function getWeight(cname:String, ctype:String):Int
+	{
+		var i:Int;
+		var j:Int;
+		
+		i = 0;
+		j = 0;
+		
+		while (i < gspNames.length)
+		{
+			if (gspNames[i] == cname) j = i;
+			i++;
+		}
+		
+		i = j * 100;
+		
+		while (gspTType[i] != ctype)
+		{
+			//if (i > 12) trace(ctype + " " + gspTType[i]);
+			i++;
+		}
+		
+		return gspTCost[i];
+	}
+	
 	public function getType(cname:String):String
 	{
 		var i:Int;

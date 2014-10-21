@@ -78,8 +78,6 @@ class GameMap
 			gmCodes[i] = q.node.code.innerData;
 			gmNames[i] = q.node.name.innerData;
 			gmTypes[i] = q.node.type.innerData;
-			gmBlocks[i] = q.node.block.innerData;
-			gmWeights[i] = Std.parseInt(q.node.weight.innerData);
 			gmFiles[i] = q.node.file.innerData;
 			
 			i++;
@@ -188,7 +186,7 @@ class GameMap
 		return -1;
 	}
 	
-	public function isValid(cx:Int, cy:Int, ctype:String, cflag:Int):Bool
+	public function isValid(cx:Int, cy:Int, cflag:Int):Bool
 	{
 		if (cx < 0 || cy < 0)
 			return false;
@@ -196,8 +194,6 @@ class GameMap
 			return false;
 		else if (cflag == 1)
 			return true;
-		else if (this.getBlock(this.getCode(cx, cy)) == ctype || this.getBlock(this.getCode(cx, cy)) == "all")
-			return false;
 		else
 			return true;
 	}
@@ -205,6 +201,11 @@ class GameMap
 	public function getWeightXY(cx:Int, cy:Int):Int
 	{
 		return this.getWeight(this.getCode(cx, cy));
+	}
+
+	public function getTypeXY(cx:Int, cy:Int):String
+	{
+		return this.getType(this.getCode(cx, cy));
 	}
 	
 	public function getCoord(ccoord:String, cx:Int, cy:Int):Int
