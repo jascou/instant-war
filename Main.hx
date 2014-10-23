@@ -510,6 +510,11 @@ class Main extends Sprite
 					while (j < moveFlag.length)
 					{
 						moveFlag[j] = 1;
+						attackFlag[j] = 1;
+						
+						if (gameSc.getSides(j) == "e" && gameSc.getDisperse(j) == 1)
+							gameSc.doRevive(j);
+						
 						j++;
 					}
 					
@@ -658,7 +663,7 @@ class Main extends Sprite
 					
 					if (j != -1)
 					{
-						gameSc.doDisperse(attacksNum[j]);
+						gameSc.doAttack(selectNum, attacksNum[j]);
 						attackFlag[selectNum] = -1;
 					}
 					

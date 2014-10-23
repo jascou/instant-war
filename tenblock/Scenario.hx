@@ -44,6 +44,10 @@ class Scenario
 	private var movesDp:Array<Int>;
 	private var movesWt:Array<Int>;
 	
+	private var scOdds:Array<Float>;
+	private var scStartDie:Int;
+	private var scRows:Array<String>;
+	
 	public function new(cfile:String) 
 	{
 		scNames = new Array();
@@ -65,6 +69,9 @@ class Scenario
 		movesWt = new Array();
 		movesX[0] = -1;
 		
+		scOdds = new Array();
+		scRows = new Array();
+		
 		var i:Int;
 		var cxml = Assets.getText(cfile);
 		var xml = Xml.parse(cxml);
@@ -74,6 +81,25 @@ class Scenario
 		
 		scName = fast.node.name.innerData;
 		var counters = fast.node.counters;
+		var crt = fast.node.crt;
+		
+		for (q in crt.nodes.odds)
+		{
+			scOdds[i] = Std.parseFloat(q.innerData);
+			i++;
+		}
+		
+		scStartDie = Std.parseInt(fast.node.crt.node.startdie.innerData);
+		
+		i = 0;
+
+		for (q in crt.nodes.row)
+		{
+			scRows[i] = q.innerData;
+			i++;
+		}
+		
+		i = 0;
 		
 		for (q in counters.nodes.counter) 
 		{
@@ -208,15 +234,87 @@ class Scenario
 		return -1;
 	}
 	
+	public function doAttack(cattack:Int, cdefend:Int)
+	{
+		var i: Int;
+		var j: Int;
+		var crto: Float;
+		
+		var ratio:Float;
+		var cratio: Float;
+		var croll:Int;
+		var coutcome:String;
+		
+		//trace(scPack.getAttack(scNames[cattack]) + " " + scPack.getDefend(scNames[cdefend]));
+		ratio = scPack.getAttack(scNames[cattack]) / scPack.getDefend(scNames[cdefend]);
+		
+		i = 0;
+		j = -1;
+		crto = 9999;
+		
+		while (i < scOdds.length)
+		{
+			if (ratio - scOdds[i] < crto && ratio - scOdds[i] >= 0)
+			{
+				j = i;
+				crto = ratio - scOdds[j];
+			}
+			
+			i++;
+		}
+		
+		cratio = scOdds[j];		
+		croll = Std.int(Math.random() * 6) + 1;
+		
+		if (scDisperse[cdefend] == 1)
+			croll = croll - 2;
+		
+		if (croll < scStartDie) croll = scStartDie;
+			
+		coutcome = scRows[croll - scStartDie].substr(j, 1);
+		trace(coutcome);
+		if (coutcome == "d")
+			doDisperse(cdefend);
+		else if (coutcome == "x")
+			doKill(cdefend);
+	}
+	
 	public function getMovement(ccounter:Int):Int
 	{
 		return(scPack.getMovement(scNames[ccounter]));
+	}
+	
+	public function getSides(cnum:Int):String
+	{
+		return scSides[cnum];
 	}
 	
 	public function doDisperse(cnum:Int)
 	{
 		scDisperse[cnum] = 1;
 		scCounters[cnum].alpha = 0.5;
+	}
+	
+	public function doRevive(cnum:Int)
+	{
+		scDisperse[cnum] = 0;
+		scCounters[cnum].alpha = 1;
+	}
+	
+	public function doKill(cnum:Int)
+	{
+		scDisperse[cnum] = -1;
+		scX[cnum] = -5;
+		scY[cnum] = -5;
+		scCounters[cnum].dropOnSq(scX[cnum], scY[cnum]);
+	}
+	
+	public function doSpecial(cnum:Int)
+	{
+		if (scDisperse[cnum] == 0)
+			this.doDisperse(cnum);
+		else if (scDisperse[cnum] == 1)
+			this.doKill(cnum);
 	}
 	
 	public function doUndisperse(cnum:Int)
@@ -452,7 +550,7 @@ class Scenario
 		
 		while (l < scX.length)
 		{
-			if (scSides[l] == "e")
+			if (scSides[l] == "e" && scDisperse[l] == 0)
 			{
 				cx = scX[l];
 				cy = scY[l];

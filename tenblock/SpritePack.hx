@@ -129,6 +129,38 @@ class SpritePack
 		return "none";
 	}
 	
+	public function getAttack(cname:String):Int
+	{
+		var i:Int;
+		
+		i = 0;
+		
+		while (i < gspTotal)
+		{
+			if (gspNames[i] == cname)
+				return gspAttack[i];
+			i++;
+		}
+		
+		return -1;
+	}
+
+	public function getDefend(cname:String):Int
+	{
+		var i:Int;
+		
+		i = 0;
+		
+		while (i < gspTotal)
+		{
+			if (gspNames[i] == cname)
+				return gspDefence[i];
+			i++;
+		}
+		
+		return -1;
+	}
+	
 	public function makeSprite(cInd:Int)
 	{
 		var c_sprite:GameSprite;
