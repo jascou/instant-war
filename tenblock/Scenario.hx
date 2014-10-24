@@ -360,7 +360,7 @@ class Scenario
 		scCounters[cnum].alpha = 1;
 	}
 	
-	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cname:String, cflag: Int, cresults:Array<Int>)
+	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cname:String, cflag: Int, cmaxdist: Int, cresults:Array<Int>)
 	{
 		var i:Int;
 		var j:Int;
@@ -472,7 +472,7 @@ class Scenario
 						else
 							y1 = csrY[i] + 1;
 							
-						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1) != -1 && csrWeight[i] < 50)
+						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1) != -1 && csrWeight[i] < cmaxdist)
 						{
 							l = this.getNode(x1, y1, csrWeight[i] + this.getWeightXY(cname, x1, y1), cflag);
 
@@ -548,7 +548,7 @@ class Scenario
 		{
 			if (doDistance(cx, cy, scX[cnum], scY[cnum]) <= cmax + 1)
 			{
-				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 1, cresults2);
+				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 1, 50, cresults2);
 
 				if (cresults2[3] <= cmax && cresults2[3] > 0)
 				{
@@ -621,7 +621,7 @@ class Scenario
 							cresults[2] = 9999;
 							cresults[3] = 9999;
 								
-							this.findPath(cx, cy, j, i, scNames[l], 0, cresults);
+							this.findPath(cx, cy, j, i, scNames[l], 0, 50, cresults);
 								
 							if (cresults[2] <= crange2 || cresults[3] == 1)
 							{
@@ -781,7 +781,7 @@ class Scenario
 		{
 			if (doDistance(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i]) <= scAIp1[cnum])
 			{
-				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], scPack.getType(scNames[cnum]), 0, cresults);
+				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], scPack.getType(scNames[cnum]), 0, 50, cresults);
 				
 				if (cresults[3] <= scAIp1[cnum])
 				{
@@ -805,12 +805,14 @@ class Scenario
 		var goX:Int;
 		var goY:Int;
 		var goDist:Int;
+		var cresults2:Array<Int>;
 		
 		var i:Int;
 		
 		chaseX = -1;
 		chaseY = -1;
 		chaseDist = 9999;
+		cresults2 = new Array();
 		
 		i = 0;
 		
@@ -829,22 +831,29 @@ class Scenario
 			i++;
 		}
 		
-		goX = -1;
-		goY = -1;
-		goDist = 9999;
+		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 200, cresults2);
+		goX = cresults2[0];
+		goY = cresults2[1];
 		
-		i = 0;
-		
-		while (movesX[i] != -1)
+		if (goX == -1)
 		{
-			if (doDistance(movesX[i], movesY[i], chaseX, chaseY) < goDist)
+			goX = -1;
+			goY = -1;
+			goDist = 9999;
+			
+			i = 0;
+			
+			while (movesX[i] != -1)
 			{
-				goX = movesX[i];
-				goY = movesY[i];
-				goDist = doDistance(movesX[i], movesY[i], chaseX, chaseY);
+				if (doDistance(movesX[i], movesY[i], chaseX, chaseY) < goDist)
+				{
+					goX = movesX[i];
+					goY = movesY[i];
+					goDist = doDistance(movesX[i], movesY[i], chaseX, chaseY);
+				}
+						
+				i++;
 			}
-					
-			i++;
 		}
 		
 		this.dropCounter(cnum, goX, goY);
@@ -858,12 +867,14 @@ class Scenario
 		var goX:Int;
 		var goY:Int;
 		var goDist:Int;
+		var cresults2:Array<Int>;
 		
 		var i:Int;
 		
 		chaseX = -1;
 		chaseY = -1;
 		chaseDist = 9999;
+		cresults2 = new Array();
 		
 		i = 0;
 		
@@ -882,22 +893,29 @@ class Scenario
 			i++;
 		}
 		
-		goX = -1;
-		goY = -1;
-		goDist = 9999;
+		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 200, cresults2);
+		goX = cresults2[0];
+		goY = cresults2[1];
 		
-		i = 0;
-		
-		while (movesX[i] != -1)
+		if (goX == -1)
 		{
-			if (doDistance(movesX[i], movesY[i], chaseX, chaseY) < goDist && doDistance(movesX[i], movesY[i], scX[cnum], scY[cnum]) <= scAIp1[cnum])
+			goX = -1;
+			goY = -1;
+			goDist = 9999;
+			
+			i = 0;
+			
+			while (movesX[i] != -1)
 			{
-				goX = movesX[i];
-				goY = movesY[i];
-				goDist = doDistance(movesX[i], movesY[i], chaseX, chaseY);
+				if (doDistance(movesX[i], movesY[i], chaseX, chaseY) < goDist && doDistance(movesX[i], movesY[i], scX[cnum], scY[cnum]) <= scAIp1[cnum])
+				{
+					goX = movesX[i];
+					goY = movesY[i];
+					goDist = doDistance(movesX[i], movesY[i], chaseX, chaseY);
+				}
+						
+				i++;
 			}
-					
-			i++;
 		}
 		
 		this.dropCounter(cnum, goX, goY);
