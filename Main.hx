@@ -208,8 +208,10 @@ class Main extends Sprite
         p.setTextFormat(ts);
 		p.x = 0;
 		p.y = 0;
-		p.width = 500;
-		p.height = 500;
+		p.width = 800;
+		p.height = 200;
+		p.mouseEnabled = false;
+
         this.addChild(p);
 		
 		gameSc.setText(p, ts);
@@ -522,6 +524,17 @@ class Main extends Sprite
 			{
 				if (i == 0) 
 				{
+					p.text = "";
+					j = 0;
+					
+					while (j < moveFlag.length)
+					{
+						if (gameSc.getSides(j) == "a" && gameSc.getDisperse(j) == 1)
+							gameSc.doRevive(j);
+						
+						j++;
+					}					
+					
 					gameSide = 2;
 					gameSc.runAI();
 				
@@ -624,7 +637,7 @@ class Main extends Sprite
 					
 					attacksX[0] = -1;
 					
-					if (attackFlag[selectNum] == 1)
+					if (attackFlag[selectNum] == 1 && gameSc.getDisperse(selectNum) == 0)
 					{
 						i = 0;
 						k = 0;
@@ -685,8 +698,10 @@ class Main extends Sprite
 					
 					if (j != -1)
 					{
+						p.text = "";
 						gameSc.doAttack(selectNum, attacksNum[j]);
 						attackFlag[selectNum] = -1;
+						moveFlag[selectNum] = -1;
 					}
 					
 					gameEgoStrike.dropOnSq( -5, -5);

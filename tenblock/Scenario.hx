@@ -267,10 +267,10 @@ class Scenario
 		
 		while (i < scOdds.length)
 		{
-			if (ratio - scOdds[i] < crto && ratio - scOdds[i] >= 0)
+			if (Math.abs(ratio - scOdds[i]) < crto && ratio - scOdds[i] >= 0)
 			{
 				j = i;
-				crto = ratio - scOdds[j];
+				crto = Math.abs(ratio - scOdds[j]);
 			}
 			
 			i++;
@@ -286,7 +286,7 @@ class Scenario
 			
 		coutcome = scRows[croll - scStartDie].substr(j, 1);
 		
-		scText.text = scText.text + "Counter #" + cattack + " attacks counter #" + cdefend + ". ";
+		scText.text = scText.text + "Counter #" + cattack + " attacks counter #" + cdefend + " (" + cratio + "). ";
 		
 		if (coutcome == "d") 
 		{
@@ -304,7 +304,7 @@ class Scenario
 		}
 		else 
 		{
-			scText.text = scText.text + "Result: No change.\n";
+			scText.text = scText.text + "Result: No effect.\n";
 		}
 		
 		scText.setTextFormat(scFormat);
@@ -658,6 +658,8 @@ class Scenario
 					{
 						this.doMarch(l);
 					}
+					
+					this.doFire(l);
 				}
 			}
 			

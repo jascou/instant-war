@@ -8,13 +8,13 @@
 		<row id="2" >....x..................</row>
 		<row id="3" >....x..................</row>
 		<row id="4" >.....[++}...X..........</row>
-		<row id="5" >...C----_--D...........</row>
-		<row id="6" >...X.....x.............</row>
-		<row id="7" >..X......x.............</row>
-		<row id="8" >..X.......x............</row>
-		<row id="9" >..........[+++}........</row>
-		<row id="10">...............x.......</row>
-		<row id="11">...............x.......</row>
+		<row id="5" >...C----_--S--E........</row>
+		<row id="6" >...X.....x.....Y.......</row>
+		<row id="7" >..X......x.....Y.......</row>
+		<row id="8" >..X.......x.....Y......</row>
+		<row id="9" >..........[+++}.Y......</row>
+		<row id="10">...............x.Y.....</row>
+		<row id="11">...............x.Y.....</row>
 		<row id="12">................x......</row>
 		<row id="12">................x......</row>
 		<row id="12">.................x.....</row>
@@ -75,6 +75,12 @@
 			<file>tiles/hex_roadne.png</file>
 		</tile>
 		<tile>
+			<code>Y</code>
+			<name>roadse</name>
+			<type>road</type>
+			<file>tiles/hex_roadse.png</file>
+		</tile>
+		<tile>
 			<code>C</code>
 			<name>roadnwc</name>
 			<type>road</type>
@@ -85,6 +91,18 @@
 			<name>roadsec</name>
 			<type>road</type>
 			<file>tiles/hex_roadsec.png</file>
+		</tile>
+		<tile>
+			<code>E</code>
+			<name>roadturnse</name>
+			<type>road</type>
+			<file>tiles/hex_roadturnse.png</file>
+		</tile>
+		<tile>
+			<code>S</code>
+			<name>roadsplitne</name>
+			<type>road</type>
+			<file>tiles/hex_roadsplitne.png</file>
 		</tile>
 	</tiles>
 </map>

@@ -14,7 +14,27 @@
 			</terrain>
 			<terrain>
 				<type>river</type>
-				<cost>30</cost>
+				<cost>-1</cost>
+			</terrain>
+			<terrain>
+				<type>road</type>
+				<cost>5</cost>
+			</terrain>
+		</char>
+		<char>
+			<name>a_apc1</name>
+			<type>land</type>
+			<file>sprites/a_apc1.png</file>
+			<attack>7</attack>
+			<defence>7</defence>
+			<movement>40</movement>
+			<terrain>
+				<type>grass</type>
+				<cost>10</cost>
+			</terrain>
+			<terrain>
+				<type>river</type>
+				<cost>-1</cost>
 			</terrain>
 			<terrain>
 				<type>road</type>
@@ -54,7 +74,27 @@
 			</terrain>
 			<terrain>
 				<type>river</type>
-				<cost>30</cost>
+				<cost>-1</cost>
+			</terrain>
+			<terrain>
+				<type>road</type>
+				<cost>5</cost>
+			</terrain>
+		</char>
+		<char>
+			<name>e_apc1</name>
+			<type>land</type>
+			<file>sprites/e_apc1.png</file>
+			<attack>8</attack>
+			<defence>6</defence>
+			<movement>40</movement>
+			<terrain>
+				<type>grass</type>
+				<cost>10</cost>
+			</terrain>
+			<terrain>
+				<type>river</type>
+				<cost>-1</cost>
 			</terrain>
 			<terrain>
 				<type>road</type>
