@@ -7,6 +7,8 @@ import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
+import flash.text.TextField;
+import flash.text.TextFormat;
 import flash.ui.Keyboard;
 import flash.system.Capabilities.screenResolutionX;
 import flash.system.Capabilities.screenResolutionY;
@@ -66,6 +68,9 @@ class Main extends Sprite
 	
 	private var lastX:Int;
 	private var lastY:Int;
+	
+	private var ts:TextFormat;
+	private var p:TextField;
 	
 	/* ENTRY POINT */
 	
@@ -194,6 +199,19 @@ class Main extends Sprite
 		stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		stage.addEventListener (MouseEvent.MOUSE_UP, onMouseUp);
 			
+		ts = new flash.text.TextFormat();
+        ts.font = "Courier"; // set the font
+        ts.size = 16;                // set the font size
+        ts.color=0xFFFFFF;           // set the color
+        p = new flash.text.TextField();
+        p.text = "";
+        p.setTextFormat(ts);
+		p.x = 0;
+		p.y = 0;
+		p.width = 500;
+        this.addChild(p);
+		
+		gameSc.setText(p, ts);
 	}
 
 	public function addTool(cnum:Int, cup:String, cdown:String, cx:Int, cy:Int)

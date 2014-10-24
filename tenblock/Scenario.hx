@@ -6,6 +6,8 @@ import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.geom.Rectangle;
 import flash.Lib;
+import flash.text.TextField;
+import flash.text.TextFormat;
 import haxe.macro.Expr.Constant;
 import haxe.Timer;
 import openfl.Assets;
@@ -47,6 +49,9 @@ class Scenario
 	private var scOdds:Array<Float>;
 	private var scStartDie:Int;
 	private var scRows:Array<String>;
+	
+	private var scText:TextField;
+	private var scFormat:TextFormat;
 	
 	public function new(cfile:String) 
 	{
@@ -179,6 +184,12 @@ class Scenario
 		scPack = cpack;
 	}
 	
+	public function setText(ctextfield: TextField, cformat: TextFormat)
+	{
+		scText = ctextfield;
+		scFormat = cformat;
+	}
+	
 	public function counterCount()
 	{
 		return scX.length;
@@ -272,11 +283,29 @@ class Scenario
 		if (croll < scStartDie) croll = scStartDie;
 			
 		coutcome = scRows[croll - scStartDie].substr(j, 1);
-		trace(coutcome);
-		if (coutcome == "d")
+		
+		scText.text = scText.text + "Counter #" + cattack + " attacks counter #" + cdefend + ". ";
+		
+		if (coutcome == "d") 
+		{
+			scText.text = scText.text + "Result: Dispersal.\n";
 			doDisperse(cdefend);
+		}
+		else if (coutcome == "D")
+		{
+			doSpecial(cdefend);
+		}
 		else if (coutcome == "x")
+		{
+			scText.text = scText.text + "Result: Kill.\n";
 			doKill(cdefend);
+		}
+		else 
+		{
+			scText.text = scText.text + "Result: No change.\n";
+		}
+		
+		scText.setTextFormat(scFormat);
 	}
 	
 	public function getMovement(ccounter:Int):Int
@@ -312,9 +341,15 @@ class Scenario
 	public function doSpecial(cnum:Int)
 	{
 		if (scDisperse[cnum] == 0)
+		{
+			scText.text = scText.text + "Result: DD (Dispersal).\n";
 			this.doDisperse(cnum);
+		}
 		else if (scDisperse[cnum] == 1)
+		{
+			scText.text = scText.text + "Result: DD (Kill).\n";
 			this.doKill(cnum);
+		}
 	}
 	
 	public function doUndisperse(cnum:Int)
