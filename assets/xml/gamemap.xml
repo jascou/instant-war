@@ -24,88 +24,66 @@
 			<code>=</code>
 			<name>edges</name>
 			<type>edge</type>
-			<block>all</block>
-			<weight>100</weight>
 			<file>tiles/hex_blank.png</file>
 		</tile>
 		<tile>
 			<code>.</code>
 			<name>floor1</name>
-			<type>floor</type>
-			<block>none</block>
-			<weight>10</weight>
+			<type>grass</type>
 			<file>tiles/hex_grass1.png</file>
 		</tile>
 		<tile>
 			<code>x</code>
 			<name>river3</name>
-			<type>water</type>
-			<block>none</block>
-			<weight>30</weight>
+			<type>river</type>
 			<file>tiles/hex_riverse.png</file>
 		</tile>
 		<tile>
 			<code>+</code>
 			<name>river1</name>
-			<type>water</type>
-			<block>none</block>
-			<weight>30</weight>
+			<type>river</type>
 			<file>tiles/hex_riverew.png</file>
 		</tile>
 		<tile>
 			<code>}</code>
 			<name>riverne</name>
-			<type>water</type>
-			<block>none</block>
-			<weight>30</weight>
+			<type>river</type>
 			<file>tiles/hex_rivernec.png</file>
 		</tile>
 		<tile>
 			<code>[</code>
 			<name>riversw</name>
-			<type>water</type>
-			<block>none</block>
-			<weight>30</weight>
+			<type>river</type>
 			<file>tiles/hex_riverswc.png</file>
 		</tile>
 		<tile>
 			<code>-</code>
 			<name>roadew</name>
 			<type>road</type>
-			<block>none</block>
-			<weight>5</weight>
 			<file>tiles/hex_roadew.png</file>
 		</tile>
 		<tile>
 			<code>_</code>
 			<name>bridgeew</name>
 			<type>road</type>
-			<block>none</block>
-			<weight>5</weight>
 			<file>tiles/hex_bridgeew.png</file>
 		</tile>
 		<tile>
 			<code>X</code>
 			<name>roadne</name>
 			<type>road</type>
-			<block>none</block>
-			<weight>5</weight>
 			<file>tiles/hex_roadne.png</file>
 		</tile>
 		<tile>
 			<code>C</code>
 			<name>roadnwc</name>
 			<type>road</type>
-			<block>none</block>
-			<weight>5</weight>
 			<file>tiles/hex_roadnwc.png</file>
 		</tile>
 		<tile>
 			<code>D</code>
 			<name>roadsec</name>
 			<type>road</type>
-			<block>none</block>
-			<weight>5</weight>
 			<file>tiles/hex_roadsec.png</file>
 		</tile>
 	</tiles>

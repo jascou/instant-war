@@ -7,7 +7,19 @@
 			<file>sprites/a_tank1.png</file>
 			<attack>12</attack>
 			<defence>8</defence>
-			<movement>3</movement>
+			<movement>30</movement>
+			<terrain>
+				<type>grass</type>
+				<cost>10</cost>
+			</terrain>
+			<terrain>
+				<type>river</type>
+				<cost>30</cost>
+			</terrain>
+			<terrain>
+				<type>road</type>
+				<cost>5</cost>
+			</terrain>
 		</char>
 		<char>
 			<name>a_inf1</name>
@@ -15,7 +27,19 @@
 			<file>sprites/a_inf1.png</file>
 			<attack>4</attack>
 			<defence>2</defence>
-			<movement>1</movement>
+			<movement>10</movement>
+			<terrain>
+				<type>grass</type>
+				<cost>10</cost>
+			</terrain>
+			<terrain>
+				<type>river</type>
+				<cost>30</cost>
+			</terrain>
+			<terrain>
+				<type>road</type>
+				<cost>5</cost>
+			</terrain>
 		</char>
 		<char>
 			<name>e_tank1</name>
@@ -23,7 +47,19 @@
 			<file>sprites/e_tank1.png</file>
 			<attack>11</attack>
 			<defence>9</defence>
-			<movement>3</movement>
+			<movement>30</movement>
+			<terrain>
+				<type>grass</type>
+				<cost>10</cost>
+			</terrain>
+			<terrain>
+				<type>river</type>
+				<cost>30</cost>
+			</terrain>
+			<terrain>
+				<type>road</type>
+				<cost>5</cost>
+			</terrain>
 		</char>
 		<char>
 			<name>e_inf1</name>
@@ -31,7 +67,19 @@
 			<file>sprites/e_inf1.png</file>
 			<attack>4</attack>
 			<defence>2</defence>
-			<movement>1</movement>
+			<movement>10</movement>
+			<terrain>
+				<type>grass</type>
+				<cost>10</cost>
+			</terrain>
+			<terrain>
+				<type>river</type>
+				<cost>30</cost>
+			</terrain>
+			<terrain>
+				<type>road</type>
+				<cost>5</cost>
+			</terrain>
 		</char>
 	</chars>
 </sprites>

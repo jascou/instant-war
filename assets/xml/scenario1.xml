@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <scenario>
 	<name>Dawn of War</name>
+	<crt>
+		<odds>0.25</odds>
+		<odds>0.333</odds>
+		<odds>0.5</odds>
+		<odds>1</odds>
+		<odds>2</odds>
+		<odds>3</odds>
+		<odds>4</odds>
+		<startdie>-1</startdie>
+		<row>dDxxxxx</row>
+		<row>-dDDxxx</row>
+		<row>-ddDxxx</row>
+		<row>--ddDxx</row>
+		<row>---dDxx</row>
+		<row>----dDx</row>
+		<row>----dDx</row>
+		<row>------x</row>
+		<row>-------</row>
+	</crt>
 	<counters>
 		<counter>
 			<name>a_inf1</name>
