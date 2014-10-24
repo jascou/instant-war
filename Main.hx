@@ -209,6 +209,7 @@ class Main extends Sprite
 		p.x = 0;
 		p.y = 0;
 		p.width = 500;
+		p.height = 500;
         this.addChild(p);
 		
 		gameSc.setText(p, ts);
@@ -583,6 +584,7 @@ class Main extends Sprite
 					selectX = cx;
 					selectY = cy;
 					selectNum = gameSc.getCounter(cx, cy, 1);
+					movesX[0] = -1;
 					
 					if (moveFlag[selectNum] == 1 && gameSc.getDisperse(selectNum) == 0)
 					{						
@@ -620,6 +622,8 @@ class Main extends Sprite
 						}
 					}
 					
+					attacksX[0] = -1;
+					
 					if (attackFlag[selectNum] == 1)
 					{
 						i = 0;
@@ -632,7 +636,7 @@ class Main extends Sprite
 							cresults[2] = 9999;
 							cresults[3] = 9999;
 							
-							gameSc.findAttack(i, cx, cy, 1, cresults);
+							gameSc.findAttack("e", i, cx, cy, 1, cresults);
 							
 							if (cresults[0] != -1)
 							{

@@ -21,6 +21,7 @@ class Scenario
 	private var scStartY:Array<Int>;
 	private var scDisperse:Array<Int>;
 	private var scCounters:Array<GameSprite>;
+	private var scAtFlags:Array<Int>;
 	
 	private var scAI:Array<String>;
 	private var scAIp1:Array<Int>;
@@ -63,6 +64,7 @@ class Scenario
 		scY = new Array();
 		scDisperse = new Array();
 		scCounters = new Array();
+		scAtFlags = new Array();
 		
 		scAI = new Array();
 		scAIp1 = new Array();
@@ -530,9 +532,10 @@ class Scenario
 		return csrX.length;
 	}
 	
-	public function findAttack(cnum:Int, cx:Int, cy:Int, cmax:Int, cresults:Array<Int>)
+	public function findAttack(cside:String, cnum:Int, cx:Int, cy:Int, cmax:Int, cresults:Array<Int>)
 	{
-		var cresults2:Array<Int>;	
+		var cresults2:Array<Int>;
+		var side:String;
 		
 		cresults2 = new Array();
 		
@@ -541,13 +544,13 @@ class Scenario
 		cresults2[2] = 9999;
 		cresults2[3] = 9999;
 		
-		if (scSides[cnum] == "e")
+		if (scSides[cnum] == cside)
 		{
-			if (doDistance(cx, cy, scX[cnum], scY[cnum]) <= cmax + 4)
+			if (doDistance(cx, cy, scX[cnum], scY[cnum]) <= cmax + 1)
 			{
 				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 1, cresults2);
-	
-				if (cresults2[3] <= cmax)
+
+				if (cresults2[3] <= cmax && cresults2[3] > 0)
 				{
 					cresults[0] = scX[cnum];
 					cresults[1] = scY[cnum];
@@ -638,21 +641,119 @@ class Scenario
 					i++;
 				}
 				
-				if (scAI[l] == "patrol")
+				scAtFlags[l] = 0;
+				this.doFire(l);
+				
+				if (scAtFlags[l] == 0)
 				{
-					this.doPatrol(l);
-				}
-				else if (scAI[l] == "chase")
-				{
-					this.doChase(l);
-				}
-				else if (scAI[l] == "march")
-				{
-					this.doMarch(l);
+					if (scAI[l] == "patrol")
+					{
+						this.doPatrol(l);
+					}
+					else if (scAI[l] == "chase")
+					{
+						this.doChase(l);
+					}
+					else if (scAI[l] == "march")
+					{
+						this.doMarch(l);
+					}
 				}
 			}
 			
 			l++;
+		}
+	}
+	
+	private function doFire(cnum)
+	{
+		var i:Int;
+		var j:Int;
+		var k:Int;
+		var l:Int;
+		
+		var cx:Int;
+		var cy:Int;
+		
+		var cresults:Array<Int>;
+		var attackNum:Array<Int>;
+		
+		i = 0;
+		k = 0;
+		
+		cx = scX[cnum];
+		cy = scY[cnum];
+
+		cresults = new Array();
+		attackNum = new Array();
+		attackNum[0] = -1;				
+		
+		while (i < this.counterCount())
+		{
+			cresults[0] = -1;
+			cresults[1] = -1;
+			cresults[2] = 9999;
+			cresults[3] = 9999;
+							
+			this.findAttack("a", i, cx, cy, 1, cresults);
+			
+			if (cresults[0] != -1)
+			{
+				attackNum[k] = i;
+				attackNum[k + 1] = -1;
+				k++;
+			}
+							
+			i++;
+		}
+		
+		i = 0;
+		j = -1;
+		k = 0;
+		
+		while (attackNum[i] != -1)
+		{
+			//trace(i);
+			k = attackNum[i];
+
+			if (scDisperse[k] == 1)
+				j = i;
+			
+			i++;
+		}
+		
+		if (j != -1)
+		{
+			scAtFlags[cnum] = 1;
+			this.doAttack(cnum, attackNum[j]);
+		}
+		else
+		{
+			i = 0;
+			j = 9999;
+			l = -1;
+			
+			while (attackNum[i] != -1)
+			{
+				if (attackNum[i] != -1)
+				{
+					k = attackNum[i];
+					
+					if (scPack.getAttack(scNames[k]) < j)
+					{
+						l = i;
+						j = scPack.getAttack(scNames[k]);
+					}
+				}
+				
+				i++;
+			}
+			
+			if (l != -1)
+			{
+				scAtFlags[cnum] = 1;
+				this.doAttack(cnum, attackNum[l]);
+			}
 		}
 	}
 	
