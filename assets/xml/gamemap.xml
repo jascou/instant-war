@@ -9,14 +9,14 @@
 		<row id="3" >....x..................</row>
 		<row id="4" >.....[++}...X..........</row>
 		<row id="5" >...C----_--S--E........</row>
-		<row id="6" >...X.....x.....Y.......</row>
-		<row id="7" >..X......x.....Y.......</row>
-		<row id="8" >..X.......x.....Y......</row>
-		<row id="9" >..........[+++}.Y......</row>
-		<row id="10">...............x.Y.....</row>
-		<row id="11">...............x.Y.....</row>
-		<row id="12">................x......</row>
-		<row id="12">................x......</row>
+		<row id="6" >...X.***.x.....Y.......</row>
+		<row id="7" >..X.****.x.....Y.......</row>
+		<row id="8" >..X..**...x.....Y......</row>
+		<row id="9" >.S-------E[+++}.Y......</row>
+		<row id="10">.....***..Y....x.Y.....</row>
+		<row id="11">.....****.Y....x.Y.....</row>
+		<row id="12">....****...T----_-F....</row>
+		<row id="12">......**........x......</row>
 		<row id="12">.................x.....</row>
 	</rows>
 	<tiles>
@@ -31,6 +31,12 @@
 			<name>floor1</name>
 			<type>grass</type>
 			<file>tiles/hex_grass1.png</file>
+		</tile>
+		<tile>
+			<code>*</code>
+			<name>forest1</name>
+			<type>forest</type>
+			<file>tiles/hex_forest2.png</file>
 		</tile>
 		<tile>
 			<code>x</code>
@@ -87,6 +93,12 @@
 			<file>tiles/hex_roadnwc.png</file>
 		</tile>
 		<tile>
+			<code>T</code>
+			<name>roadnwe</name>
+			<type>road</type>
+			<file>tiles/hex_roadnwe.png</file>
+		</tile>
+		<tile>
 			<code>D</code>
 			<name>roadsec</name>
 			<type>road</type>
@@ -103,6 +115,12 @@
 			<name>roadsplitne</name>
 			<type>road</type>
 			<file>tiles/hex_roadsplitne.png</file>
+		</tile>
+		<tile>
+			<code>F</code>
+			<name>roadsplitsw</name>
+			<type>road</type>
+			<file>tiles/hex_roadsplitsw.png</file>
 		</tile>
 	</tiles>
 </map>

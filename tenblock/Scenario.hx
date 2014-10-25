@@ -286,7 +286,7 @@ class Scenario
 			
 		coutcome = scRows[croll - scStartDie].substr(j, 1);
 		
-		scText.text = scText.text + "Counter #" + cattack + " attacks counter #" + cdefend + " (" + cratio + "). ";
+		scText.text = scText.text + "Counter #" + cattack + " attacks counter #" + cdefend + ". ";
 		
 		if (coutcome == "d") 
 		{
@@ -481,7 +481,7 @@ class Scenario
 								csrX[l] = x1;
 								csrY[l] = y1;
 								csrFlag[l] = 1;
-								csrWeight[l] = csrWeight[i] + this.getWeightXY(cname, x1, y1);
+								csrWeight[l] = csrWeight[i] + this.greater(this.getWeightXY(cname, csrX[i], csrY[i]), this.getWeightXY(cname, x1, y1));
 								csrDepth[l] = depth;
 								csrAnc[l] = i;
 								ccount = 1;
@@ -494,6 +494,14 @@ class Scenario
 			}
 		} 
 		while (ccount > 0);
+	}
+
+	function greater(cnum1:Int, cnum2:Int): Int
+	{
+		if (cnum1 >= cnum2)
+			return cnum1;
+		else
+			return cnum2;
 	}
 	
 	function getWeightXY(cname:String, cx:Int, cy:Int):Int
