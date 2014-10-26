@@ -391,6 +391,9 @@ class Main extends Sprite
 			toolbar.x = 1200 - this.x;
 			toolbar.y = -this.y;
 			
+			p.x = -this.x;
+			p.y = -this.y;
+			
 			while (i < toolUp.length)
 			{
 				toolUp[i].x = toolX[i] - this.x;
@@ -441,9 +444,12 @@ class Main extends Sprite
 			if (this.y > 0) this.y = 0;
 			else if (this.y < 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86))
 				this.y = 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86);
-			
+				
 			toolbar.x = 1200 - this.x;
 			toolbar.y = -this.y;
+			
+			p.x = -this.x;
+			p.y = -this.y;
 			
 			i = 0;
 			

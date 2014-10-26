@@ -6,6 +6,7 @@ import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.geom.Rectangle;
 import flash.Lib;
+import flash.text.TextFormatAlign;
 import haxe.Timer;
 import openfl.Assets;
 import flash.events.MouseEvent;
@@ -22,6 +23,10 @@ class GameMap
 	private var gmFiles:Array<String>;
 	private var gmWidths:Array<Int>;
 	private var gmHeights:Array<Int>;
+	
+	private var gmLabels:Array<String>;
+	private var gmCapX:Array<Int>;
+	private var gmCapY:Array<Int>;
 	
 	private var tileWidth:Int;
 	private var tileHeight:Int;
@@ -42,7 +47,8 @@ class GameMap
 		var fast = new haxe.xml.Fast(xml.firstElement());
 
 		var rows = fast.node.rows;
-	
+		var captions = fast.node.captions;
+		
 		gmRows = new Array();
 		
 		gmCodes = new Array();
@@ -53,6 +59,10 @@ class GameMap
 		gmFiles = new Array();
 		gmWidths = new Array();
 		gmHeights = new Array();
+	
+		gmLabels = new Array();
+		gmCapX = new Array();
+		gmCapY = new Array();
 		
 		anchorX = 10;
 		anchorY = -50;
@@ -80,6 +90,16 @@ class GameMap
 			gmTypes[i] = q.node.type.innerData;
 			gmFiles[i] = q.node.file.innerData;
 			
+			i++;
+		}
+		
+		i = 0;
+		
+		for (q in captions.nodes.caption)
+		{
+			gmLabels[i] = q.node.label.innerData;
+			gmCapX[i] = Std.parseInt(q.node.x.innerData);
+			gmCapY[i] = Std.parseInt(q.node.y.innerData);
 			i++;
 		}
 	}
@@ -351,6 +371,33 @@ class GameMap
 				
 				j++;
 			}
+			
+			i++;
+		}
+		
+		i = 0;
+		
+		var ts = new flash.text.TextFormat();
+		ts.font = "Courier"; // set the font
+		ts.size = 20;                // set the font size
+		ts.bold = true;
+		ts.color=0xFFFF00;           // set the color
+		ts.align = TextFormatAlign.CENTER;
+		
+		i = 0;
+		
+		while (i < gmLabels.length)
+		{
+			var p = new flash.text.TextField();
+			p.text = gmLabels[i];
+			p.setTextFormat(ts);
+			p.x = gmCapX[i];
+			p.y = gmCapY[i];
+			p.width = 200;
+			p.height = 50;
+			p.mouseEnabled = false;
+			
+			gmCanvas.addChild(p);
 			
 			i++;
 		}
