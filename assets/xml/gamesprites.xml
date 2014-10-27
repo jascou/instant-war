@@ -24,6 +24,10 @@
 				<type>road</type>
 				<cost>5</cost>
 			</terrain>
+			<terrain>
+				<type>town</type>
+				<cost>5</cost>
+			</terrain>
 		</char>
 		<char>
 			<name>a_apc1</name>
@@ -46,6 +50,10 @@
 			</terrain>
 			<terrain>
 				<type>road</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>town</type>
 				<cost>5</cost>
 			</terrain>
 		</char>
@@ -96,6 +104,10 @@
 				<type>road</type>
 				<cost>5</cost>
 			</terrain>
+			<terrain>
+				<type>town</type>
+				<cost>5</cost>
+			</terrain>
 		</char>
 		<char>
 			<name>e_apc1</name>
@@ -142,6 +154,10 @@
 			</terrain>
 			<terrain>
 				<type>road</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>town</type>
 				<cost>5</cost>
 			</terrain>
 		</char>

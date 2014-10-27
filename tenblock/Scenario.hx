@@ -281,7 +281,10 @@ class Scenario
 		
 		if (scDisperse[cdefend] == 1)
 			croll = croll - 2;
-		
+	
+		if (scMap.getTypeXY(scX[cdefend], scY[cdefend]) == "town")
+			croll = croll + 1;
+			
 		if (croll < scStartDie) croll = scStartDie;
 			
 		coutcome = scRows[croll - scStartDie].substr(j, 1);
@@ -801,8 +804,11 @@ class Scenario
 			i++;
 		}
 		
-		i = Std.int(Math.random() * goX.length);
-		this.dropCounter(cnum, goX[i], goY[i]);
+		if (goX.length > 0)
+		{
+			i = Std.int(Math.random() * goX.length);
+			this.dropCounter(cnum, goX[i], goY[i]);
+		}
 	}
 	
 	private function doChase(cnum:Int)
