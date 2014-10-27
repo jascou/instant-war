@@ -12,7 +12,7 @@
 		<row id="6" >...X.***.x.....Y.......</row>
 		<row id="7" >..X.****.x.....Y.......</row>
 		<row id="8" >..X..**...x.....Y......</row>
-		<row id="9" >-S-------E[+++}.Y......</row>
+		<row id="9" >-S-------e[+++}.Y......</row>
 		<row id="10">.....***..Y..**x.Y.....</row>
 		<row id="11">.....****.Y.***x.Y.....</row>
 		<row id="12">....****.|.T----_-F....</row>
@@ -148,6 +148,12 @@
 			<name>roadturnse</name>
 			<type>road</type>
 			<file>tiles/hex_roadturnse.png</file>
+		</tile>
+		<tile>
+			<code>e</code>
+			<name>roadturnsetown</name>
+			<type>road</type>
+			<file>tiles/hex_roadturnse_town.png</file>
 		</tile>
 		<tile>
 			<code>S</code>
