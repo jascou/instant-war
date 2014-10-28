@@ -3,10 +3,10 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="Instant War: Tank Battles I" package="TestGame" version="1.0.0" company="Matt Wells" />
+	<meta title="Instant War: Tank Battles I" package="com.adaax.iwtankbattles1" version="1.0.0" company="Matt Wells" />
 	
 	<!-- output -->
-	<app main="Main" file="TestGame" path="bin" />
+	<app main="Main" file="IW-TB1" path="bin" />
 	
 	<window background="#d27c01" fps="60" resizable="false" />
 	<window width="1275" height="673" unless="mobile" fullscreen="false" />
