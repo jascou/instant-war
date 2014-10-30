@@ -318,6 +318,11 @@ class Scenario
 		return(scPack.getMovement(scNames[ccounter]));
 	}
 	
+	public function getRange(ccounter:Int):Int
+	{
+		return(scPack.getRange(scNames[ccounter]));
+	}
+	
 	public function getSides(cnum:Int):String
 	{
 		return scSides[cnum];
@@ -370,6 +375,7 @@ class Scenario
 		var k:Int;
 		var l:Int;
 		var m:Int;
+		var n:Int;
 		var cweight: Int;
 		
 		var x1:Int;
@@ -474,17 +480,19 @@ class Scenario
 							y1 = csrY[i];
 						else
 							y1 = csrY[i] + 1;
+	
+						n = scMap.getLevel(csrX[i], csrY[i]);
 							
-						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1) != -1 && csrWeight[i] < cmaxdist)
+						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1, n) != -1 && csrWeight[i] < cmaxdist)
 						{
-							l = this.getNode(x1, y1, csrWeight[i] + this.getWeightXY(cname, x1, y1), cflag);
+							l = this.getNode(x1, y1, csrWeight[i] + this.getWeightXY(cname, x1, y1, n), cflag);
 
 							if (l != -1)
 							{	
 								csrX[l] = x1;
 								csrY[l] = y1;
 								csrFlag[l] = 1;
-								csrWeight[l] = csrWeight[i] + this.greater(this.getWeightXY(cname, csrX[i], csrY[i]), this.getWeightXY(cname, x1, y1));
+								csrWeight[l] = csrWeight[i] + this.greater(this.getWeightXY(cname, csrX[i], csrY[i], n), this.getWeightXY(cname, x1, y1, n));
 								csrDepth[l] = depth;
 								csrAnc[l] = i;
 								ccount = 1;
@@ -499,6 +507,18 @@ class Scenario
 		while (ccount > 0);
 	}
 
+	function levelmult(cnum1:Int, cnum2:Int):Float
+	{
+		if (cnum1 == cnum2)
+			return 1;
+		else if (cnum1 < cnum2)
+			return 2 * (cnum2 - cnum1);
+		else if (cnum2 < cnum1)
+			return 0.5;
+			
+		return 1;
+	}
+	
 	function greater(cnum1:Int, cnum2:Int): Int
 	{
 		if (cnum1 >= cnum2)
@@ -507,9 +527,12 @@ class Scenario
 			return cnum2;
 	}
 	
-	function getWeightXY(cname:String, cx:Int, cy:Int):Int
+	function getWeightXY(cname:String, cx:Int, cy:Int, clevel:Int):Int
 	{
-		return scPack.getWeight(cname, scMap.getTypeXY(cx, cy));
+		var cweight:Int;
+		
+		cweight = Std.int(scPack.getWeight(cname, scMap.getTypeXY(cx, cy)) * levelmult(clevel, scMap.getLevel(cx, cy)));
+		return cweight;
 	}
 	
 	function getNode(cx:Int, cy:Int, cweight: Int, cflag:Int):Int
@@ -687,6 +710,7 @@ class Scenario
 		
 		var cx:Int;
 		var cy:Int;
+		var crange:Int;
 		
 		var cresults:Array<Int>;
 		var attackNum:Array<Int>;
@@ -699,7 +723,9 @@ class Scenario
 
 		cresults = new Array();
 		attackNum = new Array();
-		attackNum[0] = -1;				
+		attackNum[0] = -1;
+		
+		crange = this.getRange(this.getCounter(cx, cy, 1));
 		
 		while (i < this.counterCount())
 		{
@@ -708,7 +734,7 @@ class Scenario
 			cresults[2] = 9999;
 			cresults[3] = 9999;
 							
-			this.findAttack("a", i, cx, cy, 1, cresults);
+			this.findAttack("a", i, cx, cy, crange, cresults);
 			
 			if (cresults[0] != -1)
 			{

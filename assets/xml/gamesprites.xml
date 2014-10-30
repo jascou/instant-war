@@ -8,6 +8,7 @@
 			<attack>12</attack>
 			<defence>8</defence>
 			<movement>30</movement>
+			<range>2</range>
 			<terrain>
 				<type>grass</type>
 				<cost>10</cost>
@@ -23,6 +24,10 @@
 			<terrain>
 				<type>road</type>
 				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>dirtroad</type>
+				<cost>10</cost>
 			</terrain>
 			<terrain>
 				<type>town</type>
@@ -36,6 +41,7 @@
 			<attack>7</attack>
 			<defence>7</defence>
 			<movement>40</movement>
+			<range>1</range>
 			<terrain>
 				<type>grass</type>
 				<cost>10</cost>
@@ -50,6 +56,10 @@
 			</terrain>
 			<terrain>
 				<type>road</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>dirtroad</type>
 				<cost>5</cost>
 			</terrain>
 			<terrain>
@@ -64,6 +74,7 @@
 			<attack>4</attack>
 			<defence>2</defence>
 			<movement>10</movement>
+			<range>1</range>
 			<terrain>
 				<type>grass</type>
 				<cost>10</cost>
@@ -80,6 +91,14 @@
 				<type>road</type>
 				<cost>5</cost>
 			</terrain>
+			<terrain>
+				<type>dirtroad</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>town</type>
+				<cost>5</cost>
+			</terrain>
 		</char>
 		<char>
 			<name>e_tank1</name>
@@ -88,6 +107,7 @@
 			<attack>11</attack>
 			<defence>9</defence>
 			<movement>30</movement>
+			<range>2</range>
 			<terrain>
 				<type>grass</type>
 				<cost>10</cost>
@@ -103,6 +123,10 @@
 			<terrain>
 				<type>road</type>
 				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>dirtroad</type>
+				<cost>10</cost>
 			</terrain>
 			<terrain>
 				<type>town</type>
@@ -116,6 +140,7 @@
 			<attack>8</attack>
 			<defence>6</defence>
 			<movement>40</movement>
+			<range>1</range>
 			<terrain>
 				<type>grass</type>
 				<cost>10</cost>
@@ -132,6 +157,14 @@
 				<type>road</type>
 				<cost>5</cost>
 			</terrain>
+			<terrain>
+				<type>dirtroad</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>town</type>
+				<cost>5</cost>
+			</terrain>
 		</char>
 		<char>
 			<name>e_inf1</name>
@@ -140,6 +173,7 @@
 			<attack>4</attack>
 			<defence>2</defence>
 			<movement>10</movement>
+			<range>1</range>
 			<terrain>
 				<type>grass</type>
 				<cost>10</cost>
@@ -154,6 +188,10 @@
 			</terrain>
 			<terrain>
 				<type>road</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>dirtroad</type>
 				<cost>5</cost>
 			</terrain>
 			<terrain>

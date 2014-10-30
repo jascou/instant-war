@@ -25,25 +25,25 @@
 			<name>a_inf1</name>
 			<side>a</side>
 			<startx>4</startx>
-			<starty>8</starty>
+			<starty>10</starty>
 		</counter>
 		<counter>
 			<name>a_inf1</name>
 			<side>a</side>
 			<startx>4</startx>
-			<starty>9</starty>
+			<starty>11</starty>
 		</counter>
 		<counter>
 			<name>a_inf1</name>
 			<side>a</side>
 			<startx>5</startx>
-			<starty>9</starty>
+			<starty>11</starty>
 		</counter>
 		<counter>
 			<name>a_inf1</name>
 			<side>a</side>
 			<startx>4</startx>
-			<starty>10</starty>
+			<starty>12</starty>
 		</counter>
 		<counter>
 			<name>a_tank1</name>
@@ -54,26 +54,26 @@
 		<counter>
 			<name>a_tank1</name>
 			<side>a</side>
-			<startx>4</startx>
+			<startx>2</startx>
 			<starty>3</starty>
 		</counter>
 		<counter>
 			<name>a_tank1</name>
 			<side>a</side>
-			<startx>3</startx>
+			<startx>1</startx>
 			<starty>4</starty>
 		</counter>
 		<counter>
 			<name>a_tank1</name>
 			<side>a</side>
-			<startx>3</startx>
+			<startx>1</startx>
 			<starty>6</starty>
 		</counter>
 		<counter>
 			<name>a_apc1</name>
 			<side>a</side>
-			<startx>5</startx>
-			<starty>6</starty>
+			<startx>8</startx>
+			<starty>10</starty>
 		</counter>
 		<counter>
 			<name>e_tank1</name>
@@ -94,7 +94,7 @@
 		<counter>
 			<name>e_tank1</name>
 			<side>e</side>
-			<startx>14</startx>
+			<startx>16</startx>
 			<starty>4</starty>
 			<ai>chase</ai>
 			<range>20</range>
@@ -103,7 +103,7 @@
 		<counter>
 			<name>e_tank1</name>
 			<side>e</side>
-			<startx>15</startx>
+			<startx>17</startx>
 			<starty>4</starty>
 			<ai>march</ai>
 			<speed>1</speed>
@@ -112,11 +112,55 @@
 		<counter>
 			<name>e_apc1</name>
 			<side>e</side>
-			<startx>12</startx>
+			<startx>14</startx>
 			<starty>5</starty>
 			<ai>chase</ai>
 			<range>20</range>
 			<maxattack>15</maxattack>
+		</counter>
+		<counter>
+			<name>e_apc1</name>
+			<side>e</side>
+			<startx>17</startx>
+			<starty>12</starty>
+			<ai>patrol</ai>
+			<range>0</range>
+		</counter>
+		<counter>
+			<name>e_inf1</name>
+			<side>e</side>
+			<startx>15</startx>
+			<starty>13</starty>
+			<ai>march</ai>
+			<speed>1</speed>
+			<maxattack>8</maxattack>
+		</counter>
+		<counter>
+			<name>e_inf1</name>
+			<side>e</side>
+			<startx>15</startx>
+			<starty>14</starty>
+			<ai>march</ai>
+			<speed>1</speed>
+			<maxattack>8</maxattack>
+		</counter>
+		<counter>
+			<name>e_inf1</name>
+			<side>e</side>
+			<startx>14</startx>
+			<starty>14</starty>
+			<ai>march</ai>
+			<speed>1</speed>
+			<maxattack>8</maxattack>
+		</counter>
+		<counter>
+			<name>e_inf1</name>
+			<side>e</side>
+			<startx>15</startx>
+			<starty>15</starty>
+			<ai>march</ai>
+			<speed>1</speed>
+			<maxattack>8</maxattack>
 		</counter>
 	</counters>
 </scenario>

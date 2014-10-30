@@ -14,6 +14,7 @@ import flash.events.MouseEvent;
 class GameMap
 {
 	private var gmRows:Array<String>;
+	private var gmLevelRows:Array<String>;
 	
 	private var gmCodes:Array<String>;
 	private var gmNames:Array<String>;
@@ -47,9 +48,11 @@ class GameMap
 		var fast = new haxe.xml.Fast(xml.firstElement());
 
 		var rows = fast.node.rows;
+		var levelrows = fast.node.levelrows;
 		var captions = fast.node.captions;
 		
 		gmRows = new Array();
+		gmLevelRows = new Array();
 		
 		gmCodes = new Array();
 		gmNames = new Array();
@@ -71,6 +74,13 @@ class GameMap
 		
 		for (p in rows.nodes.row) {
 			gmRows[i] = p.innerData;
+			i++;
+		}
+		
+		i = 0;
+		
+		for (p in levelrows.nodes.row) {
+			gmLevelRows[i] = p.innerData;
 			i++;
 		}
 		
@@ -162,6 +172,22 @@ class GameMap
 	public function getCode(cx:Int, cy:Int):String
 	{
 		return gmRows[cy].substr(cx, 1);
+	}
+	
+	public function getLevel(cx:Int, cy:Int):Int
+	{
+		var ccode:String;
+		
+		ccode = gmLevelRows[cy].substr(cx, 1);
+		
+		if (ccode == ".")
+			return 0;
+		else if (ccode == "*")
+			return 1;
+		else if (ccode == "#")
+			return 2;
+		
+		return -1;
 	}
 	
 	public function getType(ccode:String):String
@@ -398,6 +424,56 @@ class GameMap
 			p.mouseEnabled = false;
 			
 			gmCanvas.addChild(p);
+			
+			i++;
+		}
+				
+		i = 0;
+		
+		while (i < gmLevelRows.length) 
+		{
+			j = 0;
+			
+			while (j < gmLevelRows[0].length)
+			{		
+				
+				if (gmLevelRows[i].charAt(j) == "*") 
+				{
+					var mapBitmap = new Bitmap (Assets.getBitmapData ("tiles/hex_mid.png"));
+					mapBitmap.smoothing = true;
+					gmCanvas.addChild(mapBitmap);
+
+					if (i % 2 == 0)
+					{
+						mapBitmap.x = (j * tileWidth) + anchorX;
+						mapBitmap.y = (i * tileWidth * 0.85) + anchorY - 1;
+					}
+					else 
+					{
+						mapBitmap.x = (j * tileWidth - Std.int(tileWidth / 2)) + anchorX;
+						mapBitmap.y = (i * tileWidth * 0.85) + anchorY - 1;
+					}
+				}
+				else if (gmLevelRows[i].charAt(j) == "#") 
+				{
+					var mapBitmap = new Bitmap (Assets.getBitmapData ("tiles/hex_high.png"));
+					mapBitmap.smoothing = true;
+					gmCanvas.addChild(mapBitmap);
+
+					if (i % 2 == 0)
+					{
+						mapBitmap.x = (j * tileWidth) + anchorX;
+						mapBitmap.y = (i * tileWidth * 0.85) + anchorY - 1;
+					}
+					else 
+					{
+						mapBitmap.x = (j * tileWidth - Std.int(tileWidth / 2)) + anchorX;
+						mapBitmap.y = (i * tileWidth * 0.85) + anchorY - 1;
+					}
+				}
+				
+				j++;
+			}
 			
 			i++;
 		}

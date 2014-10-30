@@ -20,6 +20,7 @@ class SpritePack
 	private var gspAttack:Array<Int>;
 	private var gspDefence:Array<Int>;
 	private var gspMovement:Array<Int>;
+	private var gspRange:Array<Int>;
 	private var gspTType:Array<String>;
 	private var gspTCost:Array<Int>;
 	
@@ -46,6 +47,7 @@ class SpritePack
 		gspAttack = new Array();
 		gspDefence = new Array();
 		gspMovement = new Array();
+		gspRange = new Array();
 		gspTType = new Array();
 		gspTCost = new Array();
 		
@@ -68,6 +70,7 @@ class SpritePack
 			gspAttack[i] = Std.parseInt(q.node.attack.innerData);
 			gspDefence[i] = Std.parseInt(q.node.defence.innerData);
 			gspMovement[i] = Std.parseInt(q.node.movement.innerData);
+			gspRange[i] = Std.parseInt(q.node.range.innerData);
 			
 			j = 0;
 			
@@ -196,6 +199,23 @@ class SpritePack
 		{
 			if (gspNames[i] == cname)
 				return gspMovement[i];
+				
+			i++;
+		}
+		
+		return -1;		
+	}
+	
+	public function getRange(cname:String):Int
+	{
+		var i:Int;
+		
+		i = 0;
+		
+		while (i < gspTotal)
+		{
+			if (gspNames[i] == cname)
+				return gspRange[i];
 				
 			i++;
 		}

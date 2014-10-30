@@ -508,6 +508,7 @@ class Main extends Sprite
 		var cresults:Array<Int>;
 		var crange:Int;
 		var crange2:Int;
+		var arange:Int;
 		var i:Int;
 		var j:Int;
 		var k:Int;
@@ -647,6 +648,7 @@ class Main extends Sprite
 					{
 						i = 0;
 						k = 0;
+						arange = gameSc.getRange(gameSc.getCounter(cx, cy, 1));
 						
 						while (i < gameSc.counterCount())
 						{
@@ -655,7 +657,7 @@ class Main extends Sprite
 							cresults[2] = 9999;
 							cresults[3] = 9999;
 							
-							gameSc.findAttack("e", i, cx, cy, 1, cresults);
+							gameSc.findAttack("e", i, cx, cy, arange, cresults);
 							
 							if (cresults[0] != -1)
 							{
