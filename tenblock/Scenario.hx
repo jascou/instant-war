@@ -483,7 +483,7 @@ class Scenario
 	
 						n = scMap.getLevel(csrX[i], csrY[i]);
 							
-						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1, n) != -1 && csrWeight[i] < cmaxdist)
+						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1, n) > -1 && csrWeight[i] < cmaxdist)
 						{
 							l = this.getNode(x1, y1, csrWeight[i] + this.getWeightXY(cname, x1, y1, n), cflag);
 
@@ -860,7 +860,7 @@ class Scenario
 		{
 			if (scSides[i] == "a")
 			{
-				if (doDistance(scX[cnum], scY[cnum], scX[i], scY[i]) < chaseDist && doDistance(scStartX[cnum], scStartY[cnum], scX[i], scY[i]) < scAIp1[cnum])
+				if (doDistance(scX[cnum], scY[cnum], scX[i], scY[i]) < chaseDist)
 				{
 					chaseX = scX[i];
 					chaseY = scY[i];
@@ -871,11 +871,11 @@ class Scenario
 			i++;
 		}
 		
-		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 200, cresults2);
+		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1200, cresults2);
 		goX = cresults2[0];
 		goY = cresults2[1];
 		
-		if (goX == -1)
+		if (goX == -1 || (goX == 0 && goY == 0))
 		{
 			goX = -1;
 			goY = -1;
@@ -933,7 +933,7 @@ class Scenario
 			i++;
 		}
 		
-		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 200, cresults2);
+		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1200, cresults2);
 		goX = cresults2[0];
 		goY = cresults2[1];
 		
@@ -947,7 +947,7 @@ class Scenario
 			
 			while (movesX[i] != -1)
 			{
-				if (doDistance(movesX[i], movesY[i], chaseX, chaseY) < goDist && doDistance(movesX[i], movesY[i], scX[cnum], scY[cnum]) <= scAIp1[cnum])
+				if (doDistance(movesX[i], movesY[i], chaseX, chaseY) < goDist)
 				{
 					goX = movesX[i];
 					goY = movesY[i];

@@ -72,7 +72,7 @@
 		<counter>
 			<name>a_apc1</name>
 			<side>a</side>
-			<startx>8</startx>
+			<startx>7</startx>
 			<starty>10</starty>
 		</counter>
 		<counter>
@@ -112,11 +112,11 @@
 		<counter>
 			<name>e_apc1</name>
 			<side>e</side>
-			<startx>14</startx>
-			<starty>5</starty>
+			<startx>12</startx>
+			<starty>7</starty>
 			<ai>chase</ai>
 			<range>20</range>
-			<maxattack>15</maxattack>
+			<maxattack>25</maxattack>
 		</counter>
 		<counter>
 			<name>e_apc1</name>
