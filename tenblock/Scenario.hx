@@ -251,6 +251,7 @@ class Scenario
 	{
 		var i: Int;
 		var j: Int;
+		var k: Int;
 		var crto: Float;
 		
 		var ratio:Float;
@@ -285,11 +286,18 @@ class Scenario
 		if (scMap.getTypeXY(scX[cdefend], scY[cdefend]) == "town")
 			croll = croll + 1;
 			
-		if (croll < scStartDie) croll = scStartDie;
+		k = leveldif(scMap.getLevel(scX[cattack], scY[cattack]), scMap.getLevel(scX[cdefend], scY[cdefend]));
+		
+		if (k > 0)
+			croll = Std.int(croll / 2);
+		else if (k < 0)
+			croll = croll + 2;
 			
+		if (croll < scStartDie) croll = scStartDie;
+		
 		coutcome = scRows[croll - scStartDie].substr(j, 1);
 		
-		scText.text = scText.text + "Counter #" + cattack + " attacks counter #" + cdefend + ". ";
+		scText.text = scText.text + "Counter #" + cattack + " attacks counter #" + cdefend + ". Roll: " + croll + ". ";
 		
 		if (coutcome == "d") 
 		{
@@ -517,6 +525,11 @@ class Scenario
 			return 0.5;
 			
 		return 1;
+	}
+	
+	function leveldif(cnum1:Int, cnum2:Int):Int
+	{
+		return cnum1 - cnum2;
 	}
 	
 	function greater(cnum1:Int, cnum2:Int): Int

@@ -4,20 +4,20 @@
 	<tilewidth>64</tilewidth>
 	<tileheight>75</tileheight>
 	<rows>
-		<row id="1" >|..x.........X.........</row>
-		<row id="2" >||..x........X.........</row>
-		<row id="3" >.|..x.......X..........</row>
-		<row id="4" >|....[++}...@..........</row>
-		<row id="5" >...C----_--#%-E........</row>
-		<row id="6" >...X.***.x.....Y.......</row>
-		<row id="7" >..X.****.x.....Y.......</row>
-		<row id="8" >..X..**...x.....Y......</row>
-		<row id="9" >-S-------e[+++}.Y......</row>
-		<row id="10">.....***..Y..**x.Y.....</row>
-		<row id="11">.....****.z.***x.Y.....</row>
-		<row id="12">....****.|ZT----_-F....</row>
-		<row id="12">......**|Z..|...x.Y....</row>
-		<row id="12">.......||Z.||....x.M...</row>
+		<row id="1" >|..x..|||||..X.........</row>
+		<row id="2" >||..x..|||...X.....*...</row>
+		<row id="3" >.|..x...||..X.....***..</row>
+		<row id="4" >|....[++}...@.......**.</row>
+		<row id="5" >...C----_--#%-E....*cB~</row>
+		<row id="6" >...X.***.x.....Y..**Z..</row>
+		<row id="7" >..X.****.x.**..p~~~d...</row>
+		<row id="8" >..X..**...x..*..Y..**..</row>
+		<row id="9" >-S-------e[+++}.Y...../</row>
+		<row id="10">*....***..Y..**x.Y...//</row>
+		<row id="11">***.*****.z.***x.Y.////</row>
+		<row id="12">********.|ZT----_-F..//</row>
+		<row id="12">**....**|Z..|...x.Y.///</row>
+		<row id="12">**.....||Z.||....x.M../</row>
 		<row id="12">.c~~gB~~d*..|....x.M...</row>
 		<row id="12">.Z.|.y..**..|||..."+$++</row>
 		<row id="12">Z.|||y..**........x.T--</row>
@@ -41,6 +41,12 @@
 			<name>floor2</name>
 			<type>grass</type>
 			<file>tiles/hex_dirt1.png</file>
+		</tile>
+		<tile>
+			<code>/</code>
+			<name>floor3</name>
+			<type>swamp</type>
+			<file>tiles/hex_swamp1.png</file>
 		</tile>
 		<tile>
 			<code>#</code>
@@ -151,6 +157,12 @@
 			<file>tiles/hex_dirtjoinne.png</file>
 		</tile>
 		<tile>
+			<code>p</code>
+			<name>dirtjoine</name>
+			<type>road</type>
+			<file>tiles/hex_dirtjoine.png</file>
+		</tile>
+		<tile>
 			<code>Y</code>
 			<name>roadse</name>
 			<type>road</type>
@@ -242,20 +254,20 @@
 		</caption>
 	</captions>
 	<levelrows>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
+		<row id="1" >.................*#####</row>
+		<row id="1" >.................*#####</row>
+		<row id="1" >.................**####</row>
+		<row id="1" >...................*###</row>
+		<row id="1" >...................*###</row>
+		<row id="1" >....................*##</row>
+		<row id="1" >....................***</row>
 		<row id="1" >.......................</row>
 		<row id="1" >.......................</row>
 		<row id="1" >.......................</row>
 		<row id="1" >.......................</row>
 		<row id="1" >........***............</row>
 		<row id="1" >......**##*............</row>
-		<row id="1" >......*####*...........</row>
+		<row id="1" >......*####**..........</row>
 		<row id="1" >......*#####*..........</row>
 		<row id="1" >.......*###**..........</row>
 		<row id="1" >.......****............</row>

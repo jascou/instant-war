@@ -24,10 +24,11 @@ import tenblock.*;
 class Main extends Sprite 
 {
 	var inited:Bool;
-	private var gameImages:Array<GameSprite>;
+	
+	// GameSprite arrays that hold hex highlights for movement and attacks
 	private var gameMoves:Array<GameSprite>;
 	private var gameAttacks:Array<GameSprite>;
-	
+
 	private var MainPl:Sprite;
 	private var MainFr:Int;
 	
@@ -52,12 +53,15 @@ class Main extends Sprite
 	private var selectX:Int;
 	private var selectY:Int;
 	private var selectNum:Int;
+
+	// Int arrays to hold potential move and attack locations for player
 	private var movesX:Array<Int>;
 	private var movesY:Array<Int>;
 	private var attacksX:Array<Int>;
 	private var attacksY:Array<Int>;
 	private var attacksNum:Array<Int>;
 	
+	// flags to indicate whether moves or attacks have been performed for given counter
 	private var moveFlag:Array<Int>;
 	private var attackFlag:Array<Int>;
 	
@@ -72,8 +76,6 @@ class Main extends Sprite
 	private var ts:TextFormat;
 	private var p:TextField;
 	
-	/* ENTRY POINT */
-	
 	function resize(e) 
 	{
 		if (!inited) init();
@@ -85,6 +87,7 @@ class Main extends Sprite
 		var dirs : Array<Int> = [2,0,1,3];
 		var i:Int;
 		
+		// set width of player hex highlighter
 		egoWidth = 65;
 		egoHeight = 75;
 		
@@ -97,20 +100,23 @@ class Main extends Sprite
 		else
 			stage.displayState = NORMAL;
 		
-		// (your code here)
+		// load and draw initial GameMap
 		var gameMap = new GameMap("xml/gamemap.xml");
 		gameMap.setAnchorX(10);
 		gameMap.setAnchorY(0);
 		gameMap.setCanvas(this);
 		gameMap.drawMap();
 		
+		// load initial SpritePack and Scenario
 		sprPack = new SpritePack("xml/gamesprites.xml");
 		gameSc = new Scenario("xml/scenario1.xml");
+		
+		// pass canvas, gameMap, and SpritePack to Scenario, then initialize Scenario
 		gameSc.setCMP(this, gameMap, sprPack);
 		gameSc.doDraw();
 		
 		MainPl = new Sprite();
-		gameImages = new Array();
+		
 		gameMoves = new Array();
 		gameAttacks = new Array();
 	
@@ -136,6 +142,7 @@ class Main extends Sprite
 		
 		i = 0;
 		
+		// initialize, then hide, movement hex highlights
 		while (i < 100)
 		{
 			gameMoves[i] = new GameSprite(new Bitmap (Assets.getBitmapData ("img/move.png")), "move1", "move", 3, 4, 65, 75);
@@ -148,6 +155,7 @@ class Main extends Sprite
 
 		i = 0;
 		
+		// initialize, then hide, attack hex highlights
 		while (i < 50)
 		{
 			gameAttacks[i] = new GameSprite(new Bitmap (Assets.getBitmapData ("img/attack.png")), "attack1", "attack", 3, 4, 65, 75);
@@ -159,12 +167,12 @@ class Main extends Sprite
 		}
 		
 		gameEgoStrike = new GameSprite(new Bitmap (Assets.getBitmapData ("img/select.png")), "estrike1", "estrike", 3, 4, 65, 75);
-		gameEgo = new GameEgo(new Bitmap (Assets.getBitmapData ("img/highlight.png")), "ego1", "ego", 3, 4, 65, 75);
-		
 		gameEgoStrike.setCanvas(this);
 		gameEgoStrike.setMap(gameMap);
 		gameEgoStrike.drawAt(-100, -100);
 		
+		// initialize, then hide, player hex highlighter
+		gameEgo = new GameEgo(new Bitmap (Assets.getBitmapData ("img/highlight.png")), "ego1", "ego", 3, 4, 65, 75);
 		gameEgo.setMap(gameMap);
 		gameEgo.setCanvas(this);
 		gameEgo.drawAt(350, 250);
@@ -184,21 +192,25 @@ class Main extends Sprite
 			i++;
 		}
 		
+		// add toolbar image to window
 		toolbar = new Bitmap (Assets.getBitmapData ("img/toolbar.png"));
 		this.addChild(toolbar);
 		toolbar.x = 1200;
 		toolbar.y = 0;
 		
+		// add toolbar buttons to toolbar
 		addTool(0, "img/next_up.png", "img/next_down.png", 1213, 10);
 				
 		lastX = -1;
 		lastY = -1;
 		
+		// set mouse and keyboard events
 		stage.addEventListener (KeyboardEvent.KEY_DOWN, onKeyDown);
 		stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 		stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 		stage.addEventListener (MouseEvent.MOUSE_UP, onMouseUp);
 			
+		// initialize TextField, with TextFormat format
 		ts = new flash.text.TextFormat();
         ts.font = "Courier"; // set the font
         ts.size = 16;                // set the font size
@@ -213,18 +225,25 @@ class Main extends Sprite
 		p.mouseEnabled = false;
 
         this.addChild(p);
-		
 		gameSc.setText(p, ts);
 	}
 
+	// addTool function for adding buttons to toolbar
 	public function addTool(cnum:Int, cup:String, cdown:String, cx:Int, cy:Int)
 	{
+		// load Bitmaps and store in arrays
 		toolUp[cnum] = new Bitmap (Assets.getBitmapData (cup));
 		toolDown[cnum] = new Bitmap (Assets.getBitmapData (cdown));
+		
+		// store button positions in arrays
 		toolX[cnum] = cx;
 		toolY[cnum] = cy;
+		
+		// add buttons to canvas
 		this.addChild(toolUp[cnum]);
 		this.addChild(toolDown[cnum]);
+		
+		// place "up" button image on toolbar, and hide "down" button image
 		toolUp[cnum].x = toolX[cnum];
 		toolUp[cnum].y = toolY[cnum];
 		toolDown[cnum].x = -500;
@@ -255,76 +274,6 @@ class Main extends Sprite
 		Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
 		Lib.current.addChild(new Main());
 	}
-
-	private function doSpriteOrder(csprs:Array<GameSprite>)
-	{
-		var i:Int;
-		var j:Int;
-		var k:Int;
-		var l:Int;
-		var cln:Int;
-		var cmark:Array<Int> = new Array();
-		
-		i = 0;
-		while (i < csprs.length)
-		{
-			cmark[i] = 0;
-			i++;
-		}
-		
-		i = 1;
-		j = 0;
-		k = -1;
-		l = 0;
-		
-		while (l != -1)
-		{
-			j = 0;
-			l = -1;
-			
-			while (j < csprs.length)
-			{
-				if (csprs[j].getFeetY() > k && cmark[j] == 0)
-				{
-					l = j;
-					k = csprs[j].getFeetY();
-				}
-				
-				j++;
-			}
-			
-			if (l != -1)
-			{
-				cmark[l] = 1;
-				this.setChildIndex(csprs[l], this.numChildren - i);
-				i++;
-				k = -1;
-			}
-		}
-	}
-		
-	private function this_onEnterFrame (event:Event):Void 
-	{
-		
-		if (gameTime >= animTime) {
-
-			if (animTime < gameTime) animTime = gameTime;
-			
-			MainFr++;
-			if (MainFr > 3) MainFr = 0;
-			
-			//gameEgo.setFrame(MainFr);
-			
-			if (MainFr < 3) {
-				gameImages[0].x = -(60 * MainFr);
-			} else {
-				gameImages[0].x = -(60 * (4 - MainFr));
-			}
-			
-			animTime++;
-		}
-		
-	}
 	
 	private function _loadXML():Void
 	{
@@ -339,6 +288,7 @@ class Main extends Sprite
 		trace( e.target.data );
 	}
 	
+	// handles directional keys and scrolls map
 	private function onKeyDown (e:KeyboardEvent):Void 
 	{
 		var i:Int;
@@ -353,22 +303,27 @@ class Main extends Sprite
 		
 		if (e.keyCode >= 37 && e.keyCode <= 40)
 		{
+			// right arrow, moves map to the left
 			if (e.keyCode == 39)
 			{
 				xs = -cmult;
 				ys = 0;
 				
+				// stops moving if map is scrolled all the way to the left
 				if (1275 - this.x > (gameEgo.getMap().getWidth() + 1) * gameEgo.getMap().getTileWidth())
 					xs = 0;
 			}
+			// down arrow, moves map up
 			else if (e.keyCode == 40)
 			{
 				xs = 0;
 				ys = -cmult;
 				
+				// stops moving if map is scrolled all the way to the top
 				if (673 - this.y > gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86)
 					ys = 0;
 			}
+			// left arrow, moves map to the right
 			else if (e.keyCode == 37)
 			{
 				xs = cmult;
@@ -376,6 +331,7 @@ class Main extends Sprite
 				
 				if (this.x == 0) xs = 0;
 			}
+			// up arrow, moves map down
 			else if (e.keyCode == 38)
 			{
 				xs = 0;
@@ -384,16 +340,19 @@ class Main extends Sprite
 				if (this.y == 0) ys = 0;
 			}
 			
-			
+			// moves the map based on cmult value
 			this.x += xs;
 			this.y += ys;
 			
+			// shift toolbar to compensate for map movement
 			toolbar.x = 1200 - this.x;
 			toolbar.y = -this.y;
 			
+			// shifts TextField to compensat for map movement
 			p.x = -this.x;
 			p.y = -this.y;
 			
+			// shifts toolbar buttons to compensate for map movement
 			while (i < toolUp.length)
 			{
 				toolUp[i].x = toolX[i] - this.x;
@@ -410,6 +369,7 @@ class Main extends Sprite
 		}
 	}
 
+	// sets lastX and lastY values to -1 to cancel scrolling via onMouseMove
 	private function onMouseUp (e:MouseEvent)
 	{
 		lastX = -1;
@@ -428,15 +388,19 @@ class Main extends Sprite
 		
 		if (lastX >= 0)
 		{
+			// if mouse is down (i.e. lastX is not -1), calculate amount mouse has moved
 			chgX = Std.int((Std.int(e.stageX) - lastX) / 1);
 			chgY = Std.int((Std.int(e.stageY) - lastY) / 1);
 			
+			// cancels out accidental extreme movements
 			if (chgX > 50) chgX = 0;
 			if (chgY > 50) chgY = 0;
 			
+			// move map based on how much mouse has moved
 			this.x += chgX;
 			this.y += chgY;
 			
+			// reset movement if it goes beyond bounds of map border
 			if (this.x > 0) this.x = 0;
 			else if (this.x < 1275 - (gameEgo.getMap().getWidth() + 1) * gameEgo.getMap().getTileWidth())
 				this.x = 1275 - (gameEgo.getMap().getWidth() + 1) * gameEgo.getMap().getTileWidth();
@@ -445,14 +409,17 @@ class Main extends Sprite
 			else if (this.y < 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86))
 				this.y = 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86);
 				
+			// shift toolbar to compensate for map movement
 			toolbar.x = 1200 - this.x;
 			toolbar.y = -this.y;
 			
+			// shift TextField to compensate for map movement
 			p.x = -this.x;
 			p.y = -this.y;
 			
 			i = 0;
 			
+			// shift toolbar buttons to compensate for map movement
 			while (i < toolUp.length)
 			{
 				toolUp[i].x = toolX[i] - this.x;
@@ -467,21 +434,25 @@ class Main extends Sprite
 				i++;
 			}
 			
+			// assign current mouse position to lastX and lastY
 			lastX = Std.int(e.stageX);
 			lastY = Std.int(e.stageY);
 		}
-		
+	
+		// if mouse not over toolbar, move hex highlighter to hex that mouse is over
 		if (e.stageX < 1200)
 		{
 			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
 			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
 			
+			// positions are different for odd and even rows
 			if (cy % 2 == 0)
 				gameEgo.moveTo(cx * 64 + 10, Std.int(cy * 54.5) - 0);
 			else
 				gameEgo.moveTo(cx * 64 + 10 - 32, Std.int(cy * 54.5) - 0);
 		}
 		
+		// get position of mouse relative to window, not map
 		cx = Std.int(e.stageX) - Std.int(this.x);
 		cy = Std.int(e.stageY) - Std.int(this.y);
 		i = 0;
