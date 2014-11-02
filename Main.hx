@@ -200,7 +200,8 @@ class Main extends Sprite
 		
 		// add toolbar buttons to toolbar
 		addTool(0, "img/next_up.png", "img/next_down.png", 1213, 10);
-				
+		addTool(1, "img/new_up.png", "img/new_down.png", 1213, 100);
+		
 		lastX = -1;
 		lastY = -1;
 		
@@ -457,6 +458,7 @@ class Main extends Sprite
 		cy = Std.int(e.stageY) - Std.int(this.y);
 		i = 0;
 			
+		// for each toolbar button, swap in "down" image is mouse is hovering over
 		while (i < toolUp.length)
 		{
 			if (cx >= toolX[i] - this.x && cx <= toolX[i] - this.x + 50 && cy >= toolY[i] - this.y && cy <= toolY[i] - this.y + 50)
@@ -488,21 +490,29 @@ class Main extends Sprite
 		var cy:Int;
 		var mPoint:Int;
 		
+		// set lastX and lastY for purposes of onMouseMove
 		lastX = Std.int(e.stageX);
 		lastY = Std.int(e.stageY);
 		
+		// get position of mouse relative to window, not map
 		cx = Std.int(e.stageX) - Std.int(this.x);
 		cy = Std.int(e.stageY) - Std.int(this.y);
+		
 		i = 0;
 		j = 0;
-			
+		
+		// check if toolbar buttons have been pushed
 		while (i < toolUp.length)
 		{
 			if (cx >= toolX[i] - this.x && cx <= toolX[i] - this.x + 50 && cy >= toolY[i] - this.y && cy <= toolY[i] - this.y + 50)
 			{
+				// end the current turn
 				if (i == 0) 
 				{
+					// clear the TextField
 					p.text = "";
+					
+					// revive all dispersed enemy units
 					j = 0;
 					
 					while (j < moveFlag.length)
@@ -513,10 +523,15 @@ class Main extends Sprite
 						j++;
 					}					
 					
+					// flip gameSide to enemy
 					gameSide = 2;
+					
+					// run AI for enemy units
 					gameSc.runAI();
 				
+					// revive all dispersed player units
 					j = 0;
+					
 					while (j < moveFlag.length)
 					{
 						moveFlag[j] = 1;
@@ -528,18 +543,26 @@ class Main extends Sprite
 						j++;
 					}
 					
+					// flip gameSide to player
 					gameSide = 1;
+				}
+				
+				if (i == 1)
+				{
+				
 				}
 			}
 				
 			i++;
 		}
 
+		// get hex coordinates from mouse location
 		cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
 		cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
 		
 		if (gameSide == 1)
-		{			
+		{
+			// initialize cresults for possible use
 			cresults = new Array();
 			cresults[0] = -1;
 			cresults[1] = -1;
@@ -547,6 +570,7 @@ class Main extends Sprite
 			
 			i = 0;
 			
+			// clear all move and attack hex highlights
 			while (i < 100)
 			{
 				gameMoves[i].dropOnSq( -5, -5);
@@ -554,6 +578,7 @@ class Main extends Sprite
 				i++;
 			}
 			
+			// if previously selected player counter is clicked, clear highlights
 			if (cx == selectX && cy == selectY)
 			{
 				gameEgoStrike.dropOnSq( -5, -5);
@@ -565,38 +590,50 @@ class Main extends Sprite
 			{	
 				k = 0;
 				
+				// if a player counter was clicked, begin process to show move and attack highlights
 				if (gameSc.getCount(cx, cy, "a") > 0)
 				{
+					// get movement range for counter (crange2), then convert range to hexes (crange)
 					crange2 = gameSc.getMovement(gameSc.getCounter(cx, cy, 1));	
 					crange = Std.int(crange2 / 10) + 1;	
 					
-					i = cy - (crange * 2 + 1);
-					
+					// set selectX and selectY to current hex, and selectNum to counter on hex
 					selectX = cx;
 					selectY = cy;
 					selectNum = gameSc.getCounter(cx, cy, 1);
+					
+					// initialize movesX array
 					movesX[0] = -1;
 					
+					// if counter has not moved or attacked, and is not dispersed, determine movement hexes
 					if (moveFlag[selectNum] == 1 && gameSc.getDisperse(selectNum) == 0)
-					{						
+					{
+						// check double of movement range along both axes
+						i = cy - (crange * 2 + 1);
+						
 						while (i < cy + (crange * 2 + 1)) 
 						{
 							j = cx - (crange * 2 + 1);
 							while (j < cx + (crange * 2 + 1))
 							{
+								// set green hex highlight on counter hex
 								if (i == cy && j == cx)
 								{
 									gameEgoStrike.dropOnSq(j, i);
 								}
 								else
 								{
+									// reset cresults array
 									cresults[0] = -1;
 									cresults[1] = -1;
 									cresults[2] = 9999;
 									cresults[3] = 9999;
 									
+									// call pathfinding algorithm to check from counter position to current (j. i) coordinate;
+									// passes name of counter for weight calculations, cresults to collect results
 									gameSc.findPath(cx, cy, j, i, gameSc.getName(selectNum), 0, 50, cresults);
 									
+									// if weight within range or square is adjacent to counter, highlight hex
 									if (cresults[2] <= crange2 || cresults[3] == 1)
 									{
 										gameMoves[k].dropOnSq(j, i);
@@ -613,23 +650,32 @@ class Main extends Sprite
 						}
 					}
 					
+					// initialize attacksX array
 					attacksX[0] = -1;
 					
+					// if counter has not attacked, and is not dispersed, determine movement hexes
 					if (attackFlag[selectNum] == 1 && gameSc.getDisperse(selectNum) == 0)
 					{
 						i = 0;
 						k = 0;
+						
+						// retrieve attacking range of counter
 						arange = gameSc.getRange(gameSc.getCounter(cx, cy, 1));
 						
+						// cycle through counters to determine potential targets
 						while (i < gameSc.counterCount())
 						{
+							// reset cresults array
 							cresults[0] = -1;
 							cresults[1] = -1;
 							cresults[2] = 9999;
 							cresults[3] = 9999;
 							
+							// call pathfinding function for attack squares; looking for counter #i, within attack range arange;
+							// store results in cresults
 							gameSc.findAttack("e", i, cx, cy, arange, cresults);
 							
+							// if path found, highlight hex with attack highlight
 							if (cresults[0] != -1)
 							{
 								gameAttacks[k].dropOnSq(cresults[0], cresults[1]);
@@ -645,11 +691,13 @@ class Main extends Sprite
 						}
 					}
 				}
+				// if empty hex was selected after a counter was selected, check if hightlighted; move or attack if needed
 				else if (selectNum != -1)
 				{
 					j = 0;
 					k = 0;
 					
+					// check array of potential moves to see if selected hex matches
 					while (movesX[k] != -1)
 					{
 						if (movesX[k] == cx && movesY[k] == cy)
@@ -658,6 +706,7 @@ class Main extends Sprite
 						k++;
 					}
 					
+					// if there is a match, move counter to that hex
 					if (j == 1)
 					{
 						gameSc.dropCounter(selectNum, cx, cy);
@@ -667,6 +716,7 @@ class Main extends Sprite
 					j = -1;
 					k = 0;
 
+					// check array of potential attacks to see if selected hex matches
 					while (attacksX[k] != -1)
 					{
 						if (attacksX[k] == cx && attacksY[k] == cy)
@@ -675,6 +725,7 @@ class Main extends Sprite
 						k++;
 					}
 					
+					// if there is a match, call the attack function against counter on hex
 					if (j != -1)
 					{
 						p.text = "";
@@ -683,6 +734,7 @@ class Main extends Sprite
 						moveFlag[selectNum] = -1;
 					}
 					
+					// clear counter hex highlight
 					gameEgoStrike.dropOnSq( -5, -5);
 					selectX = -1;
 					selectY = -1;
@@ -690,6 +742,7 @@ class Main extends Sprite
 				}
 				else
 				{
+					// clear counter hex highlight
 					gameEgoStrike.dropOnSq( -5, -5);
 					selectX = -1;
 					selectY = -1;
