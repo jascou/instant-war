@@ -51,6 +51,7 @@ class Main extends Sprite
 	private var alertbox:Bitmap;
 	private var boxx:Int;
 	private var boxy:Int;
+	private var IWSplash:Bitmap;
 	
 	private var _xmlLoader:URLLoader;
 
@@ -217,6 +218,11 @@ class Main extends Sprite
 		alertbox.x = -1000;
 		alertbox.y = boxy;
 		//alertbox.z = 10000;
+		
+		IWSplash = new Bitmap (Assets.getBitmapData ("img/IW.png"));
+		IWSplash.x = (1200 / 2) - (385 / 2);
+		IWSplash.y = (673 / 2) - (419 / 2);
+		this.addChild(IWSplash);
 		
 		lastX = -1;
 		lastY = -1;
@@ -579,6 +585,9 @@ class Main extends Sprite
 		var cx:Int;
 		var cy:Int;
 		var mPoint:Int;
+		
+		// clear splash image, if necessary
+		if (IWSplash.x > 0) IWSplash.x = -1000;
 		
 		// set lastX and lastY for purposes of onMouseMove
 		lastX = Std.int(e.stageX);
