@@ -8,6 +8,7 @@ import flash.events.MouseEvent;
 import flash.geom.Rectangle;
 import flash.system.Capabilities;
 import flash.text.TextField;
+import flash.text.TextFieldType;
 import flash.text.TextFormat;
 import flash.ui.Keyboard;
 import flash.system.Capabilities.screenResolutionX;
@@ -47,6 +48,9 @@ class Main extends Sprite
 	
 	private var gameSide:Int;
 	private var toolbar:Bitmap;
+	private var alertbox:Bitmap;
+	private var boxx:Int;
+	private var boxy:Int;
 	
 	private var _xmlLoader:URLLoader;
 
@@ -54,6 +58,10 @@ class Main extends Sprite
 	private var selectY:Int;
 	private var selectNum:Int;
 
+	// name of SpritePack and Scenario files
+	private var packName:String;
+	private var scName:String;
+	
 	// Int arrays to hold potential move and attack locations for player
 	private var movesX:Array<Int>;
 	private var movesY:Array<Int>;
@@ -74,7 +82,9 @@ class Main extends Sprite
 	private var lastY:Int;
 	
 	private var ts:TextFormat;
+	private var ts1:TextFormat;
 	private var p:TextField;
+	private var console:TextField;
 	
 	function resize(e) 
 	{
@@ -86,6 +96,10 @@ class Main extends Sprite
 	{
 		var dirs : Array<Int> = [2,0,1,3];
 		var i:Int;
+		
+		// set location of alertbox
+		boxx = 410;
+		boxy = 250;
 		
 		// set width of player hex highlighter
 		egoWidth = 65;
@@ -101,15 +115,17 @@ class Main extends Sprite
 			stage.displayState = NORMAL;
 		
 		// load and draw initial GameMap
-		var gameMap = new GameMap("xml/gamemap.xml");
+		gameMap = new GameMap("xml/gamemap.xml");
 		gameMap.setAnchorX(10);
 		gameMap.setAnchorY(0);
 		gameMap.setCanvas(this);
 		gameMap.drawMap();
 		
 		// load initial SpritePack and Scenario
-		sprPack = new SpritePack("xml/gamesprites.xml");
-		gameSc = new Scenario("xml/scenario1.xml");
+		packName = "xml/gamesprites.xml";
+		scName = "xml/scenario1.xml";
+		sprPack = new SpritePack(packName);
+		gameSc = new Scenario(scName);
 		
 		// pass canvas, gameMap, and SpritePack to Scenario, then initialize Scenario
 		gameSc.setCMP(this, gameMap, sprPack);
@@ -192,15 +208,12 @@ class Main extends Sprite
 			i++;
 		}
 		
-		// add toolbar image to window
-		toolbar = new Bitmap (Assets.getBitmapData ("img/toolbar.png"));
-		this.addChild(toolbar);
-		toolbar.x = 1200;
-		toolbar.y = 0;
-		
-		// add toolbar buttons to toolbar
-		addTool(0, "img/next_up.png", "img/next_down.png", 1213, 10);
-		addTool(1, "img/new_up.png", "img/new_down.png", 1213, 100);
+		// add alert box image, hide
+		alertbox = new Bitmap (Assets.getBitmapData ("img/alertbox.png"));
+		this.addChild(alertbox);
+		alertbox.x = -1000;
+		alertbox.y = boxy;
+		//alertbox.z = 10000;
 		
 		lastX = -1;
 		lastY = -1;
@@ -213,9 +226,9 @@ class Main extends Sprite
 			
 		// initialize TextField, with TextFormat format
 		ts = new flash.text.TextFormat();
-        ts.font = "Courier"; // set the font
-        ts.size = 16;                // set the font size
-        ts.color=0xFFFFFF;           // set the color
+        ts.font = "Courier";
+        ts.size = 16;
+        ts.color=0xFFFFFF;
         p = new flash.text.TextField();
         p.text = "";
         p.setTextFormat(ts);
@@ -225,6 +238,26 @@ class Main extends Sprite
 		p.height = 200;
 		p.mouseEnabled = false;
 
+		ts1 = new TextFormat();
+        ts1.font = "Courier";
+        ts1.size = 16;
+        ts1.color = 0xEEEEEE;
+
+		console = new TextField();
+		console.x = 0;
+		console.y = 623;
+		console.width = 1200;
+		console.height = 50;
+		console.background = true;
+		console.backgroundColor = 0x01399f;
+		console.mouseEnabled = true;
+		console.type = TextFieldType.INPUT;
+		console.defaultTextFormat = ts1;
+		
+		this.addChild(console);
+		console.text = "> ";
+		console.setTextFormat(ts1);
+		
         this.addChild(p);
 		gameSc.setText(p, ts);
 	}
@@ -249,6 +282,13 @@ class Main extends Sprite
 		toolUp[cnum].y = toolY[cnum];
 		toolDown[cnum].x = -500;
 		toolDown[cnum].y = -500;
+	}
+	
+	// function to remove buttons from toolbar
+	public function removeTool(cnum)
+	{
+		this.removeChild(toolUp[cnum]);
+		this.removeChild(toolDown[cnum]);
 	}
 	
 	public function new() 
@@ -289,6 +329,64 @@ class Main extends Sprite
 		trace( e.target.data );
 	}
 	
+	private function parseInput()
+	{
+		var ctext:String;
+		
+		ctext = console.text;
+		
+		if (ctext.charAt(0) == ">") ctext = ctext.substr(1, ctext.length - 1);
+		if (ctext.charAt(0) == " ") ctext = ctext.substr(1, ctext.length - 1);
+		
+		if (ctext == "next")
+		{
+			doNextPhase();
+			console.text = "> ";
+		}
+	}
+
+	function doNextPhase()
+	{
+		var j:Int;
+		
+		// clear the TextField
+		p.text = "";
+					
+		// revive all dispersed enemy units
+		j = 0;
+					
+		while (j < moveFlag.length)
+		{
+			if (gameSc.getSides(j) == "a" && gameSc.getDisperse(j) == 1)
+				gameSc.doRevive(j);
+					
+			j++;
+		}					
+					
+		// flip gameSide to enemy
+		gameSide = 2;
+					
+		// run AI for enemy units
+		gameSc.runAI();
+				
+		// revive all dispersed player units
+		j = 0;
+					
+		while (j < moveFlag.length)
+		{
+			moveFlag[j] = 1;
+			attackFlag[j] = 1;
+						
+			if (gameSc.getSides(j) == "e" && gameSc.getDisperse(j) == 1)
+				gameSc.doRevive(j);
+						
+			j++;
+		}
+					
+		// flip gameSide to player
+		gameSide = 1;
+	}
+	
 	// handles directional keys and scrolls map
 	private function onKeyDown (e:KeyboardEvent):Void 
 	{
@@ -301,6 +399,16 @@ class Main extends Sprite
 		xs = 0;
 		ys = 0;
 		cmult = 10;
+		
+		if (e.keyCode == 8)
+		{
+			if (console.text.length <= 2) console.text = "> ";
+		}
+		
+		if (e.keyCode == 13)
+		{
+			parseInput();
+		}
 		
 		if (e.keyCode >= 37 && e.keyCode <= 40)
 		{
@@ -387,7 +495,7 @@ class Main extends Sprite
 		var chgX:Int;
 		var chgY:Int;
 		
-		if (lastX >= 0)
+		if (lastX >= 0 && gameSide == 1)
 		{
 			// if mouse is down (i.e. lastX is not -1), calculate amount mouse has moved
 			chgX = Std.int((Std.int(e.stageX) - lastX) / 1);
@@ -407,41 +515,25 @@ class Main extends Sprite
 				this.x = 1275 - (gameEgo.getMap().getWidth() + 1) * gameEgo.getMap().getTileWidth();
 			
 			if (this.y > 0) this.y = 0;
-			else if (this.y < 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86))
-				this.y = 673 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86);
+			else if (this.y < 623 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86))
+				this.y = 623 - (gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86);
 				
-			// shift toolbar to compensate for map movement
-			toolbar.x = 1200 - this.x;
-			toolbar.y = -this.y;
-			
 			// shift TextField to compensate for map movement
 			p.x = -this.x;
 			p.y = -this.y;
 			
-			i = 0;
+			console.x = -this.x;
+			console.y = -this.y + 623;
 			
-			// shift toolbar buttons to compensate for map movement
-			while (i < toolUp.length)
-			{
-				toolUp[i].x = toolX[i] - this.x;
-				toolUp[i].y = toolY[i] - this.y;
-				
-				if (toolDown[i].x > 0) 
-				{
-					toolDown[i].x = toolX[i] - this.x;
-					toolDown[i].y = toolY[i] - this.y;
-				}
-				
-				i++;
-			}
+			i = 0;
 			
 			// assign current mouse position to lastX and lastY
 			lastX = Std.int(e.stageX);
 			lastY = Std.int(e.stageY);
 		}
 	
-		// if mouse not over toolbar, move hex highlighter to hex that mouse is over
-		if (e.stageX < 1200)
+		// if mouse not over console, move hex highlighter to hex that mouse is over
+		if (e.stageY < 623)
 		{
 			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
 			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
@@ -451,28 +543,6 @@ class Main extends Sprite
 				gameEgo.moveTo(cx * 64 + 10, Std.int(cy * 54.5) - 0);
 			else
 				gameEgo.moveTo(cx * 64 + 10 - 32, Std.int(cy * 54.5) - 0);
-		}
-		
-		// get position of mouse relative to window, not map
-		cx = Std.int(e.stageX) - Std.int(this.x);
-		cy = Std.int(e.stageY) - Std.int(this.y);
-		i = 0;
-			
-		// for each toolbar button, swap in "down" image is mouse is hovering over
-		while (i < toolUp.length)
-		{
-			if (cx >= toolX[i] - this.x && cx <= toolX[i] - this.x + 50 && cy >= toolY[i] - this.y && cy <= toolY[i] - this.y + 50)
-			{
-				toolDown[i].x = toolX[i] - this.x;
-				toolDown[i].y = toolY[i] - this.y;
-			}
-			else
-			{
-				toolDown[i].x = -1000;
-				toolDown[i].y = -1000;
-			}
-				
-			i++;
 		}
 	}
 	
@@ -501,67 +571,12 @@ class Main extends Sprite
 		i = 0;
 		j = 0;
 		
-		// check if toolbar buttons have been pushed
-		while (i < toolUp.length)
-		{
-			if (cx >= toolX[i] - this.x && cx <= toolX[i] - this.x + 50 && cy >= toolY[i] - this.y && cy <= toolY[i] - this.y + 50)
-			{
-				// end the current turn
-				if (i == 0) 
-				{
-					// clear the TextField
-					p.text = "";
-					
-					// revive all dispersed enemy units
-					j = 0;
-					
-					while (j < moveFlag.length)
-					{
-						if (gameSc.getSides(j) == "a" && gameSc.getDisperse(j) == 1)
-							gameSc.doRevive(j);
-						
-						j++;
-					}					
-					
-					// flip gameSide to enemy
-					gameSide = 2;
-					
-					// run AI for enemy units
-					gameSc.runAI();
-				
-					// revive all dispersed player units
-					j = 0;
-					
-					while (j < moveFlag.length)
-					{
-						moveFlag[j] = 1;
-						attackFlag[j] = 1;
-						
-						if (gameSc.getSides(j) == "e" && gameSc.getDisperse(j) == 1)
-							gameSc.doRevive(j);
-						
-						j++;
-					}
-					
-					// flip gameSide to player
-					gameSide = 1;
-				}
-				
-				if (i == 1)
-				{
-				
-				}
-			}
-				
-			i++;
-		}
-
-		// get hex coordinates from mouse location
-		cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
-		cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
-		
 		if (gameSide == 1)
 		{
+			// get hex coordinates from mouse location
+			cx = gameEgo.getMap().getCoord("x", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
+			cy = gameEgo.getMap().getCoord("y", Std.int(e.stageX) - Std.int(this.x), Std.int(e.stageY) - Std.int(this.y));
+			
 			// initialize cresults for possible use
 			cresults = new Array();
 			cresults[0] = -1;
@@ -750,5 +765,47 @@ class Main extends Sprite
 				}
 			}
 		}
+	}
+	
+	function reset()
+	{
+		var i:Int;
+		
+		this.x = 0;
+		this.y = 0;
+		
+		alertbox.x = -1000;
+		gameSide = 1;
+		
+		gameMap.drawMap();
+		gameSc.doDraw();
+		
+		gameEgo.redrawSprite();
+		gameEgoStrike.redrawSprite();
+		
+		i = 0;
+		
+		while (i < 100)
+		{
+			gameMoves[i].redrawSprite();
+			if (i < 50) gameAttacks[i].redrawSprite();
+			
+			i++;
+		}
+		
+		toolbar.x = 1200;
+		toolbar.y = 0;
+		this.removeChild(toolbar);
+		this.addChild(toolbar);
+		
+		p.x = 0;
+		p.y = 0;
+		this.removeChild(p);
+		this.addChild(p);
+		
+		removeTool(0);
+		removeTool(1);
+		addTool(0, "img/next_up.png", "img/next_down.png", 1213, 10);
+		addTool(1, "img/new_up.png", "img/new_down.png", 1213, 100);
 	}
 }

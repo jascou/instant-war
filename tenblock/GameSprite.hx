@@ -85,6 +85,12 @@ class GameSprite extends CharSprite
 		this.y = cy;
 	}
 
+	public function redrawSprite()
+	{
+		gsCanvas.removeChild(this);
+		gsCanvas.addChild(this);
+	}
+	
 	public function moveTo(cx:Int, cy:Int)
 	{
 		this.x = cx;
