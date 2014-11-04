@@ -85,6 +85,9 @@ class Main extends Sprite
 	private var ts1:TextFormat;
 	private var p:TextField;
 	private var console:TextField;
+	private var cout:TextField;
+	
+	private var gameTurn:Int;
 	
 	function resize(e) 
 	{
@@ -245,7 +248,7 @@ class Main extends Sprite
 
 		console = new TextField();
 		console.x = 0;
-		console.y = 623;
+		console.y = 628;
 		console.width = 1200;
 		console.height = 50;
 		console.background = true;
@@ -258,37 +261,21 @@ class Main extends Sprite
 		console.text = "> ";
 		console.setTextFormat(ts1);
 		
+		cout = new TextField();
+		cout.x = 0;
+		cout.y = 650;
+		cout.width = 1200;
+		cout.height = 50;
+		cout.mouseEnabled = false;
+		cout.defaultTextFormat = ts1;
+		
+		this.addChild(cout);
+		cout.text = "Welcome to Instant War. Click beside prompt above to enter command. Type 'help' for list of commands.";
+		
         this.addChild(p);
 		gameSc.setText(p, ts);
-	}
-
-	// addTool function for adding buttons to toolbar
-	public function addTool(cnum:Int, cup:String, cdown:String, cx:Int, cy:Int)
-	{
-		// load Bitmaps and store in arrays
-		toolUp[cnum] = new Bitmap (Assets.getBitmapData (cup));
-		toolDown[cnum] = new Bitmap (Assets.getBitmapData (cdown));
 		
-		// store button positions in arrays
-		toolX[cnum] = cx;
-		toolY[cnum] = cy;
-		
-		// add buttons to canvas
-		this.addChild(toolUp[cnum]);
-		this.addChild(toolDown[cnum]);
-		
-		// place "up" button image on toolbar, and hide "down" button image
-		toolUp[cnum].x = toolX[cnum];
-		toolUp[cnum].y = toolY[cnum];
-		toolDown[cnum].x = -500;
-		toolDown[cnum].y = -500;
-	}
-	
-	// function to remove buttons from toolbar
-	public function removeTool(cnum)
-	{
-		this.removeChild(toolUp[cnum]);
-		this.removeChild(toolDown[cnum]);
+		gameTurn = 1;
 	}
 	
 	public function new() 
@@ -338,11 +325,35 @@ class Main extends Sprite
 		if (ctext.charAt(0) == ">") ctext = ctext.substr(1, ctext.length - 1);
 		if (ctext.charAt(0) == " ") ctext = ctext.substr(1, ctext.length - 1);
 		
-		if (ctext == "next")
+		if (gameSide == 1)
 		{
-			doNextPhase();
-			console.text = "> ";
+			if (ctext == "next" || ctext == "nextturn")
+			{
+				doNextPhase();
+				cout.text = "Turn #" + gameTurn + " ended.  Turn #" + (gameTurn + 1) + " begins.";
+				gameTurn++;
+			}
+			else if (ctext == "new" || ctext == "newgame")
+			{
+				cout.text = "Start a new game (y/n)?";
+				gameSide = 3;
+			}
+			else
+			{
+				cout.text = "Command not recognized.";
+			}
 		}
+		else if (gameSide == 3)
+		{
+			if (ctext == "y")
+			{
+				reset();
+				cout.text = "New game started.";
+				gameSide = 1;
+			}
+		}
+		
+		console.text = "> ";
 	}
 
 	function doNextPhase()
@@ -402,7 +413,10 @@ class Main extends Sprite
 		
 		if (e.keyCode == 8)
 		{
-			if (console.text.length <= 2) console.text = "> ";
+			if (console.text.substr(0, 2) != "> ") 
+			{
+				console.text = "> ";
+			}
 		}
 		
 		if (e.keyCode == 13)
@@ -453,9 +467,11 @@ class Main extends Sprite
 			this.x += xs;
 			this.y += ys;
 			
-			// shift toolbar to compensate for map movement
-			toolbar.x = 1200 - this.x;
-			toolbar.y = -this.y;
+			// shift console TextFields to compensate for map movement
+			console.x = -this.x;
+			console.y = -this.y + 628;
+			cout.x = -this.x;
+			cout.y = -this.y + 650;
 			
 			// shifts TextField to compensat for map movement
 			p.x = -this.x;
@@ -522,8 +538,12 @@ class Main extends Sprite
 			p.x = -this.x;
 			p.y = -this.y;
 			
+			// shift console TextFields to compensate for map movement
 			console.x = -this.x;
-			console.y = -this.y + 623;
+			console.y = -this.y + 628;
+			
+			cout.x = -this.x;
+			cout.y = -this.y + 650;
 			
 			i = 0;
 			
@@ -792,20 +812,34 @@ class Main extends Sprite
 			
 			i++;
 		}
+
+		i = 0;
 		
-		toolbar.x = 1200;
-		toolbar.y = 0;
-		this.removeChild(toolbar);
-		this.addChild(toolbar);
+		while (i < moveFlag.length)
+		{
+			moveFlag[i] = 1;
+			attackFlag[i] = 1;
+						
+			if (gameSc.getDisperse(i) == 1 || gameSc.getDisperse(i) == -1)
+				gameSc.doRevive(i);
+				
+			i++;
+		}
 		
 		p.x = 0;
 		p.y = 0;
+		p.text = "";
 		this.removeChild(p);
 		this.addChild(p);
 		
-		removeTool(0);
-		removeTool(1);
-		addTool(0, "img/next_up.png", "img/next_down.png", 1213, 10);
-		addTool(1, "img/new_up.png", "img/new_down.png", 1213, 100);
+		console.x = 0;
+		console.y = 628;
+		this.removeChild(console);
+		this.addChild(console);
+		
+		cout.x = 0;
+		cout.y = 650;
+		this.removeChild(cout);
+		this.addChild(cout);
 	}
 }
