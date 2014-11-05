@@ -11,6 +11,10 @@ import flash.text.TextFormat;
 import haxe.macro.Expr.Constant;
 import haxe.Timer;
 import openfl.Assets;
+import haxe.io.Eof;
+import sys.io.File;
+import sys.io.FileInput;
+import sys.io.FileOutput;
 
 class Scenario 
 {
@@ -577,6 +581,27 @@ class Scenario
 		}
 		
 		return csrX.length;
+	}
+
+	public function saveGame(cname:String)
+	{
+		var i:Int;
+		var fout = File.write(cname, false);
+
+		fout.writeString(scX.length + "\n");
+		
+		i = 0;
+		
+		while (i < scX.length)
+		{
+			fout.writeString(scX[i] + "\n");
+			fout.writeString(scY[i] + "\n");
+			fout.writeString(scDisperse[i] + "\n"); 
+			
+			i++;
+		}
+		
+		fout.close();
 	}
 	
 	public function findAttack(cside:String, cnum:Int, cx:Int, cy:Int, cmax:Int, cresults:Array<Int>)

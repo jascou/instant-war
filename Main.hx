@@ -325,6 +325,7 @@ class Main extends Sprite
 	private function parseInput()
 	{
 		var ctext:String;
+		var carg1:String;
 		
 		ctext = console.text;
 		
@@ -343,6 +344,15 @@ class Main extends Sprite
 			{
 				cout.text = "Start a new game (y/n)?";
 				gameSide = 3;
+			}
+			else if (ctext.substr(0, 4) == "save")
+			{
+				carg1 = ctext.substring(ctext.indexOf("\"", 0) + 1, ctext.length - 1);
+				
+				if (ctext.substr(ctext.length - 5, 4) != ".iwr") carg1 += ".iwr";
+				gameSc.saveGame(carg1);
+				
+				cout.text = "File \"" + carg1 + "\" saved.";
 			}
 			else
 			{
@@ -807,7 +817,12 @@ class Main extends Sprite
 		gameSide = 1;
 		
 		gameMap.drawMap();
+		
+		gameSc = null;
+		gameSc = new Scenario(scName);
+		gameSc.setCMP(this, gameMap, sprPack);
 		gameSc.doDraw();
+		gameSc.setText(p, ts);
 		
 		gameEgo.redrawSprite();
 		gameEgoStrike.redrawSprite();
