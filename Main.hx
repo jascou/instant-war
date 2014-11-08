@@ -19,6 +19,10 @@ import openfl.Assets;
 
 import flash.net.URLLoader;
 import flash.net.URLRequest;
+import haxe.io.Eof;
+import sys.io.File;
+import sys.io.FileInput;
+import sys.io.FileOutput;
 
 import tenblock.*;
 
@@ -62,6 +66,7 @@ class Main extends Sprite
 	// name of SpritePack and Scenario files
 	private var packName:String;
 	private var scName:String;
+	private var mapName:String;
 	
 	// Int arrays to hold potential move and attack locations for player
 	private var movesX:Array<Int>;
@@ -117,17 +122,16 @@ class Main extends Sprite
 			stage.displayState = FULL_SCREEN;
 		else
 			stage.displayState = NORMAL;
+		this.loadSc("sc1.sc");	
 		
 		// load and draw initial GameMap
-		gameMap = new GameMap("xml/gamemap.xml");
+		gameMap = new GameMap(mapName);
 		gameMap.setAnchorX(10);
 		gameMap.setAnchorY(0);
 		gameMap.setCanvas(this);
 		gameMap.drawMap();
 		
 		// load initial SpritePack and Scenario
-		packName = "xml/gamesprites.xml";
-		scName = "xml/scenario1.xml";
 		sprPack = new SpritePack(packName);
 		gameSc = new Scenario(scName);
 		
@@ -301,6 +305,17 @@ class Main extends Sprite
 		#end
 	}
 	
+	public function loadSc(cname:String)
+	{
+		var fin = File.read("scs/" + cname, false);
+    
+		mapName = fin.readLine();
+        scName = fin.readLine();
+		packName = fin.readLine();
+		
+		fin.close();
+	}
+	
 	public static function main() 
 	{
 		// static entry point
@@ -320,6 +335,12 @@ class Main extends Sprite
 	private function _onXMLLoaded(e:Event):Void 
 	{
 		trace( e.target.data );
+	}
+	
+	private function loadGame(cfile:String)
+	{
+		this.reset();
+		gameSc.loadGame(cfile, moveFlag, attackFlag);
 	}
 	
 	private function parseInput()
@@ -350,9 +371,28 @@ class Main extends Sprite
 				carg1 = ctext.substring(ctext.indexOf("\"", 0) + 1, ctext.length - 1);
 				
 				if (ctext.substr(ctext.length - 5, 4) != ".iwr") carg1 += ".iwr";
-				gameSc.saveGame(carg1);
+				gameSc.saveGame(carg1, moveFlag, attackFlag);
 				
 				cout.text = "File \"" + carg1 + "\" saved.";
+			}
+			else if (ctext.substr(0, 4) == "load")
+			{
+				carg1 = ctext.substring(ctext.indexOf("\"", 0) + 1, ctext.length - 1);
+				
+				if (ctext.substr(ctext.length - 5, 4) != ".iwr") carg1 += ".iwr";
+				this.loadGame(carg1);
+				
+				cout.text = "File \"" + carg1 + "\" loaded.";
+			}
+			else if (ctext.substr(0, 8) == "scenario")
+			{
+				carg1 = ctext.substring(ctext.indexOf("\"", 0) + 1, ctext.length - 1);
+				
+				if (ctext.substr(ctext.length - 4, 3) != ".sc") carg1 += ".sc";
+				this.loadSc(carg1);
+				this.reset();
+				
+				cout.text = "Scenario \"" + carg1 + "\" loaded.";
 			}
 			else
 			{
@@ -580,6 +620,11 @@ class Main extends Sprite
 			else
 				gameEgo.moveTo(cx * 64 + 10 - 32, Std.int(cy * 54.5) - 0);
 		}
+	}
+	
+	public function doOut()
+	{
+		cout.text = "abababab";
 	}
 	
 	private function onMouseDown(e:MouseEvent)
@@ -816,7 +861,15 @@ class Main extends Sprite
 		alertbox.x = -1000;
 		gameSide = 1;
 		
+		gameMap = null;
+		gameMap = new GameMap(mapName);
+		gameMap.setAnchorX(10);
+		gameMap.setAnchorY(0);
+		gameMap.setCanvas(this);
 		gameMap.drawMap();
+		
+		sprPack = null;
+		sprPack = new SpritePack(packName);
 		
 		gameSc = null;
 		gameSc = new Scenario(scName);

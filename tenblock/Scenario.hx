@@ -583,7 +583,33 @@ class Scenario
 		return csrX.length;
 	}
 
-	public function saveGame(cname:String)
+	public function loadGame(cname:String, cmove:Array<Int>, cattack:Array<Int>)
+	{
+		var i:Int;
+		var ccounters:Int;
+		var fin = File.read(cname, false);
+    
+        ccounters = Std.parseInt(fin.readLine());
+		
+		i = 0;
+		while (i < ccounters)
+		{
+			scX[i] = Std.parseInt(fin.readLine());
+			scY[i] = Std.parseInt(fin.readLine());
+			scDisperse[i] = Std.parseInt(fin.readLine());
+			scCounters[i].dropOnSq(scX[i], scY[i]);
+			cmove[i] = Std.parseInt(fin.readLine());
+			cattack[i] = Std.parseInt(fin.readLine());
+			
+			if (scDisperse[i] == 1) this.doDisperse(i);
+			
+			i++;
+		}
+		
+		fin.close();
+	}
+	
+	public function saveGame(cname:String, cmove:Array<Int>, cattack:Array<Int>)
 	{
 		var i:Int;
 		var fout = File.write(cname, false);
@@ -597,6 +623,8 @@ class Scenario
 			fout.writeString(scX[i] + "\n");
 			fout.writeString(scY[i] + "\n");
 			fout.writeString(scDisperse[i] + "\n"); 
+			fout.writeString(cmove[i] + "\n"); 
+			fout.writeString(cattack[i] + "\n");
 			
 			i++;
 		}

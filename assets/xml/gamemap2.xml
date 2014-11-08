@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<map>
+	<name>Test Map</name>
+	<tilewidth>64</tilewidth>
+	<tileheight>75</tileheight>
+	<rows>
+		<row id="9" >[+++}.Y.....//........p</row>
+		<row id="10">Y..**x.Y.../////......p</row>
+		<row id="11">z.***x.Y.///////{++++].</row>
+		<row id="12">ZT----_-F..////.p......</row>
+		<row id="12">..|...x.Y.///./p.......</row>
+		<row id="12">.||....x.M../..p.......</row>
+		<row id="12">..|....x.M....p........</row>
+		<row id="12">..|||..."+$+++]........</row>
+		<row id="12">........x.T--..........</row>
+		<row id="12">.........x.............</row>
+		<row id="1" >.........).............</row>
+		<row id="2" >.........p.............</row>
+		<row id="3" >........p..............</row>
+		<row id="4" >........p..............</row>
+		<row id="5" >.......p...............</row>
+		<row id="6" >.......p...............</row>
+		<row id="7" >..{+++]................</row>
+		<row id="8" >..p....................</row>
+	</rows>
+	<tiles>
+		<tile>
+			<code>=</code>
+			<name>edges</name>
+			<type>edge</type>
+			<file>tiles/hex_blank.png</file>
+		</tile>
+		<tile>
+			<code>.</code>
+			<name>floor1</name>
+			<type>grass</type>
+			<file>tiles/hex_grass1.png</file>
+		</tile>
+		<tile>
+			<code>|</code>
+			<name>floor2</name>
+			<type>grass</type>
+			<file>tiles/hex_dirt1.png</file>
+		</tile>
+		<tile>
+			<code>/</code>
+			<name>floor3</name>
+			<type>swamp</type>
+			<file>tiles/hex_swamp1.png</file>
+		</tile>
+		<tile>
+			<code>#</code>
+			<name>townmain</name>
+			<type>town</type>
+			<file>tiles/hex_townmain.png</file>
+		</tile>
+		<tile>
+			<code>@</code>
+			<name>townne</name>
+			<type>town</type>
+			<file>tiles/hex_townne.png</file>
+		</tile>
+		<tile>
+			<code>M</code>
+			<name>townse</name>
+			<type>town</type>
+			<file>tiles/hex_townse.png</file>
+		</tile>
+		<tile>
+			<code>%</code>
+			<name>townew</name>
+			<type>town</type>
+			<file>tiles/hex_townew.png</file>
+		</tile>
+		<tile>
+			<code>*</code>
+			<name>forest1</name>
+			<type>forest</type>
+			<file>tiles/hex_forest2.png</file>
+		</tile>
+		<tile>
+			<code>x</code>
+			<name>river3</name>
+			<type>river</type>
+			<file>tiles/hex_riverse.png</file>
+		</tile>
+		<tile>
+			<code>p</code>
+			<name>river4</name>
+			<type>river</type>
+			<file>tiles/hex_riverne.png</file>
+		</tile>
+		<tile>
+			<code>)</code>
+			<name>riverbendw</name>
+			<type>river</type>
+			<file>tiles/hex_riverbendw.png</file>
+		</tile>
+		<tile>
+			<code>"</code>
+			<name>riversplite</name>
+			<type>river</type>
+			<file>tiles/hex_riversplite.png</file>
+		</tile>
+		<tile>
+			<code>+</code>
+			<name>river1</name>
+			<type>river</type>
+			<file>tiles/hex_riverew.png</file>
+		</tile>
+		<tile>
+			<code>}</code>
+			<name>riverne</name>
+			<type>river</type>
+			<file>tiles/hex_rivernec.png</file>
+		</tile>
+		<tile>
+			<code>{</code>
+			<name>rivernw</name>
+			<type>river</type>
+			<file>tiles/hex_rivernwc.png</file>
+		</tile>
+		<tile>
+			<code>[</code>
+			<name>riversw</name>
+			<type>river</type>
+			<file>tiles/hex_riverswc.png</file>
+		</tile>
+		<tile>
+			<code>]</code>
+			<name>riverse</name>
+			<type>river</type>
+			<file>tiles/hex_riversec.png</file>
+		</tile>
+		<tile>
+			<code>-</code>
+			<name>roadew</name>
+			<type>road</type>
+			<file>tiles/hex_roadew.png</file>
+		</tile>
+		<tile>
+			<code>~</code>
+			<name>dirtew</name>
+			<type>dirtroad</type>
+			<file>tiles/hex_dirtew.png</file>
+		</tile>
+		<tile>
+			<code>B</code>
+			<name>dirtewtown</name>
+			<type>dirtroad</type>
+			<file>tiles/hex_dirtew_town.png</file>
+		</tile>
+		<tile>
+			<code>_</code>
+			<name>bridgeew</name>
+			<type>road</type>
+			<file>tiles/hex_bridgeew.png</file>
+		</tile>
+		<tile>
+			<code>$</code>
+			<name>bridgese</name>
+			<type>road</type>
+			<file>tiles/hex_bridgese.png</file>
+		</tile>
+		<tile>
+			<code>X</code>
+			<name>roadne</name>
+			<type>road</type>
+			<file>tiles/hex_roadne.png</file>
+		</tile>
+		<tile>
+			<code>Z</code>
+			<name>dirtne</name>
+			<type>road</type>
+			<file>tiles/hex_dirtne.png</file>
+		</tile>
+		<tile>
+			<code>z</code>
+			<name>dirtjoinne</name>
+			<type>road</type>
+			<file>tiles/hex_dirtjoinne.png</file>
+		</tile>
+		<tile>
+			<code>p</code>
+			<name>dirtjoine</name>
+			<type>road</type>
+			<file>tiles/hex_dirtjoine.png</file>
+		</tile>
+		<tile>
+			<code>Y</code>
+			<name>roadse</name>
+			<type>road</type>
+			<file>tiles/hex_roadse.png</file>
+		</tile>
+		<tile>
+			<code>y</code>
+			<name>dirtse</name>
+			<type>dirtroad</type>
+			<file>tiles/hex_dirtse.png</file>
+		</tile>
+		<tile>
+			<code>C</code>
+			<name>roadnwc</name>
+			<type>road</type>
+			<file>tiles/hex_roadnwc.png</file>
+		</tile>
+		<tile>
+			<code>c</code>
+			<name>dirtnwc</name>
+			<type>dirtroad</type>
+			<file>tiles/hex_dirtnwc.png</file>
+		</tile>
+		<tile>
+			<code>T</code>
+			<name>roadnwe</name>
+			<type>road</type>
+			<file>tiles/hex_roadnwe.png</file>
+		</tile>
+		<tile>
+			<code>D</code>
+			<name>roadsec</name>
+			<type>road</type>
+			<file>tiles/hex_roadsec.png</file>
+		</tile>
+		<tile>
+			<code>d</code>
+			<name>dirtsec</name>
+			<type>road</type>
+			<file>tiles/hex_dirtsec.png</file>
+		</tile>
+		<tile>
+			<code>E</code>
+			<name>roadturnse</name>
+			<type>road</type>
+			<file>tiles/hex_roadturnse.png</file>
+		</tile>
+		<tile>
+			<code>G</code>
+			<name>dirtturnse</name>
+			<type>dirtroad</type>
+			<file>tiles/hex_dirtturnse.png</file>
+		</tile>
+		<tile>
+			<code>g</code>
+			<name>dirtsplitese</name>
+			<type>dirtroad</type>
+			<file>tiles/hex_dirtsplitese.png</file>
+		</tile>
+		<tile>
+			<code>e</code>
+			<name>roadturnsetown</name>
+			<type>road</type>
+			<file>tiles/hex_roadturnse_town.png</file>
+		</tile>
+		<tile>
+			<code>S</code>
+			<name>roadsplitne</name>
+			<type>road</type>
+			<file>tiles/hex_roadsplitne.png</file>
+		</tile>
+		<tile>
+			<code>F</code>
+			<name>roadsplitsw</name>
+			<type>road</type>
+			<file>tiles/hex_roadsplitsw.png</file>
+		</tile>
+	</tiles>
+	<captions>
+		<caption>
+			<label>Ruskin</label>
+			<x>500</x>
+			<y>245</y>
+		</caption>
+	</captions>
+	<levelrows>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >*......................</row>
+		<row id="1" >*......................</row>
+		<row id="1" >#**....................</row>
+		<row id="1" >##*....................</row>
+		<row id="1" >#**....................</row>
+		<row id="1" >*......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+		<row id="1" >.......................</row>
+	</levelrows>     
+</map>
