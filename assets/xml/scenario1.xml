@@ -48,32 +48,53 @@
 		<counter>
 			<name>a_tank1</name>
 			<side>a</side>
-			<startx>4</startx>
+			<startx>3</startx>
 			<starty>5</starty>
 		</counter>
 		<counter>
 			<name>a_tank1</name>
 			<side>a</side>
-			<startx>2</startx>
-			<starty>3</starty>
-		</counter>
-		<counter>
-			<name>a_tank1</name>
-			<side>a</side>
-			<startx>1</startx>
+			<startx>3</startx>
 			<starty>4</starty>
 		</counter>
 		<counter>
 			<name>a_tank1</name>
 			<side>a</side>
-			<startx>1</startx>
+			<startx>2</startx>
 			<starty>6</starty>
+		</counter>
+		<counter>
+			<name>a_tank1</name>
+			<side>a</side>
+			<startx>1</startx>
+			<starty>8</starty>
 		</counter>
 		<counter>
 			<name>a_apc1</name>
 			<side>a</side>
-			<startx>7</startx>
-			<starty>10</starty>
+			<startx>3</startx>
+			<starty>14</starty>
+		</counter>
+		<counter>
+			<name>a_apc2</name>
+			<side>a</side>
+			<startx>4</startx>
+			<starty>14</starty>
+		</counter>
+		<counter>
+			<name>a_apc2</name>
+			<side>a</side>
+			<startx>5</startx>
+			<starty>14</starty>
+		</counter>
+		<counter>
+			<name>e_tank1</name>
+			<side>e</side>
+			<startx>16</startx>
+			<starty>6</starty>
+			<ai>chase</ai>
+			<range>20</range>
+			<maxattack>25</maxattack>
 		</counter>
 		<counter>
 			<name>e_tank1</name>
@@ -86,16 +107,8 @@
 		<counter>
 			<name>e_tank1</name>
 			<side>e</side>
-			<startx>12</startx>
-			<starty>4</starty>
-			<ai>patrol</ai>
-			<range>0</range>
-		</counter>
-		<counter>
-			<name>e_tank1</name>
-			<side>e</side>
-			<startx>16</startx>
-			<starty>4</starty>
+			<startx>17</startx>
+			<starty>6</starty>
 			<ai>chase</ai>
 			<range>20</range>
 			<maxattack>15</maxattack>
@@ -103,8 +116,8 @@
 		<counter>
 			<name>e_tank1</name>
 			<side>e</side>
-			<startx>17</startx>
-			<starty>4</starty>
+			<startx>18</startx>
+			<starty>6</starty>
 			<ai>march</ai>
 			<speed>1</speed>
 			<maxattack>15</maxattack>
@@ -112,8 +125,26 @@
 		<counter>
 			<name>e_apc1</name>
 			<side>e</side>
-			<startx>12</startx>
+			<startx>16</startx>
 			<starty>7</starty>
+			<ai>chase</ai>
+			<range>20</range>
+			<maxattack>25</maxattack>
+		</counter>
+		<counter>
+			<name>e_apc2</name>
+			<side>e</side>
+			<startx>18</startx>
+			<starty>10</starty>
+			<ai>chase</ai>
+			<range>20</range>
+			<maxattack>25</maxattack>
+		</counter>
+		<counter>
+			<name>e_apc2</name>
+			<side>e</side>
+			<startx>17</startx>
+			<starty>10</starty>
 			<ai>chase</ai>
 			<range>20</range>
 			<maxattack>25</maxattack>
@@ -122,7 +153,7 @@
 			<name>e_apc1</name>
 			<side>e</side>
 			<startx>17</startx>
-			<starty>12</starty>
+			<starty>11</starty>
 			<ai>patrol</ai>
 			<range>0</range>
 		</counter>

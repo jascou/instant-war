@@ -21,6 +21,7 @@ class SpritePack
 	private var gspDefence:Array<Int>;
 	private var gspMovement:Array<Int>;
 	private var gspRange:Array<Int>;
+	private var gspAccuracy:Array<Int>;
 	private var gspTType:Array<String>;
 	private var gspTCost:Array<Int>;
 	
@@ -71,6 +72,8 @@ class SpritePack
 			gspDefence[i] = Std.parseInt(q.node.defence.innerData);
 			gspMovement[i] = Std.parseInt(q.node.movement.innerData);
 			gspRange[i] = Std.parseInt(q.node.range.innerData);
+			
+			if (q.hasNode.accuracy) gspAccuracy[i] = Std.parseInt(q.node.accuracy.innerData);
 			
 			j = 0;
 			

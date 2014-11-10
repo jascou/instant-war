@@ -14,6 +14,7 @@ import flash.ui.Keyboard;
 import flash.system.Capabilities.screenResolutionX;
 import flash.system.Capabilities.screenResolutionY;
 import flash.Lib;
+import flash.system.System;
 import haxe.Timer;
 import openfl.Assets;
 
@@ -394,6 +395,24 @@ class Main extends Sprite
 				
 				cout.text = "Scenario \"" + carg1 + "\" loaded.";
 			}
+			else if (ctext == "quit")
+			{
+				cout.text = "Quit Instant War (y/n)?";
+				gameSide = 4;
+			}
+			else if (ctext == "help")
+			{
+				cout.text = "Commands: next, new, save, load, scenario, quit. Type help command for details on each.";
+			}
+			else if (ctext.substr(0, 4) == "help")
+			{
+				carg1 = ctext.substr(5, ctext.length - 5);
+				
+				if (carg1 == "next")
+					cout.text = "End turn. Enemy forces will move, then a new turn will begin.";
+				else if (carg1 == "new")
+					cout.text = "Starts a new game in the same scenario. Will be asked to confirm.";
+			}
 			else
 			{
 				cout.text = "Command not recognized.";
@@ -406,6 +425,13 @@ class Main extends Sprite
 				reset();
 				cout.text = "New game started.";
 				gameSide = 1;
+			}
+		}
+		else if (gameSide == 4)
+		{
+			if (ctext == "y")
+			{
+				System.exit(0);
 			}
 		}
 		

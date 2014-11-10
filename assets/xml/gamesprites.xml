@@ -76,6 +76,43 @@
 			</terrain>
 		</char>
 		<char>
+			<name>a_apc2</name>
+			<type>land</type>
+			<file>sprites/a_apc2.png</file>
+			<attack>7</attack>
+			<defence>7</defence>
+			<movement>30</movement>
+			<range>1</range>
+			<terrain>
+				<type>grass</type>
+				<cost>10</cost>
+			</terrain>
+			<terrain>
+				<type>forest</type>
+				<cost>20</cost>
+			</terrain>
+			<terrain>
+				<type>swamp</type>
+				<cost>30</cost>
+			</terrain>
+			<terrain>
+				<type>river</type>
+				<cost>20</cost>
+			</terrain>
+			<terrain>
+				<type>road</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>dirtroad</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>town</type>
+				<cost>5</cost>
+			</terrain>
+		</char>
+		<char>
 			<name>a_inf1</name>
 			<type>land</type>
 			<file>sprites/a_inf1.png</file>
@@ -172,6 +209,43 @@
 			<terrain>
 				<type>river</type>
 				<cost>-1</cost>
+			</terrain>
+			<terrain>
+				<type>road</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>dirtroad</type>
+				<cost>5</cost>
+			</terrain>
+			<terrain>
+				<type>town</type>
+				<cost>5</cost>
+			</terrain>
+		</char>
+		<char>
+			<name>e_apc2</name>
+			<type>land</type>
+			<file>sprites/e_apc2.png</file>
+			<attack>7</attack>
+			<defence>7</defence>
+			<movement>30</movement>
+			<range>1</range>
+			<terrain>
+				<type>grass</type>
+				<cost>10</cost>
+			</terrain>
+			<terrain>
+				<type>forest</type>
+				<cost>20</cost>
+			</terrain>
+			<terrain>
+				<type>swamp</type>
+				<cost>30</cost>
+			</terrain>
+			<terrain>
+				<type>river</type>
+				<cost>20</cost>
 			</terrain>
 			<terrain>
 				<type>road</type>
