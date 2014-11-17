@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <scenario>
 	<name>Dawn of War</name>
+	<card>scs/sc1card.png</card>
 	<crt>
 		<odds>0.25</odds>
 		<odds>0.333</odds>

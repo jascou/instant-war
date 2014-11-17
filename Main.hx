@@ -15,6 +15,7 @@ import flash.system.Capabilities.screenResolutionX;
 import flash.system.Capabilities.screenResolutionY;
 import flash.Lib;
 import flash.system.System;
+
 import haxe.Timer;
 import openfl.Assets;
 
@@ -57,6 +58,7 @@ class Main extends Sprite
 	private var boxx:Int;
 	private var boxy:Int;
 	private var IWSplash:Bitmap;
+	private var IWCard:Bitmap;
 	
 	private var _xmlLoader:URLLoader;
 
@@ -229,6 +231,11 @@ class Main extends Sprite
 		IWSplash.y = (673 / 2) - (419 / 2);
 		this.addChild(IWSplash);
 		
+		IWCard = new Bitmap (Assets.getBitmapData (gameSc.getCardFile()));
+		IWCard.x = -2000;
+		IWCard.y = -2000;
+		this.addChild(IWCard);
+		
 		lastX = -1;
 		lastY = -1;
 		
@@ -400,9 +407,19 @@ class Main extends Sprite
 				cout.text = "Quit Instant War (y/n)?";
 				gameSide = 4;
 			}
+			else if (ctext == "card")
+			{
+				IWCard.x = -this.x + (1200 / 2) - (699 / 2);
+				IWCard.y = -this.y + (673 / 2) - (499 / 2);
+				cout.text = "Click anywhere on map or on card to remove scenario card.";
+			}
+			else if (ctext == "score")
+			{
+				cout.text = "Current score is " + gameSc.getScore() + ".";
+			}
 			else if (ctext == "help")
 			{
-				cout.text = "Commands: next, new, save, load, scenario, quit. Type help command for details on each.";
+				cout.text = "Commands: next, new, save, load, scenario, score, quit. Type help command for details on each.";
 			}
 			else if (ctext.substr(0, 4) == "help")
 			{
@@ -554,6 +571,8 @@ class Main extends Sprite
 			console.y = -this.y + 628;
 			cout.x = -this.x;
 			cout.y = -this.y + 650;
+			IWCard.x = IWCard.x - xs;
+			IWCard.y = IWCard.y - ys;
 			
 			// shifts TextField to compensat for map movement
 			p.x = -this.x;
@@ -574,6 +593,9 @@ class Main extends Sprite
 				i++;
 			}
 		}
+		
+		if (this.x > 0) this.x = 0;
+		if (this.y > 0) this.y = 0;
 	}
 
 	// sets lastX and lastY values to -1 to cancel scrolling via onMouseMove
@@ -669,6 +691,9 @@ class Main extends Sprite
 		
 		// clear splash image, if necessary
 		if (IWSplash.x > 0) IWSplash.x = -1000;
+		
+		// clear mission card image, if necessary
+		if (IWCard.x > 0) IWCard.x = -2000;
 		
 		// set lastX and lastY for purposes of onMouseMove
 		lastX = Std.int(e.stageX);

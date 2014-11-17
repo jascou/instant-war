@@ -23,6 +23,7 @@
 	<assets path="assets/xml" rename="xml" />
 	<assets path="assets/tiles" rename="tiles" />
 	<assets path="assets/sprites" rename="sprites" />
+	<assets path="assets/scs" rename="scs" />
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->

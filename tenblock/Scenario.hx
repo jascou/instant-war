@@ -45,6 +45,7 @@ class Scenario
 	private var scMap:GameMap;
 	private var scCanvas:Sprite;
 	private var scCount:Int;
+	private var scScore:Int;
 	
 	private var movesX:Array<Int>;
 	private var movesY:Array<Int>;
@@ -54,6 +55,7 @@ class Scenario
 	private var scOdds:Array<Float>;
 	private var scStartDie:Int;
 	private var scRows:Array<String>;
+	private var scCard:String;
 	
 	private var scText:TextField;
 	private var scFormat:TextFormat;
@@ -82,6 +84,7 @@ class Scenario
 		
 		scOdds = new Array();
 		scRows = new Array();
+		scScore = 0;
 		
 		var i:Int;
 		var cxml = Assets.getText(cfile);
@@ -91,6 +94,8 @@ class Scenario
 		i = 0;
 		
 		scName = fast.node.name.innerData;
+		scCard = fast.node.card.innerData;
+		
 		var counters = fast.node.counters;
 		var crt = fast.node.crt;
 		
@@ -103,7 +108,7 @@ class Scenario
 		scStartDie = Std.parseInt(fast.node.crt.node.startdie.innerData);
 		
 		i = 0;
-
+		
 		for (q in crt.nodes.row)
 		{
 			scRows[i] = q.innerData;
@@ -176,6 +181,11 @@ class Scenario
 		}
 	}
 
+	public function getCardFile():String
+	{
+		return scCard;
+	}
+	
 	public function dropCounter(cnum:Int, cx:Int, cy:Int)
 	{
 		scCounters[cnum].dropOnSq(cx, cy);
@@ -340,6 +350,11 @@ class Scenario
 		return scSides[cnum];
 	}
 	
+	public function getScore():Int
+	{
+		return scScore;
+	}
+	
 	public function doDisperse(cnum:Int)
 	{
 		scDisperse[cnum] = 1;
@@ -358,6 +373,11 @@ class Scenario
 		scX[cnum] = -5;
 		scY[cnum] = -5;
 		scCounters[cnum].dropOnSq(scX[cnum], scY[cnum]);
+		
+		if (scSides[cnum] == "e")
+			scScore++;
+		else if (scSides[cnum] == "a")
+			scScore--;
 	}
 	
 	public function doSpecial(cnum:Int)
@@ -884,7 +904,7 @@ class Scenario
 		{
 			if (doDistance(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i]) <= scAIp1[cnum])
 			{
-				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], scPack.getType(scNames[cnum]), 0, 50, cresults);
+				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], this.getName(cnum), 0, 50, cresults);
 				
 				if (cresults[3] <= scAIp1[cnum])
 				{
