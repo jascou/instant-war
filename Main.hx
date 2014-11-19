@@ -368,6 +368,12 @@ class Main extends Sprite
 				doNextPhase();
 				cout.text = "Turn #" + gameTurn + " ended.  Turn #" + (gameTurn + 1) + " begins.";
 				gameTurn++;
+				
+				if (gameTurn > gameSc.getTurns())
+				{
+					gameSide = -1;
+					cout.text = "Out of turns.  Final score: " + gameSc.getScore() + ".";
+				}
 			}
 			else if (ctext == "new" || ctext == "newgame")
 			{
@@ -542,7 +548,7 @@ class Main extends Sprite
 				ys = -cmult;
 				
 				// stops moving if map is scrolled all the way to the top
-				if (673 - this.y > gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86)
+				if (623 - this.y > gameEgo.getMap().getHeight() * gameEgo.getMap().getTileWidth() * 0.86)
 					ys = 0;
 			}
 			// left arrow, moves map to the right

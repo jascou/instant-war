@@ -2,6 +2,7 @@
 <scenario>
 	<name>Dawn of War</name>
 	<card>scs/sc1card.png</card>
+	<turns>14</turns>
 	<crt>
 		<odds>0.25</odds>
 		<odds>0.333</odds>
@@ -161,38 +162,34 @@
 		<counter>
 			<name>e_inf1</name>
 			<side>e</side>
-			<startx>15</startx>
+			<startx>20</startx>
 			<starty>13</starty>
-			<ai>march</ai>
-			<speed>1</speed>
-			<maxattack>8</maxattack>
+			<ai>patrol</ai>
+			<range>0</range>
 		</counter>
 		<counter>
 			<name>e_inf1</name>
 			<side>e</side>
-			<startx>15</startx>
+			<startx>20</startx>
 			<starty>14</starty>
-			<ai>march</ai>
-			<speed>1</speed>
-			<maxattack>8</maxattack>
+			<ai>patrol</ai>
+			<range>0</range>
 		</counter>
 		<counter>
 			<name>e_inf1</name>
 			<side>e</side>
-			<startx>14</startx>
+			<startx>19</startx>
 			<starty>14</starty>
-			<ai>march</ai>
-			<speed>1</speed>
-			<maxattack>8</maxattack>
+			<ai>patrol</ai>
+			<range>0</range>
 		</counter>
 		<counter>
 			<name>e_inf1</name>
 			<side>e</side>
-			<startx>15</startx>
+			<startx>20</startx>
 			<starty>15</starty>
-			<ai>march</ai>
-			<speed>1</speed>
-			<maxattack>8</maxattack>
+			<ai>patrol</ai>
+			<range>0</range>
 		</counter>
 	</counters>
 </scenario>

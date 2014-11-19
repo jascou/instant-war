@@ -12,9 +12,9 @@
 		<row id="12">.||....x.M../..p.......</row>
 		<row id="12">..|....x.M....p........</row>
 		<row id="12">..|||..."+$+++]........</row>
-		<row id="12">........x.T--..........</row>
-		<row id="12">.........x.............</row>
-		<row id="1" >.........).............</row>
+		<row id="12">........x.T----!%......</row>
+		<row id="12">.........x......M......</row>
+		<row id="1" >.........)......Y......</row>
 		<row id="2" >.........p.............</row>
 		<row id="3" >........p..............</row>
 		<row id="4" >........p..............</row>
@@ -53,6 +53,12 @@
 			<name>townmain</name>
 			<type>town</type>
 			<file>tiles/hex_townmain.png</file>
+		</tile>
+		<tile>
+			<code>!</code>
+			<name>townmain</name>
+			<type>town</type>
+			<file>tiles/hex_townmain2.png</file>
 		</tile>
 		<tile>
 			<code>@</code>

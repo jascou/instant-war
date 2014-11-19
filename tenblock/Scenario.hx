@@ -56,6 +56,7 @@ class Scenario
 	private var scStartDie:Int;
 	private var scRows:Array<String>;
 	private var scCard:String;
+	private var scTurns:Int;
 	
 	private var scText:TextField;
 	private var scFormat:TextFormat;
@@ -95,6 +96,7 @@ class Scenario
 		
 		scName = fast.node.name.innerData;
 		scCard = fast.node.card.innerData;
+		scTurns = Std.parseInt(fast.node.turns.innerData);
 		
 		var counters = fast.node.counters;
 		var crt = fast.node.crt;
@@ -184,6 +186,11 @@ class Scenario
 	public function getCardFile():String
 	{
 		return scCard;
+	}
+	
+	public function getTurns():Int
+	{
+		return scTurns;
 	}
 	
 	public function dropCounter(cnum:Int, cx:Int, cy:Int)
