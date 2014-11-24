@@ -23,7 +23,7 @@ When you start TB1, it will look something like this:
 
 ##Documentation
 
-* Instant War: Tank Battles I rules: [pdf](http://semioticblocks.com/downloads/Instant War TB1 - Rules.pdf)
+* **Instant War: Tank Battles I** rules: [pdf](http://semioticblocks.com/downloads/Instant War TB1 - Rules.pdf)
 
 ##License
 Instant War and its source code are licensed under the MIT License.
