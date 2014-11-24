@@ -8,24 +8,22 @@ This repository will contain the Instant War engine, along with an indeterminate
 
 ##Download & Run
 
-This repository does not contain the node-webkit files necessary to run Hail Workshop.  Please click on the following links to download usable versions of the program that contain all necessary files for the given OS.  Note that source files can be executed without compilation.  See below for instructions.
+###Instant War: Tank Battles I
 
-* **v0.2.2** (Sept. 30, 2014):
+This is the first Instant War release, and will, when completed, consist of 10 scenarios set in the fictional Third Colonies.  More information may be found in the documentation (see below).
 
-  * Windows: [zip](http://semioticblocks.com/downloads/hail-workshop.zip) (source files) / [msi](http://semioticblocks.com/downloads/HailWorkshop.msi) (installer)
-  * Linux: [tar.gz](http://semioticblocks.com/downloads/hail-workshop.tar.gz) (source files)
-  * Mac OS X: [zip](http://semioticblocks.com/downloads/Hail-Workshop.app.zip) (app folder/file)
+* **alpha** (Nov. 23, 2014):
 
-To run from zip file on Windows, unzip hail-workshop.zip.  Contents will be copied into _hail-workshop_ folder.  Inside folder, click _Hail-Workshop_ link.
+  * Windows: [msi](http://semioticblocks.com/downloads/InstantWarTankBattlesI.msi) (installer)
+  * Mac OS X: [zip](http://semioticblocks.com/downloads/IW-TB1.app.zip) (app folder/file)
 
-To run from tar.gz file on Linux, extract files from archive.  Contents will be copied into _hail-workshop_ folder.  From the _parent_ folder, type `./gohail`
+When you start TB1, it will look something like this:
 
-When you start your first session of Hail Workshop, it will look something like this:
-
-![http://i.imgur.com/hdD1FWi.png?1](http://i.imgur.com/hdD1FWi.png?1)
+![Imgur](http://i.imgur.com/dTRgPNv.png?1)
 
 ##Documentation
-Visit Hail Workshop's [wiki](https://github.com/Adaax/hail-workshop/wiki) to learn about the Hail language and Workshop environment.
+
+* Instant War: Tank Battles I rules: [pdf](http://semioticblocks.com/downloads/Instant War TB1 - Rules.pdf)
 
 ##License
-Hail Workshop and its source code are licensed under the MIT License.
+Instant War and its source code are licensed under the MIT License.
