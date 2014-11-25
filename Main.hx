@@ -361,7 +361,7 @@ class Main extends Sprite
 		if (ctext.charAt(0) == ">") ctext = ctext.substr(1, ctext.length - 1);
 		if (ctext.charAt(0) == " ") ctext = ctext.substr(1, ctext.length - 1);
 		
-		if (gameSide == 1)
+		if (gameSide == 1 || gameSide == -1)
 		{
 			if (ctext == "next" || ctext == "nextturn")
 			{
@@ -621,7 +621,7 @@ class Main extends Sprite
 		var chgX:Int;
 		var chgY:Int;
 		
-		if (lastX >= 0 && gameSide == 1)
+		if (lastX >= 0 && (gameSide == 1 || gameSide == -1))
 		{
 			// if mouse is down (i.e. lastX is not -1), calculate amount mouse has moved
 			chgX = Std.int((Std.int(e.stageX) - lastX) / 1);
@@ -787,7 +787,7 @@ class Main extends Sprite
 									
 									// call pathfinding algorithm to check from counter position to current (j. i) coordinate;
 									// passes name of counter for weight calculations, cresults to collect results
-									gameSc.findPath(cx, cy, j, i, gameSc.getName(selectNum), 0, 50, cresults);
+									gameSc.findPath(cx, cy, j, i, gameSc.getName(selectNum), 0, 0, 50, 9999, cresults);
 									
 									// if weight within range or square is adjacent to counter, highlight hex
 									if (cresults[2] <= crange2 || cresults[3] == 1)

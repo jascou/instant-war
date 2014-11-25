@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <scenario>
 	<name>Dawn of War</name>
+	<card>scs/sc1card.png</card>
+	<turns>14</turns>
 	<crt>
 		<odds>0.25</odds>
 		<odds>0.333</odds>
@@ -48,81 +50,61 @@
 		<counter>
 			<name>a_tank1</name>
 			<side>a</side>
-			<startx>4</startx>
-			<starty>5</starty>
-		</counter>
-		<counter>
-			<name>a_tank1</name>
-			<side>a</side>
 			<startx>2</startx>
 			<starty>3</starty>
 		</counter>
 		<counter>
 			<name>a_tank1</name>
 			<side>a</side>
-			<startx>1</startx>
-			<starty>4</starty>
+			<startx>3</startx>
+			<starty>3</starty>
 		</counter>
 		<counter>
 			<name>a_tank1</name>
 			<side>a</side>
-			<startx>1</startx>
-			<starty>6</starty>
+			<startx>4</startx>
+			<starty>3</starty>
 		</counter>
 		<counter>
 			<name>a_apc1</name>
 			<side>a</side>
-			<startx>7</startx>
-			<starty>10</starty>
+			<startx>3</startx>
+			<starty>15</starty>
 		</counter>
 		<counter>
-			<name>e_tank1</name>
-			<side>e</side>
-			<startx>9</startx>
-			<starty>4</starty>
-			<ai>patrol</ai>
-			<range>0</range>
+			<name>a_apc2</name>
+			<side>a</side>
+			<startx>4</startx>
+			<starty>15</starty>
+		</counter>
+		<counter>
+			<name>a_apc2</name>
+			<side>a</side>
+			<startx>5</startx>
+			<starty>15</starty>
 		</counter>
 		<counter>
 			<name>e_tank1</name>
 			<side>e</side>
 			<startx>12</startx>
-			<starty>4</starty>
-			<ai>patrol</ai>
-			<range>0</range>
-		</counter>
-		<counter>
-			<name>e_tank1</name>
-			<side>e</side>
-			<startx>16</startx>
-			<starty>4</starty>
-			<ai>chase</ai>
-			<range>20</range>
-			<maxattack>15</maxattack>
-		</counter>
-		<counter>
-			<name>e_tank1</name>
-			<side>e</side>
-			<startx>17</startx>
-			<starty>4</starty>
-			<ai>march</ai>
-			<speed>1</speed>
-			<maxattack>15</maxattack>
-		</counter>
-		<counter>
-			<name>e_apc1</name>
-			<side>e</side>
-			<startx>12</startx>
-			<starty>7</starty>
+			<starty>8</starty>
 			<ai>chase</ai>
 			<range>20</range>
 			<maxattack>25</maxattack>
 		</counter>
 		<counter>
-			<name>e_apc1</name>
+			<name>e_tank1</name>
 			<side>e</side>
-			<startx>17</startx>
-			<starty>12</starty>
+			<startx>10</startx>
+			<starty>15</starty>
+			<ai>patrol</ai>
+			<range>1</range>
+		</counter>
+		<counter>
+			<name>e_inf1</name>
+			<side>e</side>
+			<startx>16</startx>
+			<starty>8</starty>
 			<ai>patrol</ai>
 			<range>0</range>
 		</counter>
@@ -130,37 +112,41 @@
 			<name>e_inf1</name>
 			<side>e</side>
 			<startx>15</startx>
-			<starty>13</starty>
-			<ai>march</ai>
-			<speed>1</speed>
-			<maxattack>8</maxattack>
+			<starty>8</starty>
+			<ai>patrol</ai>
+			<range>0</range>
 		</counter>
 		<counter>
 			<name>e_inf1</name>
 			<side>e</side>
-			<startx>15</startx>
+			<startx>19</startx>
 			<starty>14</starty>
-			<ai>march</ai>
-			<speed>1</speed>
-			<maxattack>8</maxattack>
+			<ai>patrol</ai>
+			<range>0</range>
 		</counter>
 		<counter>
 			<name>e_inf1</name>
 			<side>e</side>
-			<startx>14</startx>
+			<startx>18</startx>
 			<starty>14</starty>
-			<ai>march</ai>
-			<speed>1</speed>
-			<maxattack>8</maxattack>
+			<ai>patrol</ai>
+			<range>0</range>
 		</counter>
 		<counter>
 			<name>e_inf1</name>
 			<side>e</side>
-			<startx>15</startx>
-			<starty>15</starty>
-			<ai>march</ai>
-			<speed>1</speed>
-			<maxattack>8</maxattack>
+			<startx>9</startx>
+			<starty>6</starty>
+			<ai>patrol</ai>
+			<range>0</range>
+		</counter>
+		<counter>
+			<name>e_inf1</name>
+			<side>e</side>
+			<startx>9</startx>
+			<starty>5</starty>
+			<ai>patrol</ai>
+			<range>0</range>
 		</counter>
 	</counters>
 </scenario>

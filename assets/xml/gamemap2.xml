@@ -7,21 +7,21 @@
 		<row id="9" >[+++}.Y.....//........p</row>
 		<row id="10">Y..**x.Y.../////......p</row>
 		<row id="11">z.***x.Y.///////{++++].</row>
-		<row id="12">ZT----_-F..////.p......</row>
-		<row id="12">..|...x.Y.///./p.......</row>
-		<row id="12">.||....x.M../..p.......</row>
-		<row id="12">..|....x.M....p........</row>
-		<row id="12">..|||..."+$+++]........</row>
-		<row id="12">........x.T----!%......</row>
+		<row id="12">ZT----_-F..////.p...w%-</row>
+		<row id="12">..|...x.Y.///./p...X...</row>
+		<row id="12">.||....x.M../..p...X...</row>
+		<row id="12">..|....x.M....p...X....</row>
+		<row id="12">..|||..."+$+++]...X....</row>
+		<row id="12">........x.T----!%D.....</row>
 		<row id="12">.........x......M......</row>
-		<row id="1" >.........)......Y......</row>
-		<row id="2" >.........p.............</row>
-		<row id="3" >........p..............</row>
-		<row id="4" >........p..............</row>
-		<row id="5" >.......p...............</row>
-		<row id="6" >.......p...............</row>
-		<row id="7" >..{+++]................</row>
-		<row id="8" >..p....................</row>
+		<row id="1" >..||.....)......Y......</row>
+		<row id="2" >.||||....p..***..Y.....</row>
+		<row id="3" >...|||..p...****.f..|||</row>
+		<row id="4" >-E..||..p..***...XM.||.</row>
+		<row id="5" >.Y...||p.c~~~~~~R.t%---</row>
+		<row id="6" >..T----O-Q....||X..||..</row>
+		<row id="7" >..{+++].Z...|||X||||...</row>
+		<row id="8" >..p.....Z..|||.X.||....</row>
 	</rows>
 	<tiles>
 		<tile>
@@ -163,6 +163,12 @@
 			<file>tiles/hex_bridgeew.png</file>
 		</tile>
 		<tile>
+			<code>O</code>
+			<name>bridgeww</name>
+			<type>road</type>
+			<file>tiles/hex_bridgeww.png</file>
+		</tile>
+		<tile>
 			<code>$</code>
 			<name>bridgese</name>
 			<type>road</type>
@@ -185,6 +191,18 @@
 			<name>dirtjoinne</name>
 			<type>road</type>
 			<file>tiles/hex_dirtjoinne.png</file>
+		</tile>
+		<tile>
+			<code>Q</code>
+			<name>dirtjoinnw</name>
+			<type>road</type>
+			<file>tiles/hex_dirtjoinnw.png</file>
+		</tile>
+		<tile>
+			<code>R</code>
+			<name>dirtjoinw</name>
+			<type>road</type>
+			<file>tiles/hex_dirtjoinw.png</file>
 		</tile>
 		<tile>
 			<code>p</code>
@@ -211,6 +229,12 @@
 			<file>tiles/hex_roadnwc.png</file>
 		</tile>
 		<tile>
+			<code>w</code>
+			<name>townnwc</name>
+			<type>town</type>
+			<file>tiles/hex_townnwc.png</file>
+		</tile>
+		<tile>
 			<code>c</code>
 			<name>dirtnwc</name>
 			<type>dirtroad</type>
@@ -221,6 +245,12 @@
 			<name>roadnwe</name>
 			<type>road</type>
 			<file>tiles/hex_roadnwe.png</file>
+		</tile>
+		<tile>
+			<code>t</code>
+			<name>townnwe</name>
+			<type>town</type>
+			<file>tiles/hex_townnwe.png</file>
 		</tile>
 		<tile>
 			<code>D</code>
@@ -270,6 +300,12 @@
 			<type>road</type>
 			<file>tiles/hex_roadsplitsw.png</file>
 		</tile>
+		<tile>
+			<code>f</code>
+			<name>roadsplitssw</name>
+			<type>road</type>
+			<file>tiles/hex_roadsplitssw.png</file>
+		</tile>
 	</tiles>
 	<captions>
 		<caption>
@@ -277,24 +313,39 @@
 			<x>500</x>
 			<y>245</y>
 		</caption>
+		<caption>
+			<label>Emerson</label>
+			<x>935</x>
+			<y>408</y>
+		</caption>
+		<caption>
+			<label>Osler</label>
+			<x>1110</x>
+			<y>680</y>
+		</caption>
+		<caption>
+			<label>Havelock</label>
+			<x>1222</x>
+			<y>136</y>
+		</caption>
 	</captions>
 	<levelrows>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
+		<row id="1" >................*####*.</row>
+		<row id="1" >.................*****.</row>
 		<row id="1" >.......................</row>
 		<row id="1" >*......................</row>
 		<row id="1" >*......................</row>
-		<row id="1" >#**....................</row>
-		<row id="1" >##*....................</row>
-		<row id="1" >#**....................</row>
-		<row id="1" >*......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
-		<row id="1" >.......................</row>
+		<row id="1" >#**...................*</row>
+		<row id="1" >##*.................**#</row>
+		<row id="1" >#**................ *##</row>
+		<row id="1" >*..................*###</row>
+		<row id="1" >...................*###</row>
+		<row id="1" >..................*####</row>
+		<row id="1" >..................*####</row>
+		<row id="1" >..................**###</row>
+		<row id="1" >....................*##</row>
+		<row id="1" >....................**#</row>
+		<row id="1" >......................*</row>
 		<row id="1" >.......................</row>
 		<row id="1" >.......................</row>
 	</levelrows>     

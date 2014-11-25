@@ -61,6 +61,8 @@ class Scenario
 	private var scText:TextField;
 	private var scFormat:TextFormat;
 	
+	private var cglobal:Array<Int>;
+	
 	public function new(cfile:String) 
 	{
 		scNames = new Array();
@@ -86,6 +88,8 @@ class Scenario
 		scOdds = new Array();
 		scRows = new Array();
 		scScore = 0;
+		
+		cglobal = new Array();
 		
 		var i:Int;
 		var cxml = Assets.getText(cfile);
@@ -305,8 +309,15 @@ class Scenario
 			croll = croll - 2;
 	
 		if (scMap.getTypeXY(scX[cdefend], scY[cdefend]) == "town")
-			croll = croll + 1;
-			
+		{
+			if (scPack.getType(scNames[cattack]) == "infantry")
+				croll = croll - 2;
+			else if (scPack.getType(scNames[cattack]) == "tank")
+				croll = croll + 4;
+			else
+				croll = croll + 2;
+		}
+		
 		k = leveldif(scMap.getLevel(scX[cattack], scY[cattack]), scMap.getLevel(scX[cdefend], scY[cdefend]));
 		
 		if (k > 0)
@@ -315,6 +326,7 @@ class Scenario
 			croll = croll + 2;
 			
 		if (croll < scStartDie) croll = scStartDie;
+		if (croll > 7) croll = 7;
 		
 		coutcome = scRows[croll - scStartDie].substr(j, 1);
 		
@@ -407,7 +419,7 @@ class Scenario
 		scCounters[cnum].alpha = 1;
 	}
 	
-	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cname:String, cflag: Int, cmaxdist: Int, cresults:Array<Int>)
+	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cname:String, cflag: Int, ctarget: Int, cmaxdist: Int, crange:Int, cresults:Array<Int>)
 	{
 		var i:Int;
 		var j:Int;
@@ -476,12 +488,15 @@ class Scenario
 				if (csrX[i] == ctox && csrY[i] == ctoy && csrWeight[i] <= cresults[2])
 				{
 					l = i;
-
-					while (csrAnc[l] != 0)
+	
+					while (csrDepth[l] > 1 && csrWeight[l] > crange)
 					{
 						l = csrAnc[l];
 					}
 
+					if (ctarget == 1 && csrX[l] == ctox && csrY[l] == ctoy)
+						l = csrAnc[l];
+					
 					cresults[0] = csrX[l];
 					cresults[1] = csrY[l];
 					cresults[2] = csrWeight[i];
@@ -524,8 +539,8 @@ class Scenario
 							
 						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1, n) > -1 && csrWeight[i] < cmaxdist)
 						{
-							l = this.getNode(x1, y1, csrWeight[i] + this.getWeightXY(cname, x1, y1, n), cflag);
-
+							l = this.getNode(x1, y1, ctox, ctoy, csrWeight[i] + this.getWeightXY(cname, x1, y1, n), csrDepth[i] + 1, cflag, ctarget);
+							
 							if (l != -1)
 							{	
 								csrX[l] = x1;
@@ -579,17 +594,17 @@ class Scenario
 		return cweight;
 	}
 	
-	function getNode(cx:Int, cy:Int, cweight: Int, cflag:Int):Int
+	function getNode(cx:Int, cy:Int, ctox:Int, ctoy:Int, cweight: Int, cdepth:Int, cflag:Int, ctarget:Int):Int
 	{
 		var i:Int;
 		
 		i = 0;
-	
+		
 		while (i < csrX.length)
 		{
-			if (csrX[i] == cx && csrY[i] == cy && csrWeight[i] > cweight)
+			if (csrX[i] == cx && csrY[i] == cy && csrWeight[i] >= cweight)
 				return i;
-			if (csrX[i] == cx && csrY[i] == cy && csrWeight[i] <= cweight)
+			if (csrX[i] == cx && csrY[i] == cy && csrWeight[i] < cweight)
 				return -1;
 				
 			i++;
@@ -601,7 +616,7 @@ class Scenario
 		
 		while (i < scCounters.length)
 		{
-			if (scX[i] == cx && scY[i] == cy)
+			if (scX[i] == cx && scY[i] == cy && !(cx == ctox && cy == ctoy && ctarget == 1))
 				return -1;
 			
 			i++;
@@ -675,7 +690,7 @@ class Scenario
 		{
 			if (doDistance(cx, cy, scX[cnum], scY[cnum]) <= cmax + 1)
 			{
-				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 1, 50, cresults2);
+				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 1, 0, 50, 9999, cresults2);
 
 				if (cresults2[3] <= cmax && cresults2[3] > 0)
 				{
@@ -748,7 +763,7 @@ class Scenario
 							cresults[2] = 9999;
 							cresults[3] = 9999;
 								
-							this.findPath(cx, cy, j, i, scNames[l], 0, 50, cresults);
+							this.findPath(cx, cy, j, i, scNames[l], 0, 0, 50, 9999, cresults);
 								
 							if (cresults[2] <= crange2 || cresults[3] == 1)
 							{
@@ -911,7 +926,7 @@ class Scenario
 		{
 			if (doDistance(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i]) <= scAIp1[cnum])
 			{
-				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], this.getName(cnum), 0, 50, cresults);
+				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], this.getName(cnum), 0, 0, 50, 9999, cresults);
 				
 				if (cresults[3] <= scAIp1[cnum])
 				{
@@ -938,14 +953,18 @@ class Scenario
 		var goX:Int;
 		var goY:Int;
 		var goDist:Int;
-		var cresults2:Array<Int>;
+		var cresults:Array<Int>;
 		
 		var i:Int;
 		
 		chaseX = -1;
 		chaseY = -1;
 		chaseDist = 9999;
-		cresults2 = new Array();
+		
+		cresults = new Array();
+		cresults[0] = -1;
+		cresults[1] = -1;
+		cresults[2] = 9999;
 		
 		i = 0;
 		
@@ -963,11 +982,13 @@ class Scenario
 			
 			i++;
 		}
+		i = 0;
 		
-		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1200, cresults2);
-		goX = cresults2[0];
-		goY = cresults2[1];
+		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1, 1200, this.getMovement(this.getCounter(scX[cnum], scY[cnum], 1)), cresults);
+		goX = cresults[0];
+		goY = cresults[1];
 		
+		//scText.text = cresults[0] + " " + cresults[1] + " ";
 		if (goX == -1 || (goX == 0 && goY == 0))
 		{
 			goX = -1;
@@ -1026,7 +1047,7 @@ class Scenario
 			i++;
 		}
 		
-		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1200, cresults2);
+		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1, 1200, this.getMovement(this.getCounter(scX[cnum], scY[cnum], 1)), cresults2);
 		goX = cresults2[0];
 		goY = cresults2[1];
 		
