@@ -311,11 +311,11 @@ class Scenario
 		if (scMap.getTypeXY(scX[cdefend], scY[cdefend]) == "town")
 		{
 			if (scPack.getType(scNames[cattack]) == "infantry")
-				croll = croll - 2;
+				croll = croll - 3;
 			else if (scPack.getType(scNames[cattack]) == "tank")
-				croll = croll + 4;
+				croll = croll + 5;
 			else
-				croll = croll + 2;
+				croll = croll + 3;
 		}
 		
 		k = leveldif(scMap.getLevel(scX[cattack], scY[cattack]), scMap.getLevel(scX[cdefend], scY[cdefend]));

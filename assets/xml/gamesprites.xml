@@ -138,11 +138,11 @@
 			</terrain>
 			<terrain>
 				<type>road</type>
-				<cost>5</cost>
+				<cost>2</cost>
 			</terrain>
 			<terrain>
 				<type>dirtroad</type>
-				<cost>5</cost>
+				<cost>2</cost>
 			</terrain>
 			<terrain>
 				<type>town</type>
@@ -286,11 +286,11 @@
 			</terrain>
 			<terrain>
 				<type>road</type>
-				<cost>5</cost>
+				<cost>2</cost>
 			</terrain>
 			<terrain>
 				<type>dirtroad</type>
-				<cost>5</cost>
+				<cost>2</cost>
 			</terrain>
 			<terrain>
 				<type>town</type>

@@ -281,7 +281,7 @@ class GameMap
 				cxstart = j * tileWidth + anchorX;
 				if (i % 2 != 0) cxstart = cxstart - Std.int(tileWidth / 2);
 				
-				cystart = i * 53 + anchorY;
+				cystart = i * Math.round(tileWidth * 0.85) + anchorY;
 				
 				if (cx >= cxstart && cx < cxstart + tileWidth && cy >= cystart && cy < cystart + tileHeight)
 				{
@@ -409,24 +409,6 @@ class GameMap
 		ts.bold = true;
 		ts.color=0xFFFF00;           // set the color
 		ts.align = TextFormatAlign.CENTER;
-		
-		i = 0;
-		
-		while (i < gmLabels.length)
-		{
-			var p = new flash.text.TextField();
-			p.text = gmLabels[i];
-			p.setTextFormat(ts);
-			p.x = gmCapX[i];
-			p.y = gmCapY[i];
-			p.width = 200;
-			p.height = 50;
-			p.mouseEnabled = false;
-			
-			gmCanvas.addChild(p);
-			
-			i++;
-		}
 				
 		i = 0;
 		
@@ -474,6 +456,24 @@ class GameMap
 				
 				j++;
 			}
+			
+			i++;
+		}
+						
+		i = 0;
+		
+		while (i < gmLabels.length)
+		{
+			var p = new flash.text.TextField();
+			p.text = gmLabels[i];
+			p.setTextFormat(ts);
+			p.x = gmCapX[i];
+			p.y = gmCapY[i];
+			p.width = 200;
+			p.height = 50;
+			p.mouseEnabled = false;
+			
+			gmCanvas.addChild(p);
 			
 			i++;
 		}
