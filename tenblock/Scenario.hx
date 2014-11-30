@@ -485,7 +485,7 @@ class Scenario
 				i = k;
 				k++;
 				
-				if (csrX[i] == ctox && csrY[i] == ctoy && csrWeight[i] <= cresults[2])
+				if (csrX[i] == ctox && csrY[i] == ctoy && (csrWeight[i] <= cresults[2] || cresults[3] == 1))
 				{
 					l = i;
 	
@@ -537,7 +537,7 @@ class Scenario
 	
 						n = scMap.getLevel(csrX[i], csrY[i]);
 							
-						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1, n) > -1 && csrWeight[i] < cmaxdist)
+						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1, n) > 0 && csrWeight[i] < cmaxdist)
 						{
 							l = this.getNode(x1, y1, ctox, ctoy, csrWeight[i] + this.getWeightXY(cname, x1, y1, n), csrDepth[i] + 1, cflag, ctarget);
 							
@@ -586,7 +586,7 @@ class Scenario
 			return cnum2;
 	}
 	
-	function getWeightXY(cname:String, cx:Int, cy:Int, clevel:Int):Int
+	public function getWeightXY(cname:String, cx:Int, cy:Int, clevel:Int):Int
 	{
 		var cweight:Int;
 		
@@ -762,7 +762,7 @@ class Scenario
 							cresults[1] = -1;
 							cresults[2] = 9999;
 							cresults[3] = 9999;
-								
+							
 							this.findPath(cx, cy, j, i, scNames[l], 0, 0, 50, 9999, cresults);
 								
 							if (cresults[2] <= crange2 || cresults[3] == 1)
@@ -775,6 +775,7 @@ class Scenario
 								movesX[k + 1] = -1;
 								k++;
 							}
+							
 						}
 						
 						j++;
@@ -957,9 +958,9 @@ class Scenario
 		
 		var i:Int;
 		
-		chaseX = -1;
-		chaseY = -1;
-		chaseDist = 9999;
+		chaseX = scStartX[cnum];
+		chaseY = scStartY[cnum];
+		chaseDist = scAIp1[cnum];
 		
 		cresults = new Array();
 		cresults[0] = -1;
@@ -972,11 +973,11 @@ class Scenario
 		{
 			if (scSides[i] == "a")
 			{
-				if (doDistance(scX[cnum], scY[cnum], scX[i], scY[i]) < chaseDist)
+				if (doDistance(scStartX[cnum], scStartY[cnum], scX[i], scY[i]) < chaseDist)
 				{
 					chaseX = scX[i];
 					chaseY = scY[i];
-					chaseDist = doDistance(scX[cnum], scY[cnum], scX[i], scY[i]);
+					chaseDist = doDistance(scStartX[cnum], scStartY[cnum], scX[i], scY[i]);
 				}
 			}
 			
@@ -988,7 +989,6 @@ class Scenario
 		goX = cresults[0];
 		goY = cresults[1];
 		
-		//scText.text = cresults[0] + " " + cresults[1] + " ";
 		if (goX == -1 || (goX == 0 && goY == 0))
 		{
 			goX = -1;
