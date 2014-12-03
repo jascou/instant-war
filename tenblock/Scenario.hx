@@ -419,7 +419,7 @@ class Scenario
 		scCounters[cnum].alpha = 1;
 	}
 	
-	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cname:String, cflag: Int, ctarget: Int, cmaxdist: Int, crange:Int, cresults:Array<Int>)
+	public function findPath(cfromx: Int, cfromy: Int, ctox: Int, ctoy: Int, cname:String, cflag: Int, ctarget: Int, cdepth: Int, cmaxdist: Int, crange:Int, cresults:Array<Int>)
 	{
 		var i:Int;
 		var j:Int;
@@ -537,16 +537,16 @@ class Scenario
 	
 						n = scMap.getLevel(csrX[i], csrY[i]);
 							
-						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1, n) > 0 && csrWeight[i] < cmaxdist)
+						if (scMap.isValid(x1, y1, cflag) && this.getWeightXY(cname, x1, y1, n, cdepth) > 0 && csrWeight[i] < cmaxdist)
 						{
-							l = this.getNode(x1, y1, ctox, ctoy, csrWeight[i] + this.getWeightXY(cname, x1, y1, n), csrDepth[i] + 1, cflag, ctarget);
+							l = this.getNode(x1, y1, ctox, ctoy, csrWeight[i] + this.getWeightXY(cname, x1, y1, n, cdepth), csrDepth[i] + 1, cflag, ctarget);
 							
 							if (l != -1)
 							{	
 								csrX[l] = x1;
 								csrY[l] = y1;
 								csrFlag[l] = 1;
-								csrWeight[l] = csrWeight[i] + this.greater(this.getWeightXY(cname, csrX[i], csrY[i], n), this.getWeightXY(cname, x1, y1, n));
+								csrWeight[l] = csrWeight[i] + this.greater(this.getWeightXY(cname, csrX[i], csrY[i], n, cdepth), this.getWeightXY(cname, x1, y1, n, cdepth));
 								csrDepth[l] = depth;
 								csrAnc[l] = i;
 								ccount = 1;
@@ -566,7 +566,7 @@ class Scenario
 		if (cnum1 == cnum2)
 			return 1;
 		else if (cnum1 < cnum2)
-			return 2 * (cnum2 - cnum1);
+			return 1.1;
 		else if (cnum2 < cnum1)
 			return 0.5;
 			
@@ -586,11 +586,21 @@ class Scenario
 			return cnum2;
 	}
 	
-	public function getWeightXY(cname:String, cx:Int, cy:Int, clevel:Int):Int
+	public function getWeightXY(cname:String, cx:Int, cy:Int, clevel:Int, cdepth:Int):Int
 	{
 		var cweight:Int;
 		
+		if (cdepth == 1) return 1;
+		
 		cweight = Std.int(scPack.getWeight(cname, scMap.getTypeXY(cx, cy)) * levelmult(clevel, scMap.getLevel(cx, cy)));
+		return cweight;
+	}
+	
+	public function getWeightXY2(cname:String, cx:Int, cy:Int):Int
+	{
+		var cweight:Int;
+		
+		cweight = Std.int(scPack.getWeight(cname, scMap.getTypeXY(cx, cy)));
 		return cweight;
 	}
 	
@@ -688,9 +698,9 @@ class Scenario
 		
 		if (scSides[cnum] == cside)
 		{
-			if (doDistance(cx, cy, scX[cnum], scY[cnum]) <= cmax + 1)
+			if (doDistance(cx, cy, scX[cnum], scY[cnum]) <= cmax + 2)
 			{
-				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 1, 0, 50, 9999, cresults2);
+				findPath(cx, cy, scX[cnum], scY[cnum], scNames[cnum], 1, 1, 1, cmax * 50, 9999, cresults2);
 
 				if (cresults2[3] <= cmax && cresults2[3] > 0)
 				{
@@ -763,7 +773,7 @@ class Scenario
 							cresults[2] = 9999;
 							cresults[3] = 9999;
 							
-							this.findPath(cx, cy, j, i, scNames[l], 0, 0, 50, 9999, cresults);
+							this.findPath(cx, cy, j, i, scNames[l], 0, 0, 0, 50, 9999, cresults);
 								
 							if (cresults[2] <= crange2 || cresults[3] == 1)
 							{
@@ -927,7 +937,7 @@ class Scenario
 		{
 			if (doDistance(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i]) <= scAIp1[cnum])
 			{
-				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], this.getName(cnum), 0, 0, 50, 9999, cresults);
+				this.findPath(scStartX[cnum], scStartY[cnum], movesX[i], movesY[i], this.getName(cnum), 0, 0, 0, 50, 9999, cresults);
 				
 				if (cresults[3] <= scAIp1[cnum])
 				{
@@ -985,7 +995,7 @@ class Scenario
 		}
 		i = 0;
 		
-		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1, 1200, this.getMovement(this.getCounter(scX[cnum], scY[cnum], 1)), cresults);
+		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1, 0, 1200, this.getMovement(this.getCounter(scX[cnum], scY[cnum], 1)), cresults);
 		goX = cresults[0];
 		goY = cresults[1];
 		
@@ -1047,7 +1057,7 @@ class Scenario
 			i++;
 		}
 		
-		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1, 1200, this.getMovement(this.getCounter(scX[cnum], scY[cnum], 1)), cresults2);
+		this.findPath(scX[cnum], scY[cnum], chaseX, chaseY, this.getName(cnum), 0, 1, 0, 1200, this.getMovement(this.getCounter(scX[cnum], scY[cnum], 1)), cresults2);
 		goX = cresults2[0];
 		goY = cresults2[1];
 		

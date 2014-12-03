@@ -787,7 +787,7 @@ class Main extends Sprite
 									
 									// call pathfinding algorithm to check from counter position to current (j. i) coordinate;
 									// passes name of counter for weight calculations, cresults to collect results
-									gameSc.findPath(cx, cy, j, i, gameSc.getName(selectNum), 0, 0, 50, 9999, cresults);
+									gameSc.findPath(cx, cy, j, i, gameSc.getName(selectNum), 0, 0, 0, 50, 9999, cresults);
 									
 									// if weight within range or square is adjacent to counter, highlight hex
 									if (cresults[2] <= crange2 || cresults[3] == 1)
@@ -936,6 +936,12 @@ class Main extends Sprite
 		
 		gameEgo.redrawSprite();
 		gameEgoStrike.redrawSprite();
+		
+		this.removeChild(IWCard);
+		IWCard = new Bitmap (Assets.getBitmapData (gameSc.getCardFile()));
+		IWCard.x = -2000;
+		IWCard.y = -2000;
+		this.addChild(IWCard);
 		
 		i = 0;
 		
