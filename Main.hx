@@ -981,5 +981,7 @@ class Main extends Sprite
 		cout.y = 650;
 		this.removeChild(cout);
 		this.addChild(cout);
+		
+		gameTurn = 1;
 	}
 }

@@ -146,7 +146,7 @@
 			</terrain>
 			<terrain>
 				<type>town</type>
-				<cost>5</cost>
+				<cost>2</cost>
 			</terrain>
 		</char>
 		<char>
@@ -294,7 +294,7 @@
 			</terrain>
 			<terrain>
 				<type>town</type>
-				<cost>5</cost>
+				<cost>2</cost>
 			</terrain>
 		</char>
 	</chars>

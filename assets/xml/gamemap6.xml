@@ -1,27 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
 <map>
-	<name>Test Map</name>
+	<name>Map</name>
 	<tilewidth>64</tilewidth>
 	<tileheight>75</tileheight>
 	<rows>
-		<row id="11">/{++++]...Y...**.X.....</row>
-		<row id="12">.p...w%----s-----D...||</row>
-		<row id="12">p...X.......||||....|||</row>
-		<row id="12">p...X.....|||.||||...||</row>
-		<row id="12">...X.....||...||....|||</row>
-		<row id="12">...X......||..||..||.||</row>
-		<row id="12">!%D....................</row>
-		<row id="12">.M...........w%-----E..</row>
-		<row id="1" >.Y..........@...**..Y..</row>
-		<row id="2" >..Y.........X|.****..T-</row>
-		<row id="3" >*.f..|||..|X|..***.***.</row>
-		<row id="4" >..XM.||.||.X|||..**.***</row>
-		<row id="5" >~R.t%-----S-E..****.**.</row>
-		<row id="6" >|X..||.......Y.**.{++++</row>
-		<row id="7" >X||||........Y.*.p.....</row>
-		<row id="8" >X.||..........Y..p.....</row>
-		<row id="8" >.....|||..||{+$+]......</row>
-		<row id="8" >.......||||.p..Y.......</row>
+		<row id="0">.||||.Y.{++++].........</row>
+		<row id="1">++}|||.TO---e....**....</row>
+		<row id="2">..x.|||p.|||Y....**....</row>
+		<row id="3">**.x||.p...||Y...***...</row>
+		<row id="4">**."++]....|.Y..***..*.</row>
+		<row id="5">****x||.cB~~~~q****..**</row>
+		<row id="6">**..x|.Z.||...Y***.***.</row>
+		<row id="7">**...).Z||.....Y.*..**.</row>
+		<row id="8">**..p.Z.|||.*..M....*..</row>
+		<row id="9">--e.p.Z.....**..L%-----</row>
+		<row id="10">.{$].Z.*..****..M......</row>
+		<row id="11">.p*Y.Z..*******..Y.....</row>
+		<row id="12">]**TQ.****..**...f.....</row>
+		<row id="13">.**.Z...**.***...XY....</row>
+		<row id="14">**.Z...**..**...X.Y....</row>
+		<row id="15">.**Z....*w%-----D|.T-E.</row>
+		<row id="16">.clB~~~~R......||||..Y.</row>
+		<row id="17">.Z......X.......||....Y</row>
 	</rows>
 	<tiles>
 		<tile>
@@ -71,6 +71,12 @@
 			<name>townse</name>
 			<type>town</type>
 			<file>tiles/hex_townse.png</file>
+		</tile>
+		<tile>
+			<code>L</code>
+			<name>townse</name>
+			<type>town</type>
+			<file>tiles/hex_townsee.png</file>
 		</tile>
 		<tile>
 			<code>%</code>
@@ -125,6 +131,12 @@
 			<name>rivernw</name>
 			<type>river</type>
 			<file>tiles/hex_rivernwc.png</file>
+		</tile>
+		<tile>
+			<code>V</code>
+			<name>rivernew</name>
+			<type>river</type>
+			<file>tiles/hex_rivernew.png</file>
 		</tile>
 		<tile>
 			<code>[</code>
@@ -205,6 +217,12 @@
 			<file>tiles/hex_dirtjoinw.png</file>
 		</tile>
 		<tile>
+			<code>q</code>
+			<name>dirtjoinwe</name>
+			<type>road</type>
+			<file>tiles/hex_dirtjoinwe.png</file>
+		</tile>
+		<tile>
 			<code>p</code>
 			<name>dirtjoine</name>
 			<type>road</type>
@@ -265,6 +283,12 @@
 			<file>tiles/hex_dirtsec.png</file>
 		</tile>
 		<tile>
+			<code>l</code>
+			<name>dirtsece</name>
+			<type>road</type>
+			<file>tiles/hex_dirtsece.png</file>
+		</tile>
+		<tile>
 			<code>u</code>
 			<name>dirtswc</name>
 			<type>road</type>
@@ -321,44 +345,34 @@
 	</tiles>
 	<captions>
 		<caption>
-			<label>Emerson</label>
-			<x>-25</x>
-			<y>298</y>
+			<label>Blackthorn</label>
+			<x>950</x>
+			<y>408</y>
 		</caption>
 		<caption>
-			<label>Havelock</label>
-			<x>264</x>
-			<y>28</y>
-		</caption>
-		<caption>
-			<label>Osler</label>
-			<x>151</x>
-			<y>572</y>
-		</caption>
-		<caption>
-			<label>Tyndall</label>
-			<x>760</x>
-			<y>352</y>
+			<label>Cobalt</label>
+			<x>520</x>
+			<y>789</y>
 		</caption>
 	</captions>
 	<levelrows>
-		<row id="1" >............*****....**</row>
-		<row id="1" >....................**#</row>
-		<row id="1" >.........***.......*###</row>
-		<row id="1" >.......***##*......*###</row>
-		<row id="1" >.....**#####*.....*####</row>
-		<row id="1" >.... *#####**......*###</row>
-		<row id="1" >....*#####*........*###</row>
-		<row id="1" >....*#####*.........*##</row>
-		<row id="1" >...*######*.........***</row>
-		<row id="1" >...*#######*...........</row>
-		<row id="1" >...**#####*............</row>
-		<row id="1" >.....*####*............</row>
-		<row id="1" >.....**##*.............</row>
-		<row id="1" >.......***.............</row>
-		<row id="1" >...................****</row>
-		<row id="1" >...................*###</row>
-		<row id="1" >..................*####</row>
-		<row id="1" >...................*###</row>
-	</levelrows>     
+		<row id="0">.......................</row>
+		<row id="1">..................**...</row>
+		<row id="2">.................*#*...</row>
+		<row id="3">................**##*..</row>
+		<row id="4">...............*####*..</row>
+		<row id="5">**..............*###*..</row>
+		<row id="6">#*..............*##*...</row>
+		<row id="7">#*...........**.*###*..</row>
+		<row id="8">*...........*#*.****...</row>
+		<row id="9">............*#*........</row>
+		<row id="10">............*#**..***..</row>
+		<row id="11">.............*##*.*##*.</row>
+		<row id="12">............*###*.*#*..</row>
+		<row id="13">**.**........*##*..*#*.</row>
+		<row id="14">#**#**.......***..*#*..</row>
+		<row id="15">######*............**..</row>
+		<row id="16">####**.................</row>
+		<row id="17">####*..................</row>
+	</levelrows>
 </map>

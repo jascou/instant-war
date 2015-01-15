@@ -330,7 +330,7 @@ class Scenario
 		
 		coutcome = scRows[croll - scStartDie].substr(j, 1);
 		
-		scText.text = scText.text + "Counter #" + cattack + " attacks counter #" + cdefend + ". Roll: " + croll + ". ";
+		scText.text = scText.text + "Counter #" + (cattack + 1) + " attacks counter #" + (cdefend + 1) + ". Roll: " + croll + ". ";
 		
 		if (coutcome == "d") 
 		{
